@@ -29,6 +29,18 @@
 		94BE1A8020E4B304005B2862 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 94BE1A4820E4B304005B2862 /* Assets.xcassets */; };
 		94BE1A8120E4B304005B2862 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 94BE1A4820E4B304005B2862 /* Assets.xcassets */; };
 		94BE1A8220E4B304005B2862 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 94BE1A4820E4B304005B2862 /* Assets.xcassets */; };
+		94BE1A9220E4B31F005B2862 /* Explosion.sks in Resources */ = {isa = PBXBuildFile; fileRef = 94BE1A8E20E4B31E005B2862 /* Explosion.sks */; };
+		94BE1A9320E4B31F005B2862 /* Explosion.sks in Resources */ = {isa = PBXBuildFile; fileRef = 94BE1A8E20E4B31E005B2862 /* Explosion.sks */; };
+		94BE1A9420E4B31F005B2862 /* Explosion.sks in Resources */ = {isa = PBXBuildFile; fileRef = 94BE1A8E20E4B31E005B2862 /* Explosion.sks */; };
+		94BE1A9520E4B31F005B2862 /* Starfield.sks in Resources */ = {isa = PBXBuildFile; fileRef = 94BE1A8F20E4B31E005B2862 /* Starfield.sks */; };
+		94BE1A9620E4B31F005B2862 /* Starfield.sks in Resources */ = {isa = PBXBuildFile; fileRef = 94BE1A8F20E4B31E005B2862 /* Starfield.sks */; };
+		94BE1A9720E4B31F005B2862 /* Starfield.sks in Resources */ = {isa = PBXBuildFile; fileRef = 94BE1A8F20E4B31E005B2862 /* Starfield.sks */; };
+		94BE1A9820E4B31F005B2862 /* explosion.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 94BE1A9020E4B31E005B2862 /* explosion.mp3 */; };
+		94BE1A9920E4B31F005B2862 /* explosion.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 94BE1A9020E4B31E005B2862 /* explosion.mp3 */; };
+		94BE1A9A20E4B31F005B2862 /* explosion.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 94BE1A9020E4B31E005B2862 /* explosion.mp3 */; };
+		94BE1A9B20E4B31F005B2862 /* torpedo.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 94BE1A9120E4B31E005B2862 /* torpedo.mp3 */; };
+		94BE1A9C20E4B31F005B2862 /* torpedo.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 94BE1A9120E4B31E005B2862 /* torpedo.mp3 */; };
+		94BE1A9D20E4B31F005B2862 /* torpedo.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 94BE1A9120E4B31E005B2862 /* torpedo.mp3 */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -52,6 +64,10 @@
 		94BE1A7120E4B304005B2862 /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
 		94BE1A7420E4B304005B2862 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		94BE1A7620E4B304005B2862 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		94BE1A8E20E4B31E005B2862 /* Explosion.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Explosion.sks; sourceTree = "<group>"; };
+		94BE1A8F20E4B31E005B2862 /* Starfield.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Starfield.sks; sourceTree = "<group>"; };
+		94BE1A9020E4B31E005B2862 /* explosion.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = explosion.mp3; sourceTree = "<group>"; };
+		94BE1A9120E4B31E005B2862 /* torpedo.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = torpedo.mp3; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -93,6 +109,10 @@
 		94BE1A4420E4B302005B2862 /* SpriteKitTest Shared */ = {
 			isa = PBXGroup;
 			children = (
+				94BE1A9020E4B31E005B2862 /* explosion.mp3 */,
+				94BE1A8E20E4B31E005B2862 /* Explosion.sks */,
+				94BE1A8F20E4B31E005B2862 /* Starfield.sks */,
+				94BE1A9120E4B31E005B2862 /* torpedo.mp3 */,
 				94BE1A4520E4B302005B2862 /* Actions.sks */,
 				94BE1A4620E4B302005B2862 /* GameScene.sks */,
 				94BE1A4720E4B302005B2862 /* GameScene.swift */,
@@ -245,11 +265,15 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				94BE1A9520E4B31F005B2862 /* Starfield.sks in Resources */,
 				94BE1A7A20E4B304005B2862 /* GameScene.sks in Resources */,
 				94BE1A5620E4B304005B2862 /* Main.storyboard in Resources */,
 				94BE1A7720E4B304005B2862 /* Actions.sks in Resources */,
+				94BE1A9820E4B31F005B2862 /* explosion.mp3 in Resources */,
 				94BE1A5920E4B304005B2862 /* LaunchScreen.storyboard in Resources */,
 				94BE1A8020E4B304005B2862 /* Assets.xcassets in Resources */,
+				94BE1A9B20E4B31F005B2862 /* torpedo.mp3 in Resources */,
+				94BE1A9220E4B31F005B2862 /* Explosion.sks in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -257,9 +281,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				94BE1A9620E4B31F005B2862 /* Starfield.sks in Resources */,
 				94BE1A6720E4B304005B2862 /* Main.storyboard in Resources */,
 				94BE1A7B20E4B304005B2862 /* GameScene.sks in Resources */,
+				94BE1A9320E4B31F005B2862 /* Explosion.sks in Resources */,
+				94BE1A9920E4B31F005B2862 /* explosion.mp3 in Resources */,
 				94BE1A8120E4B304005B2862 /* Assets.xcassets in Resources */,
+				94BE1A9C20E4B31F005B2862 /* torpedo.mp3 in Resources */,
 				94BE1A7820E4B304005B2862 /* Actions.sks in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -268,9 +296,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				94BE1A9720E4B31F005B2862 /* Starfield.sks in Resources */,
 				94BE1A7520E4B304005B2862 /* Main.storyboard in Resources */,
 				94BE1A7C20E4B304005B2862 /* GameScene.sks in Resources */,
+				94BE1A9420E4B31F005B2862 /* Explosion.sks in Resources */,
+				94BE1A9A20E4B31F005B2862 /* explosion.mp3 in Resources */,
 				94BE1A8220E4B304005B2862 /* Assets.xcassets in Resources */,
+				94BE1A9D20E4B31F005B2862 /* torpedo.mp3 in Resources */,
 				94BE1A7920E4B304005B2862 /* Actions.sks in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
