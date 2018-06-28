@@ -20,12 +20,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let motionManager = CMMotionManager()
     #endif
     var xAcceleration:CGFloat = 0
+    var acclerationModifier:CGFloat = 1 {
+        didSet {
+            speedLabel.text = "Speed \(acclerationModifier)"
+        }
+    }
     //
     
     var starField:SKEmitterNode!
     var player:SKSpriteNode!
     
     var scoreLabel:SKLabelNode!
+    var speedLabel:SKLabelNode!
     
     var score:Int = 0 {
         didSet {
@@ -64,6 +70,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         //Player
         player = SKSpriteNode(imageNamed: "shuttle")
+            //Double this size of sprite if on macOS
+            #if os(macOS)
+            player.size = CGSize(width: player.size.width * 2, height: player.size.height * 2)
+            #endif
         player.position = CGPoint(x: 0, y: -(self.frame.size.height/2)+50)
         self.addChild(player)
         
@@ -76,7 +86,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         scoreLabel.position = CGPoint(x: 0, y: (self.frame.size.height/2)-50)
         scoreLabel.fontName = "Gunship"
         score=0
-        addChild(scoreLabel)
+        #if os(macOS)
+            addChild(scoreLabel)
+        #endif
+        
+        //Speed
+        speedLabel = SKLabelNode(text: "Speed: 1.0")
+        speedLabel.position = CGPoint(x: 0, y: (self.frame.size.height/2)-100)
+        speedLabel.fontSize = 24
+        speedLabel.fontName = "Gunship"
+        addChild(speedLabel)
         
         //Set how often aliens appear
         // TODO: Create Difficulty mode where this increases
@@ -107,6 +126,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         alien.position = CGPoint(x: position, y: halfMaxHeight)
         
+            //Double this size of sprite if on macOS
+            #if os(macOS)
+            alien.size = CGSize(width: alien.size.width * 2, height: alien.size.height * 2)
+            #endif
+        
         alien.physicsBody = SKPhysicsBody(rectangleOf: alien.size)
         alien.physicsBody?.isDynamic = true
         
@@ -129,6 +153,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func fireTorpedo (){
         self.run(SKAction.playSoundFileNamed("torpedo.mp3", waitForCompletion: false))
         let torpedoNode = SKSpriteNode(imageNamed: "torpedo")
+        
+            //Double this size of sprite if on macOS
+            #if os(macOS)
+            torpedoNode.size = CGSize(width: torpedoNode.size.width * 2, height: torpedoNode.size.height * 2)
+            #endif
+        
         torpedoNode.position = player.position
         torpedoNode.position.y += 10
     
@@ -186,7 +216,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     override func didSimulatePhysics() {
         let halfMaxWidth = self.frame.size.width/2
+        #if os(iOS) || os(tvOS)
         player.position.x += xAcceleration * 50
+        #elseif os(macOS)
+        player.position.x += xAcceleration
+        #endif
         
         if player.position.x > halfMaxWidth {
             player.position = CGPoint(x: -halfMaxWidth, y: player.position.y)
@@ -249,24 +283,39 @@ extension GameScene {
         fireTorpedo()
     }
     
-    override func keyDown(with event: NSEvent) {
-        if (event.keyCode == 124){
-            xAcceleration = 0.25
+    override func keyUp(with event: NSEvent) {
+        //Right End
+        if (event.keyCode == 124 || event.keyCode == 2){
+            xAcceleration = 0
         }
-        if (event.keyCode == 123){
-            xAcceleration = -0.25
-        }
-        if (event.keyCode == 49){
-            fireTorpedo()
+        //Left End
+        if (event.keyCode == 123 || event.keyCode == 0){
+            xAcceleration = 0
         }
     }
     
-    override func keyUp(with event: NSEvent) {
-        if (event.keyCode == 124){
-            xAcceleration = 0
+    override func keyDown(with event: NSEvent) {
+        //Up, W
+        if (event.keyCode == 126 || event.keyCode == 13){
+            acclerationModifier += 1
         }
-        if (event.keyCode == 123){
-            xAcceleration = 0
+        //Down, S
+        if (event.keyCode == 125 || event.keyCode == 1){
+            if (acclerationModifier != 1) {
+                acclerationModifier -= 1
+            }
+        }
+        //Right, D
+        if (event.keyCode == 124 || event.keyCode == 2){
+            self.xAcceleration = (10 * acclerationModifier)
+        }
+        //Left, A
+        if (event.keyCode == 123 || event.keyCode == 0){
+            self.xAcceleration = (-10 * acclerationModifier)
+        }
+        //Space
+        if (event.keyCode == 49){
+            fireTorpedo()
         }
     }
     
