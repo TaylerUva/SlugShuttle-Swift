@@ -9,7 +9,18 @@
 import SpriteKit
 import GameplayKit
 
+#if os(iOS) || os(tvOS)
+import CoreMotion
+#endif
+
 class GameScene: SKScene, SKPhysicsContactDelegate {
+    
+    // Movement
+    #if os(iOS) || os(tvOS)
+    let motionManager = CMMotionManager()
+    #endif
+    var xAcceleration:CGFloat = 0
+    //
     
     var starField:SKEmitterNode!
     var player:SKSpriteNode!
@@ -42,38 +53,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         return scene
     }
     
-    func setUpScene() {
-        
-        //        // Create shape node to use during mouse interaction
-        //        let w = (self.size.width + self.size.height) * 0.05
-        //        self.spinnyNode = SKShapeNode.init(rectOf: CGSize.init(width: w, height: w), cornerRadius: w * 0.3)
-        //
-        //        if let spinnyNode = self.spinnyNode {
-        //            spinnyNode.lineWidth = 4.0
-        //            spinnyNode.run(SKAction.repeatForever(SKAction.rotate(byAngle: CGFloat(Double.pi), duration: 1)))
-        //            spinnyNode.run(SKAction.sequence([SKAction.wait(forDuration: 0.5),
-        //                                              SKAction.fadeOut(withDuration: 0.5),
-        //                                              SKAction.removeFromParent()]))
-        //
-        //            #if os(watchOS)
-        //            // For watch we just periodically create one of these and let it spin
-        //            // For other platforms we let user touch/mouse events create these
-        //            spinnyNode.position = CGPoint(x: 0.0, y: 0.0)
-        //            spinnyNode.strokeColor = SKColor.red
-        //            self.run(SKAction.repeatForever(SKAction.sequence([SKAction.wait(forDuration: 2.0),
-        //                                                               SKAction.run({
-        //                                                                let n = spinnyNode.copy() as! SKShapeNode
-        //                                                                self.addChild(n)
-        //                                                               })])))
-        //            #endif
-        //        }
-    }
-    
-    #if os(watchOS)
-    override func sceneDidLoad() {
-        self.setUpScene()
-    }
-    #else
     override func didMove(to view: SKView) {
         //BG
         starField = SKEmitterNode(fileNamed: "Starfield")
@@ -103,7 +82,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // TODO: Create Difficulty mode where this increases
         gameTimer = Timer.scheduledTimer(timeInterval: 0.75, target: self, selector: #selector(addAlien), userInfo: nil, repeats: true)
         
-        self.setUpScene()
+        //Add motion controls
+        #if os(iOS) || os(tvOS)
+        motionManager.accelerometerUpdateInterval = 0.2
+        motionManager.startAccelerometerUpdates(to: OperationQueue.current!) { (data:CMAccelerometerData?, error:Error?) in
+            if let accelerometerData = data {
+                let acceleration = accelerometerData.acceleration
+                self.xAcceleration = CGFloat(acceleration.x) * 0.75 + self.xAcceleration * 0.25
+            }
+        }
+        #endif
     }
     
     @objc func addAlien () {
@@ -196,7 +184,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         score += 10
     }
     
-    #endif
+    override func didSimulatePhysics() {
+        let halfMaxWidth = self.frame.size.width/2
+        player.position.x += xAcceleration * 50
+        
+        if player.position.x > halfMaxWidth {
+            player.position = CGPoint(x: -halfMaxWidth, y: player.position.y)
+        }else if player.position.x < -halfMaxWidth{
+            player.position = CGPoint(x: halfMaxWidth, y: player.position.y)
+        }
+        
+    }
     
     override func update(_ currentTime: TimeInterval) {
         // Called before each frame is rendered
@@ -250,6 +248,29 @@ extension GameScene {
     override func mouseUp(with event: NSEvent) {
         fireTorpedo()
     }
+    
+    override func keyDown(with event: NSEvent) {
+        if (event.keyCode == 124){
+            xAcceleration = 0.25
+        }
+        if (event.keyCode == 123){
+            xAcceleration = -0.25
+        }
+        if (event.keyCode == 49){
+            fireTorpedo()
+        }
+    }
+    
+    override func keyUp(with event: NSEvent) {
+        if (event.keyCode == 124){
+            xAcceleration = 0
+        }
+        if (event.keyCode == 123){
+            xAcceleration = 0
+        }
+    }
+    
+    
     
     
 }
