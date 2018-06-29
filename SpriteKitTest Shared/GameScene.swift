@@ -22,7 +22,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var xAcceleration:CGFloat = 0
     var acclerationModifier:CGFloat = 1 {
         didSet {
-            speedLabel.text = "Speed \(acclerationModifier)"
+            speedLabel.text = "Speed: \(acclerationModifier)"
         }
     }
     //
@@ -32,19 +32,33 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     var scoreLabel:SKLabelNode!
     var speedLabel:SKLabelNode!
+    var lifeLabel:SKLabelNode!
+    var gameOverLabel:SKLabelNode!
+    var diffLabel:SKLabelNode!
     
+    var life:Int = 3 {
+        didSet{
+            lifeLabel.text = "Lives Left: \(life)"
+        }
+    }
     var score:Int = 0 {
         didSet {
-            scoreLabel.text = "Score \(score)"
+            scoreLabel.text = "Score: \(score)"
+        }
+    }
+    var difficulty:Int = 1 {
+        didSet {
+            diffLabel.text = "Difficulty: \(difficulty)"
         }
     }
     
     var gameTimer:Timer!
     
-    var possibleAliens = ["alien", "alien2", "alien3"]
+    var possibleAliens = ["alien", "alien2", "alien3", "alienC"]
     //Gives each item a unique identifier
     let alienCategory:UInt32 = 0x1 << 1
     let photonTorpedoCategory:UInt32 = 0x1 << 0
+    let playerCatergory:UInt32 = 0x1 << 2
     
     class func newGameScene() -> GameScene {
         // Load 'GameScene.sks' as an SKScene.
@@ -57,6 +71,16 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         scene.scaleMode = .aspectFill
         
         return scene
+    }
+    
+    func restart(){
+        guard let gameScene = SKScene(fileNamed: "GameScene") as? GameScene else {
+            print("Failed to load GameScene.sks")
+            abort()
+        }
+        let transition = SKTransition.fade(withDuration: 1.0) // create type of transition (you can check in documentation for more transtions)
+        gameScene.scaleMode = .aspectFill
+        self.view!.presentScene(gameScene, transition: transition)
     }
     
     override func didMove(to view: SKView) {
@@ -75,7 +99,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             player.size = CGSize(width: player.size.width * 2, height: player.size.height * 2)
             #endif
         player.position = CGPoint(x: 0, y: -(self.frame.size.height/2)+50)
+        player.physicsBody = SKPhysicsBody(rectangleOf: player.size)
+        player.physicsBody?.isDynamic = true
+        player.physicsBody?.categoryBitMask = playerCatergory
+        player.physicsBody?.contactTestBitMask = alienCategory
+        player.physicsBody?.collisionBitMask = 0
+        player.physicsBody?.usesPreciseCollisionDetection = true
         self.addChild(player)
+        
         
         //Physics
         self.physicsWorld.gravity = CGVector(dx: 0, dy: 0)
@@ -86,20 +117,34 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         scoreLabel.position = CGPoint(x: 0, y: (self.frame.size.height/2)-50)
         scoreLabel.fontName = "Gunship"
         score=0
-        #if os(macOS)
-            addChild(scoreLabel)
-        #endif
+        addChild(scoreLabel)
+        
+        //Life
+        lifeLabel = SKLabelNode(text: "Lives: 0")
+        lifeLabel.position = CGPoint(x: -400, y: (self.frame.size.height/2)-50)
+        lifeLabel.fontName = "Gunship"
+        life=3
+        addChild(lifeLabel)
+        
+        //Difficulty
+        diffLabel = SKLabelNode(text: "Difficulty: 1")
+        diffLabel.position = CGPoint(x: 400, y: (self.frame.size.height/2)-50)
+        diffLabel.fontName = "Gunship"
+        difficulty=1
+        addChild(diffLabel)
         
         //Speed
         speedLabel = SKLabelNode(text: "Speed: 1.0")
         speedLabel.position = CGPoint(x: 0, y: (self.frame.size.height/2)-100)
         speedLabel.fontSize = 24
         speedLabel.fontName = "Gunship"
+        #if os(macOS)
         addChild(speedLabel)
+        #endif
         
         //Set how often aliens appear
         // TODO: Create Difficulty mode where this increases
-        gameTimer = Timer.scheduledTimer(timeInterval: 0.75, target: self, selector: #selector(addAlien), userInfo: nil, repeats: true)
+        gameTimer = Timer.scheduledTimer(timeInterval: (0.75 / Double(difficulty*2 - 1)), target: self, selector: #selector(addAlien), userInfo: nil, repeats: true)
         
         //Add motion controls
         #if os(iOS) || os(tvOS)
@@ -140,7 +185,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         addChild(alien)
         
-        let animationDuration:TimeInterval = 6
+        let animationDuration:TimeInterval = TimeInterval(6 / difficulty)
         
         var actionArray = [SKAction]()
         
@@ -183,20 +228,39 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func didBegin(_ contact: SKPhysicsContact) {
-        var firstBody:SKPhysicsBody
-        var secondBody:SKPhysicsBody
+        var torpedoBody:SKPhysicsBody
+        var alienBody:SKPhysicsBody
+        var playerBody:SKPhysicsBody
         
-        if contact.bodyA.categoryBitMask < contact.bodyB.categoryBitMask {
-            firstBody = contact.bodyA
-            secondBody = contact.bodyB
-        } else{
-            firstBody = contact.bodyB
-            secondBody = contact.bodyA
+        if (contact.bodyA.categoryBitMask == photonTorpedoCategory && contact.bodyB.categoryBitMask == alienCategory){
+            torpedoBody = contact.bodyA
+            playerBody = contact.bodyA
+            alienBody = contact.bodyB
+        }
+        else if (contact.bodyA.categoryBitMask == playerCatergory && contact.bodyB.categoryBitMask == alienCategory){
+            torpedoBody = contact.bodyA
+            playerBody = contact.bodyA
+            alienBody = contact.bodyB
+        }
+        else if (contact.bodyA.categoryBitMask == alienCategory && contact.bodyB.categoryBitMask == playerCatergory){
+            torpedoBody = contact.bodyB
+            playerBody = contact.bodyB
+            alienBody = contact.bodyA
+        }
+        else {
+            torpedoBody = contact.bodyB
+            alienBody = contact.bodyA
+            playerBody = contact.bodyB
         }
         
-        if (firstBody.categoryBitMask & photonTorpedoCategory) != 0 && (secondBody.categoryBitMask & alienCategory) != 0 {
-            torpedoHit(torpedoNode: firstBody.node as! SKSpriteNode, alienNode: secondBody.node as! SKSpriteNode)
+        if (torpedoBody.categoryBitMask & photonTorpedoCategory) != 0 && (alienBody.categoryBitMask & alienCategory) != 0 {
+            torpedoHit(torpedoNode: torpedoBody.node as! SKSpriteNode, alienNode: alienBody.node as! SKSpriteNode)
         }
+        
+        if (playerBody.categoryBitMask & playerCatergory) != 0 && (alienBody.categoryBitMask & alienCategory) != 0 {
+            shipHit(playerNode: playerBody.node as! SKSpriteNode, alienNode: alienBody.node as! SKSpriteNode)
+        }
+        
     }
     
     func torpedoHit(torpedoNode:SKSpriteNode, alienNode:SKSpriteNode) {
@@ -211,7 +275,32 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.run(SKAction.wait(forDuration: 2)){
             explosion.removeFromParent()
         }
-        score += 10
+        score += 10 * difficulty
+    }
+    
+    func shipHit(playerNode:SKSpriteNode, alienNode:SKSpriteNode) {
+        let explosion = SKEmitterNode(fileNamed: "Explosion")!
+        explosion.position = alienNode.position
+        self.addChild(explosion)
+        
+        run(SKAction.playSoundFileNamed("explosion.mp3", waitForCompletion: false))
+        alienNode.removeFromParent()
+        
+        self.run(SKAction.wait(forDuration: 2)){
+            explosion.removeFromParent()
+        }
+        if (life == 0){
+            playerNode.removeFromParent()
+            //Game Over
+            gameOverLabel = SKLabelNode(text: "Game Over\nYour score is \(score)\n\nPress R to restart")
+            gameOverLabel.numberOfLines = 3
+            gameOverLabel.position = CGPoint(x: 0, y: 0)
+            gameOverLabel.fontName = "Gunship"
+            addChild(gameOverLabel)
+        }
+        else {
+            life -= 1
+        }
     }
     
     override func didSimulatePhysics() {
@@ -317,10 +406,22 @@ extension GameScene {
         if (event.keyCode == 49){
             fireTorpedo()
         }
+        //R
+        if (event.keyCode == 15){
+            restart()
+        }
+        //1
+        if (event.keyCode == 18){
+            difficulty = 1
+        }
+        //2
+        if (event.keyCode == 19){
+            difficulty = 2
+        }
+        //2
+        if (event.keyCode == 20){
+            difficulty = 3
+        }
     }
-    
-    
-    
-    
 }
 #endif
