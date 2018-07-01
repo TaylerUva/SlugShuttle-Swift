@@ -43,9 +43,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     var lifeScore:Int = 0 {
         didSet {
-            print(lifeScore)
             if (lifeScore >= 10000){
                 life += 1
+                run(SKAction.playSoundFileNamed("1up.mp3", waitForCompletion: false))
                 lifeScore = lifeScore - 10000
             }
         }
@@ -193,7 +193,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         alien.physicsBody?.categoryBitMask = alienCategory
         alien.physicsBody?.contactTestBitMask = photonTorpedoCategory
         alien.physicsBody?.collisionBitMask = 0
-        
         addChild(alien)
         
         let animationDuration:TimeInterval = TimeInterval(6 / difficulty)
@@ -239,39 +238,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func didBegin(_ contact: SKPhysicsContact) {
-        var torpedoBody:SKPhysicsBody
-        var alienBody:SKPhysicsBody
-        var playerBody:SKPhysicsBody
-        
-        if (contact.bodyA.categoryBitMask == photonTorpedoCategory && contact.bodyB.categoryBitMask == alienCategory){
-            torpedoBody = contact.bodyA
-            playerBody = contact.bodyA
-            alienBody = contact.bodyB
+        if (contact.bodyA.categoryBitMask & playerCatergory) != 0 {
+            if (contact.bodyB.categoryBitMask & heartCatergory) != 0 {
+                heartCollected(playerNode: contact.bodyA.node as! SKSpriteNode, heartNode: contact.bodyB.node as! SKSpriteNode)
+            }
+            if (contact.bodyB.categoryBitMask & alienCategory) != 0 {
+                shipHit(playerNode: contact.bodyA.node as! SKSpriteNode, alienNode: contact.bodyB.node as! SKSpriteNode)
+            }
         }
-        else if (contact.bodyA.categoryBitMask == playerCatergory && contact.bodyB.categoryBitMask == alienCategory){
-            torpedoBody = contact.bodyA
-            playerBody = contact.bodyA
-            alienBody = contact.bodyB
+        if (contact.bodyB.categoryBitMask & photonTorpedoCategory) != 0 {
+            if (contact.bodyA.categoryBitMask & alienCategory) != 0 {
+                torpedoHit(torpedoNode: contact.bodyB.node as! SKSpriteNode, alienNode: contact.bodyA.node as! SKSpriteNode)
+            }
         }
-        else if (contact.bodyA.categoryBitMask == alienCategory && contact.bodyB.categoryBitMask == playerCatergory){
-            torpedoBody = contact.bodyB
-            playerBody = contact.bodyB
-            alienBody = contact.bodyA
-        }
-        else {
-            torpedoBody = contact.bodyB
-            alienBody = contact.bodyA
-            playerBody = contact.bodyB
-        }
-        
-        if (torpedoBody.categoryBitMask & photonTorpedoCategory) != 0 && (alienBody.categoryBitMask & alienCategory) != 0 {
-            torpedoHit(torpedoNode: torpedoBody.node as! SKSpriteNode, alienNode: alienBody.node as! SKSpriteNode)
-        }
-        
-        if (playerBody.categoryBitMask & playerCatergory) != 0 && (alienBody.categoryBitMask & alienCategory) != 0 {
-            shipHit(playerNode: playerBody.node as! SKSpriteNode, alienNode: alienBody.node as! SKSpriteNode)
-        }
-        
     }
     
     func torpedoHit(torpedoNode:SKSpriteNode, alienNode:SKSpriteNode) {
@@ -281,7 +260,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         run(SKAction.playSoundFileNamed("explosion.mp3", waitForCompletion: false))
         torpedoNode.removeFromParent()
-        dropHeart(alienNode: alienNode)
+        let dropRate = GKRandomDistribution(lowestValue: 0, highestValue: 20 * difficulty)
+        if (dropRate.nextInt() == 0) {
+            dropHeart(alienNode: alienNode)
+        }
         alienNode.removeFromParent()
         
         self.run(SKAction.wait(forDuration: 2)){
@@ -292,28 +274,25 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         score += 100 * difficulty
     }
     
-//    func dropHeart(alienNode: SKSpriteNode) {
-//        let dropRate = GKRandomDistribution(lowestValue: 0, highestValue: 0 * difficulty)
-//        let heartNode = SKSpriteNode(imageNamed: "heart")
-//        let animationDuration:TimeInterval = TimeInterval(6 / difficulty)
-//        
-//        heartNode.physicsBody = SKPhysicsBody(rectangleOf: heartNode.size)
-//        heartNode.physicsBody?.isDynamic = true
-//        heartNode.physicsBody?.categoryBitMask = heartCatergory
-//        heartNode.physicsBody?.contactTestBitMask = playerCatergory
-//        heartNode.physicsBody?.collisionBitMask = 0
-//        if (dropRate.nextInt() == 0) {
-//            heartNode.position = alienNode.position
-//            self.addChild(heartNode)
-//            
-//            var actionArray = [SKAction]()
-//            
-//            actionArray.append(SKAction.move(to: CGPoint(x: heartNode.position.x, y: -(self.frame.size.height/2 + 50)), duration: animationDuration))
-//            actionArray.append(SKAction.removeFromParent())
-//            
-//            heartNode.run(SKAction.sequence(actionArray))
-//        }
-//    }
+    func dropHeart(alienNode: SKSpriteNode) {
+        let heartNode = SKSpriteNode(imageNamed: "heart")
+        let animationDuration:TimeInterval = TimeInterval(6 / difficulty)
+        
+        heartNode.physicsBody = SKPhysicsBody(rectangleOf: heartNode.size)
+        heartNode.physicsBody?.isDynamic = true
+        heartNode.physicsBody?.categoryBitMask = heartCatergory
+        heartNode.physicsBody?.contactTestBitMask = playerCatergory
+        heartNode.physicsBody?.collisionBitMask = 0
+        heartNode.position = alienNode.position
+        self.addChild(heartNode)
+        
+        var actionArray = [SKAction]()
+        
+        actionArray.append(SKAction.move(to: CGPoint(x: heartNode.position.x, y: -(self.frame.size.height/2 + 50)), duration: animationDuration))
+        actionArray.append(SKAction.removeFromParent())
+        
+        heartNode.run(SKAction.sequence(actionArray))
+    }
     
     func shipHit(playerNode:SKSpriteNode, alienNode:SKSpriteNode) {
         let explosion = SKEmitterNode(fileNamed: "Explosion")!
@@ -338,6 +317,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         else {
             life -= 1
         }
+    }
+    
+    func heartCollected(playerNode:SKSpriteNode, heartNode:SKSpriteNode){
+        life += 1
+        heartNode.removeFromParent()
+        run(SKAction.playSoundFileNamed("1up.mp3", waitForCompletion: false))
     }
     
     override func didSimulatePhysics() {
@@ -450,7 +435,6 @@ extension GameScene {
         //1
         if (event.keyCode == 18){
             difficulty = 1
-            
         }
         //2
         if (event.keyCode == 19){
