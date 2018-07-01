@@ -19,7 +19,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     #if os(iOS) || os(tvOS)
     let motionManager = CMMotionManager()
     #endif
-    var xAcceleration:CGFloat = 0
+    var yAcceleration:CGFloat = 0
     var acclerationModifier:CGFloat = 1 {
         didSet {
             speedLabel.text = "Speed: \(acclerationModifier)"
@@ -163,7 +163,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         motionManager.startAccelerometerUpdates(to: OperationQueue.current!) { (data:CMAccelerometerData?, error:Error?) in
             if let accelerometerData = data {
                 let acceleration = accelerometerData.acceleration
-                self.xAcceleration = CGFloat(acceleration.x) * 0.75 + self.xAcceleration * 0.25
+                self.yAcceleration = CGFloat(acceleration.y) * 0.75 + self.yAcceleration * 0.25
             }
         }
         #endif
@@ -328,9 +328,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     override func didSimulatePhysics() {
         let halfMaxWidth = self.frame.size.width/2
         #if os(iOS) || os(tvOS)
-        player.position.x += xAcceleration * 50
+        player.position.x += yAcceleration * 50
         #elseif os(macOS)
-        player.position.x += xAcceleration
+        player.position.x += yAcceleration
         #endif
         
         if player.position.x > halfMaxWidth {
@@ -406,43 +406,43 @@ extension GameScene {
     }
     
     override func keyDown(with event: NSEvent) {
-        //Up, W
-        if (event.keyCode == 126 || event.keyCode == 13){
+        let aKey = 0
+        let sKey = 1
+        let dKey = 2
+        let wKey = 13
+        let rKey = 15
+        let oneKey = 18
+        let twoKey = 19
+        let threeKey = 20
+        let spaceKey = 49
+        let leftArrow = 123
+        let rightArrow = 124
+        let downArrow = 125
+        let upArrow = 126
+
+        switch Int(event.keyCode) {
+        case wKey, upArrow:
             acclerationModifier += 1
-        }
-        //Down, S
-        if (event.keyCode == 125 || event.keyCode == 1){
+        case sKey,downArrow:
             if (acclerationModifier != 1) {
                 acclerationModifier -= 1
             }
-        }
-        //Right, D
-        if (event.keyCode == 124 || event.keyCode == 2){
+        case dKey, rightArrow:
             self.xAcceleration = (10 * acclerationModifier)
-        }
-        //Left, A
-        if (event.keyCode == 123 || event.keyCode == 0){
+        case aKey, leftArrow:
             self.xAcceleration = (-10 * acclerationModifier)
-        }
-        //Space
-        if (event.keyCode == 49){
+        case spaceKey:
             fireTorpedo()
-        }
-        //R
-        if (event.keyCode == 15){
+        case rKey:
             restart()
-        }
-        //1
-        if (event.keyCode == 18){
+        case oneKey:
             difficulty = 1
-        }
-        //2
-        if (event.keyCode == 19){
+        case twoKey:
             difficulty = 2
-        }
-        //2
-        if (event.keyCode == 20){
+        case threeKey:
             difficulty = 3
+        default:
+            break
         }
     }
 }
