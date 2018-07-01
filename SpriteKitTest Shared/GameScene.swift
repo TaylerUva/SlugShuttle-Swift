@@ -41,6 +41,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             lifeLabel.text = "Lives Left: \(life)"
         }
     }
+    var lifeScore:Int = 0 {
+        didSet {
+            print(lifeScore)
+            if (lifeScore >= 10000){
+                life += 1
+                lifeScore = lifeScore - 10000
+            }
+        }
+    }
     var score:Int = 0 {
         didSet {
             scoreLabel.text = "Score: \(score)"
@@ -49,16 +58,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var difficulty:Int = 1 {
         didSet {
             diffLabel.text = "Difficulty: \(difficulty)"
+            let time:Double = 0.85 - Double(difficulty) / 10.0
+            gameTimer = Timer.scheduledTimer(timeInterval: (time), target: self, selector: #selector(addAlien), userInfo: nil, repeats: true)
         }
     }
     
     var gameTimer:Timer!
     
-    var possibleAliens = ["alien", "alien2", "alien3", "alienC"]
+    var possibleAliens = ["alien", "alien2", "alien3"]
     //Gives each item a unique identifier
-    let alienCategory:UInt32 = 0x1 << 1
     let photonTorpedoCategory:UInt32 = 0x1 << 0
+    let alienCategory:UInt32 = 0x1 << 1
     let playerCatergory:UInt32 = 0x1 << 2
+    let heartCatergory:UInt32 = 0x1 << 3
     
     class func newGameScene() -> GameScene {
         // Load 'GameScene.sks' as an SKScene.
@@ -143,8 +155,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         #endif
         
         //Set how often aliens appear
-        // TODO: Create Difficulty mode where this increases
-        gameTimer = Timer.scheduledTimer(timeInterval: (0.75 / Double(difficulty*2 - 1)), target: self, selector: #selector(addAlien), userInfo: nil, repeats: true)
+        gameTimer = Timer.scheduledTimer(timeInterval: (100), target: self, selector: #selector(addAlien), userInfo: nil, repeats: true)
         
         //Add motion controls
         #if os(iOS) || os(tvOS)
@@ -270,13 +281,39 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         run(SKAction.playSoundFileNamed("explosion.mp3", waitForCompletion: false))
         torpedoNode.removeFromParent()
+        dropHeart(alienNode: alienNode)
         alienNode.removeFromParent()
         
         self.run(SKAction.wait(forDuration: 2)){
             explosion.removeFromParent()
         }
-        score += 10 * difficulty
+        
+        lifeScore += 100 * difficulty
+        score += 100 * difficulty
     }
+    
+//    func dropHeart(alienNode: SKSpriteNode) {
+//        let dropRate = GKRandomDistribution(lowestValue: 0, highestValue: 0 * difficulty)
+//        let heartNode = SKSpriteNode(imageNamed: "heart")
+//        let animationDuration:TimeInterval = TimeInterval(6 / difficulty)
+//        
+//        heartNode.physicsBody = SKPhysicsBody(rectangleOf: heartNode.size)
+//        heartNode.physicsBody?.isDynamic = true
+//        heartNode.physicsBody?.categoryBitMask = heartCatergory
+//        heartNode.physicsBody?.contactTestBitMask = playerCatergory
+//        heartNode.physicsBody?.collisionBitMask = 0
+//        if (dropRate.nextInt() == 0) {
+//            heartNode.position = alienNode.position
+//            self.addChild(heartNode)
+//            
+//            var actionArray = [SKAction]()
+//            
+//            actionArray.append(SKAction.move(to: CGPoint(x: heartNode.position.x, y: -(self.frame.size.height/2 + 50)), duration: animationDuration))
+//            actionArray.append(SKAction.removeFromParent())
+//            
+//            heartNode.run(SKAction.sequence(actionArray))
+//        }
+//    }
     
     func shipHit(playerNode:SKSpriteNode, alienNode:SKSpriteNode) {
         let explosion = SKEmitterNode(fileNamed: "Explosion")!
@@ -413,6 +450,7 @@ extension GameScene {
         //1
         if (event.keyCode == 18){
             difficulty = 1
+            
         }
         //2
         if (event.keyCode == 19){
