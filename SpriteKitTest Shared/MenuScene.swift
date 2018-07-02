@@ -18,7 +18,7 @@ class MenuScene: SKScene {
     
     var startButton:SKShapeNode!
     var diffButton:SKShapeNode!
-    var resetButton:SKShapeNode!
+    var settingsButton:SKShapeNode!
     
     var difficulty:Int = UserDefaults.standard.integer(forKey: "Difficulty")
     
@@ -37,6 +37,13 @@ class MenuScene: SKScene {
         let gameScene = GameScene.newGameScene()
         let transition = SKTransition.fade(withDuration: 1.0) // create type of transition (you can check in documentation for more transtions)
         self.view?.presentScene(gameScene, transition: transition)
+    }
+    
+    func goToSettings(){
+        let settingScene = SettingScene.newSettingScene()
+        let transition = SKTransition.fade(withDuration: 1.0)
+        settingScene.scaleMode = .aspectFill
+        self.view!.presentScene(settingScene, transition: transition)
     }
     
     override func didMove(to view: SKView) {
@@ -62,17 +69,17 @@ class MenuScene: SKScene {
         highscoreLabel.fontSize = 45
         addChild(highscoreLabel)
         
-        //Reset High Score
-        resetButton = SKShapeNode(rectOf: CGSize(width: 350, height: 30), cornerRadius: 10)
-        resetButton.position.y = highscoreLabel.position.y - 30
-        resetButton.fillColor = .darkGray
-        resetButton.strokeColor = .white
-        addChild(resetButton)
-        let resetLabel = SKLabelNode(text: "Reset Highscore")
-        resetLabel.fontName = "Gunship"
-        resetLabel.fontSize = 20
-        resetLabel.position.y = resetButton.position.y - 7
-        addChild(resetLabel)
+        //Settings
+        settingsButton = SKShapeNode(rectOf: CGSize(width: 350, height: 30), cornerRadius: 10)
+        settingsButton.position.y = highscoreLabel.position.y - 30
+        settingsButton.fillColor = .darkGray
+        settingsButton.strokeColor = .white
+        addChild(settingsButton)
+        let settingsLabel = SKLabelNode(text: "Settings")
+        settingsLabel.fontName = "Gunship"
+        settingsLabel.fontSize = 20
+        settingsLabel.position.y = settingsButton.position.y - 7
+        addChild(settingsLabel)
         
         //Difficulty
         diffButton = SKShapeNode(rectOf: CGSize(width: 500, height: 100), cornerRadius: 30)
@@ -126,12 +133,6 @@ class MenuScene: SKScene {
         userDefaults.synchronize()
     }
     
-    func resetHighScore() {
-        userDefaults.set(0, forKey: "HighScore")
-        highscoreLabel.text = "High Score: \(userDefaults.integer(forKey: "HighScore"))"
-        userDefaults.synchronize()
-    }
-    
     override func mouseDown(with event: NSEvent) {
         let touchLocation = event.location(in: self)
         // Check if the location of the touch is within the button's bounds
@@ -141,8 +142,8 @@ class MenuScene: SKScene {
         if diffButton.contains(touchLocation) {
             changeDiff()
         }
-        if resetButton.contains(touchLocation){
-            resetHighScore()
+        if settingsButton.contains(touchLocation){
+            goToSettings()
         }
     }
 }

@@ -340,6 +340,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.addChild(restartButton)
     }
     
+    func pauseGame() {
+        let pauseLabel = SKLabelNode(text: "Paused")
+        if (scene?.view?.isPaused == false){
+            scene?.view?.isPaused = true
+            self.addChild(pauseLabel)
+        }
+        else {
+            scene?.view?.isPaused = false
+            pauseLabel.removeFromParent()
+        }
+    }
+    
     override func didSimulatePhysics() {
         let halfMaxWidth = self.frame.size.width/2
         #if os(iOS) || os(tvOS)
@@ -437,12 +449,7 @@ extension GameScene {
         case escKey:
             goToMenu()
         case pKey:
-            if (scene?.view?.isPaused == false){
-                scene?.view?.isPaused = true
-            }
-            else {
-                scene?.view?.isPaused = false
-            }
+            pauseGame()
         default:
             break
         }
