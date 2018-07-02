@@ -14,9 +14,11 @@ class MenuScene: SKScene {
     let userDefaults = UserDefaults.standard
     
     var diffLabel:SKLabelNode!
+    var highscoreLabel:SKLabelNode!
     
     var startButton:SKShapeNode!
     var diffButton:SKShapeNode!
+    var resetButton:SKShapeNode!
     
     var difficulty:Int = UserDefaults.standard.integer(forKey: "Difficulty")
     
@@ -48,17 +50,29 @@ class MenuScene: SKScene {
         
         //Main Title
         let titleLabel = SKLabelNode(text: "Slug Shuttle")
-        titleLabel.position = CGPoint(x: 0, y: 100)
+        titleLabel.position = CGPoint(x: 0, y: 130)
         titleLabel.fontName = "Gunship"
-        titleLabel.fontSize = 45
+        titleLabel.fontSize = 80
         addChild(titleLabel)
         
         //High Score
-        let highscoreLabel = SKLabelNode(text: "High Score: \(userDefaults.integer(forKey: "HighScore"))")
-        highscoreLabel.position = CGPoint(x: 0, y: 200)
+        highscoreLabel = SKLabelNode(text: "High Score: \(userDefaults.integer(forKey: "HighScore"))")
+        highscoreLabel.position = CGPoint(x: 0, y: 300)
         highscoreLabel.fontName = "Gunship"
         highscoreLabel.fontSize = 45
         addChild(highscoreLabel)
+        
+        //Reset High Score
+        resetButton = SKShapeNode(rectOf: CGSize(width: 350, height: 30), cornerRadius: 10)
+        resetButton.position.y = highscoreLabel.position.y - 30
+        resetButton.fillColor = .darkGray
+        resetButton.strokeColor = .white
+        addChild(resetButton)
+        let resetLabel = SKLabelNode(text: "Reset Highscore")
+        resetLabel.fontName = "Gunship"
+        resetLabel.fontSize = 20
+        resetLabel.position.y = resetButton.position.y - 7
+        addChild(resetLabel)
         
         //Difficulty
         diffButton = SKShapeNode(rectOf: CGSize(width: 500, height: 100), cornerRadius: 30)
@@ -112,6 +126,12 @@ class MenuScene: SKScene {
         userDefaults.synchronize()
     }
     
+    func resetHighScore() {
+        userDefaults.set(0, forKey: "HighScore")
+        highscoreLabel.text = "High Score: \(userDefaults.integer(forKey: "HighScore"))"
+        userDefaults.synchronize()
+    }
+    
     override func mouseDown(with event: NSEvent) {
         let touchLocation = event.location(in: self)
         // Check if the location of the touch is within the button's bounds
@@ -120,6 +140,9 @@ class MenuScene: SKScene {
         }
         if diffButton.contains(touchLocation) {
             changeDiff()
+        }
+        if resetButton.contains(touchLocation){
+            resetHighScore()
         }
     }
 }

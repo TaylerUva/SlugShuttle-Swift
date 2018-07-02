@@ -22,7 +22,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var yAcceleration:CGFloat = 0
     var acclerationModifier:CGFloat = 1 {
         didSet {
+            #if os(macOS)
             speedLabel.text = "Speed: \(acclerationModifier)"
+            #endif
         }
     }
     //
@@ -66,6 +68,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     var possibleAliens = ["alien", "alien2", "alien3"]
+    
     //Gives each item a unique identifier
     let photonTorpedoCategory:UInt32 = 0x1 << 0
     let alienCategory:UInt32 = 0x1 << 1
@@ -142,6 +145,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         #if os(macOS)
         addChild(speedLabel)
         #endif
+        
+        // Difficulty
         var timeInt:Double = 0
         switch difficulty {
         case 1:
@@ -318,16 +323,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         gameOverLabel.numberOfLines = 3
         gameOverLabel.position = CGPoint(x: 0, y: 0)
         gameOverLabel.fontName = "Gunship"
-        gameOverLabel.zPosition = 100
+        gameOverLabel.zPosition = 1000
         addChild(gameOverLabel)
-        //Game Over
+        
+        //Menu button
         restartButton = SKShapeNode(rectOf: CGSize(width: 500, height: 100), cornerRadius: 30)
         restartButton.fillColor = .darkGray
         restartButton.strokeColor = .white
         restartButton.position = CGPoint(x:0, y:-100);
+        restartButton.zPosition = 1000
         let restartLabel = SKLabelNode(text: "Back to menu")
         restartLabel.position.y = restartButton.position.y - 10
         restartLabel.fontName = "Gunship"
+        restartLabel.zPosition = 1001
         self.addChild(restartLabel)
         self.addChild(restartButton)
     }
@@ -344,7 +352,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }else if player.position.x < -halfMaxWidth{
             player.position = CGPoint(x: halfMaxWidth, y: player.position.y)
         }
-        
     }
     
     override func update(_ currentTime: TimeInterval) {
@@ -355,34 +362,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 #if os(iOS) || os(tvOS)
 // Touch-based event handling
 extension GameScene {
-    
-    //    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-    //        if let label = self.label {
-    //            label.run(SKAction.init(named: "Pulse")!, withKey: "fadeInOut")
-    //        }
-    //
-    //        for t in touches {
-    //            self.makeSpinny(at: t.location(in: self), color: SKColor.green)
-    //        }
-    //    }
-    //
-    //    override func touchesMoved(_ touches: Set<UITouch>, with event: UIEvent?) {
-    //        for t in touches {
-    //            self.makeSpinny(at: t.location(in: self), color: SKColor.blue)
-    //        }
-    //    }
-    //
         override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
             fireTorpedo()
         }
-    //
-    //    override func touchesCancelled(_ touches: Set<UITouch>, with event: UIEvent?) {
-    //        for t in touches {
-    //            self.makeSpinny(at: t.location(in: self), color: SKColor.red)
-    //        }
-    //    }
-    
-    
 }
 #endif
 
@@ -405,7 +387,7 @@ extension GameScene {
             }
         }
         else{
-        fireTorpedo()
+            fireTorpedo()
         }
     }
     
@@ -423,7 +405,6 @@ extension GameScene {
         default:
             break
         }
-        
     }
     
     override func keyDown(with event: NSEvent) {
