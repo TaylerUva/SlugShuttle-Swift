@@ -82,6 +82,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         // Set the scale mode to scale to fit the window
         scene.scaleMode = .aspectFill
         
+        
         return scene
     }
     
@@ -106,10 +107,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         //Player
         player = SKSpriteNode(imageNamed: "shuttle")
-            //Double this size of sprite if on macOS
-            #if os(macOS)
-            player.size = CGSize(width: player.size.width * 2, height: player.size.height * 2)
-            #endif
+        player.size = CGSize(width: player.size.width * 2, height: player.size.height * 2)
         player.position = CGPoint(x: 0, y: -(self.frame.size.height/2)+50)
         player.physicsBody = SKPhysicsBody(rectangleOf: player.size)
         player.physicsBody?.isDynamic = true
@@ -181,12 +179,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         let position = CGFloat(randomAlienPos.nextInt())
         
         alien.position = CGPoint(x: position, y: halfMaxHeight)
-        
-            //Double this size of sprite if on macOS
-            #if os(macOS)
-            alien.size = CGSize(width: alien.size.width * 2, height: alien.size.height * 2)
-            #endif
-        
+        alien.size = CGSize(width: alien.size.width * 2, height: alien.size.height * 2)
         alien.physicsBody = SKPhysicsBody(rectangleOf: alien.size)
         alien.physicsBody?.isDynamic = true
         
@@ -208,11 +201,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func fireTorpedo (){
         self.run(SKAction.playSoundFileNamed("torpedo.mp3", waitForCompletion: false))
         let torpedoNode = SKSpriteNode(imageNamed: "torpedo")
-        
-            //Double this size of sprite if on macOS
-            #if os(macOS)
-            torpedoNode.size = CGSize(width: torpedoNode.size.width * 2, height: torpedoNode.size.height * 2)
-            #endif
+        torpedoNode.size = CGSize(width: torpedoNode.size.width * 2, height: torpedoNode.size.height * 2)
         
         torpedoNode.position = player.position
         torpedoNode.position.y += 10
@@ -332,7 +321,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         #elseif os(macOS)
         player.position.x += yAcceleration
         #endif
-        
         if player.position.x > halfMaxWidth {
             player.position = CGPoint(x: -halfMaxWidth, y: player.position.y)
         }else if player.position.x < -halfMaxWidth{
@@ -397,11 +385,11 @@ extension GameScene {
     override func keyUp(with event: NSEvent) {
         //Right End
         if (event.keyCode == 124 || event.keyCode == 2){
-            xAcceleration = 0
+            yAcceleration = 0
         }
         //Left End
         if (event.keyCode == 123 || event.keyCode == 0){
-            xAcceleration = 0
+            yAcceleration = 0
         }
     }
     
@@ -428,9 +416,9 @@ extension GameScene {
                 acclerationModifier -= 1
             }
         case dKey, rightArrow:
-            self.xAcceleration = (10 * acclerationModifier)
+            self.yAcceleration = (10 * acclerationModifier)
         case aKey, leftArrow:
-            self.xAcceleration = (-10 * acclerationModifier)
+            self.yAcceleration = (-10 * acclerationModifier)
         case spaceKey:
             fireTorpedo()
         case rKey:
