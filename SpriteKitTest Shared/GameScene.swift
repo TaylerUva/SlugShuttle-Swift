@@ -36,6 +36,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var gameOverLabel:SKLabelNode!
     var diffLabel:SKLabelNode!
     
+    let userDefaults = UserDefaults.standard
+    
     var life:Int = 3 {
         didSet{
             lifeLabel.text = "Lives Left: \(life)"
@@ -53,6 +55,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var score:Int = 0 {
         didSet {
             scoreLabel.text = "Score: \(score)"
+            if userDefaults.integer(forKey: "HighScore") < score {
+                userDefaults.set(score, forKey: "HighScore")
+            }
         }
     }
     var difficulty:Int = 1 {
@@ -168,34 +173,37 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     @objc func addAlien () {
-        let halfMaxHeight = self.frame.size.height/2
-        let halfMaxWidth = self.frame.size.width/2
-        
-        possibleAliens = GKRandomSource.sharedRandom().arrayByShufflingObjects(in: possibleAliens) as! [String]
-        
-        let alien = SKSpriteNode(imageNamed: possibleAliens[0])
-        
-        let randomAlienPos = GKRandomDistribution(lowestValue: Int(-halfMaxWidth), highestValue: Int(halfMaxWidth))
-        let position = CGFloat(randomAlienPos.nextInt())
-        
-        alien.position = CGPoint(x: position, y: halfMaxHeight)
-        alien.size = CGSize(width: alien.size.width * 2, height: alien.size.height * 2)
-        alien.physicsBody = SKPhysicsBody(rectangleOf: alien.size)
-        alien.physicsBody?.isDynamic = true
-        
-        alien.physicsBody?.categoryBitMask = alienCategory
-        alien.physicsBody?.contactTestBitMask = photonTorpedoCategory
-        alien.physicsBody?.collisionBitMask = 0
-        addChild(alien)
-        
-        let animationDuration:TimeInterval = TimeInterval(6 / difficulty)
-        
-        var actionArray = [SKAction]()
-        
-        actionArray.append(SKAction.move(to: CGPoint(x: position, y: -(halfMaxHeight+50)), duration: animationDuration))
-        actionArray.append(SKAction.removeFromParent())
-        
-        alien.run(SKAction.sequence(actionArray))
+        if scene?.view?.isPaused == false {
+            let halfMaxHeight = self.frame.size.height/2
+            let halfMaxWidth = self.frame.size.width/2
+            
+            possibleAliens = GKRandomSource.sharedRandom().arrayByShufflingObjects(in: possibleAliens) as! [String]
+            
+            let alien = SKSpriteNode(imageNamed: possibleAliens[0])
+            
+            let randomAlienPos = GKRandomDistribution(lowestValue: Int(-halfMaxWidth), highestValue: Int(halfMaxWidth))
+            let position = CGFloat(randomAlienPos.nextInt())
+            
+            alien.position = CGPoint(x: position, y: halfMaxHeight)
+            alien.size = CGSize(width: alien.size.width * 2, height: alien.size.height * 2)
+            alien.physicsBody = SKPhysicsBody(rectangleOf: alien.size)
+            alien.physicsBody?.isDynamic = true
+            
+            alien.physicsBody?.categoryBitMask = alienCategory
+            alien.physicsBody?.contactTestBitMask = photonTorpedoCategory
+            alien.physicsBody?.collisionBitMask = 0
+            
+            addChild(alien)
+            
+            let animationDuration:TimeInterval = TimeInterval(6 / difficulty)
+            
+            var actionArray = [SKAction]()
+            
+            actionArray.append(SKAction.move(to: CGPoint(x: position, y: -(halfMaxHeight+50)), duration: animationDuration))
+            actionArray.append(SKAction.removeFromParent())
+            
+            alien.run(SKAction.sequence(actionArray))
+        }
     }
     
     func fireTorpedo (){
@@ -297,10 +305,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         if (life == 0){
             playerNode.removeFromParent()
             //Game Over
-            gameOverLabel = SKLabelNode(text: "Game Over\nYour score is \(score)\n\nPress R to restart")
+            gameOverLabel = SKLabelNode(text: "Game Over\n\nScore: \(score)\n\nHigh Score: \(userDefaults.integer(forKey: "HighScore"))\n\nPress R to restart")
             gameOverLabel.numberOfLines = 3
             gameOverLabel.position = CGPoint(x: 0, y: 0)
             gameOverLabel.fontName = "Gunship"
+            gameOverLabel.zPosition = 100
             addChild(gameOverLabel)
         }
         else {
@@ -402,11 +411,13 @@ extension GameScene {
         let oneKey = 18
         let twoKey = 19
         let threeKey = 20
+        let pKey = 35
         let spaceKey = 49
         let leftArrow = 123
         let rightArrow = 124
         let downArrow = 125
         let upArrow = 126
+        
 
         switch Int(event.keyCode) {
         case wKey, upArrow:
@@ -429,6 +440,13 @@ extension GameScene {
             difficulty = 2
         case threeKey:
             difficulty = 3
+        case pKey:
+            if (scene?.view?.isPaused == false){
+                scene?.view?.isPaused = true
+            }
+            else {
+                scene?.view?.isPaused = false
+            }
         default:
             break
         }
