@@ -33,10 +33,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var scoreLabel:SKLabelNode!
     var speedLabel:SKLabelNode!
     var lifeLabel:SKLabelNode!
-    var gameOverLabel:SKLabelNode!
-    var diffLabel:SKLabelNode!
+    
+    var restartButton:SKShapeNode!
+    
+    var gameTimer:Timer!
     
     let userDefaults = UserDefaults.standard
+    
+    var difficulty:Int = UserDefaults.standard.integer(forKey: "Difficulty")
     
     var life:Int = 3 {
         didSet{
@@ -60,15 +64,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             }
         }
     }
-    var difficulty:Int = 1 {
-        didSet {
-            diffLabel.text = "Difficulty: \(difficulty)"
-            let time:Double = 0.85 - Double(difficulty) / 10.0
-            gameTimer = Timer.scheduledTimer(timeInterval: (time), target: self, selector: #selector(addAlien), userInfo: nil, repeats: true)
-        }
-    }
-    
-    var gameTimer:Timer!
     
     var possibleAliens = ["alien", "alien2", "alien3"]
     //Gives each item a unique identifier
@@ -91,14 +86,11 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         return scene
     }
     
-    func restart(){
-        guard let gameScene = SKScene(fileNamed: "GameScene") as? GameScene else {
-            print("Failed to load GameScene.sks")
-            abort()
-        }
-        let transition = SKTransition.fade(withDuration: 1.0) // create type of transition (you can check in documentation for more transtions)
-        gameScene.scaleMode = .aspectFill
-        self.view!.presentScene(gameScene, transition: transition)
+    func goToMenu(){
+        let menuScene = MenuScene.newMenuScene()
+        let transition = SKTransition.fade(withDuration: 1.0)
+        menuScene.scaleMode = .aspectFill
+        self.view!.presentScene(menuScene, transition: transition)
     }
     
     override func didMove(to view: SKView) {
@@ -132,6 +124,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         scoreLabel.position = CGPoint(x: 0, y: (self.frame.size.height/2)-50)
         scoreLabel.fontName = "Gunship"
         score=0
+        userDefaults.synchronize()
         addChild(scoreLabel)
         
         //Life
@@ -141,13 +134,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         life=3
         addChild(lifeLabel)
         
-        //Difficulty
-        diffLabel = SKLabelNode(text: "Difficulty: 1")
-        diffLabel.position = CGPoint(x: 400, y: (self.frame.size.height/2)-50)
-        diffLabel.fontName = "Gunship"
-        difficulty=1
-        addChild(diffLabel)
-        
         //Speed
         speedLabel = SKLabelNode(text: "Speed: 1.0")
         speedLabel.position = CGPoint(x: 0, y: (self.frame.size.height/2)-100)
@@ -156,9 +142,18 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         #if os(macOS)
         addChild(speedLabel)
         #endif
-        
-        //Set how often aliens appear
-        gameTimer = Timer.scheduledTimer(timeInterval: (100), target: self, selector: #selector(addAlien), userInfo: nil, repeats: true)
+        var timeInt:Double = 0
+        switch difficulty {
+        case 1:
+            timeInt = 0.75
+        case 2:
+            timeInt = 0.50
+        case 3:
+            timeInt = 0.3
+        default:
+            timeInt = 0.75
+        }
+        gameTimer = Timer.scheduledTimer(timeInterval: (timeInt), target: self, selector: #selector(addAlien), userInfo: nil, repeats: true)
         
         //Add motion controls
         #if os(iOS) || os(tvOS)
@@ -304,13 +299,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         if (life == 0){
             playerNode.removeFromParent()
-            //Game Over
-            gameOverLabel = SKLabelNode(text: "Game Over\n\nScore: \(score)\n\nHigh Score: \(userDefaults.integer(forKey: "HighScore"))\n\nPress R to restart")
-            gameOverLabel.numberOfLines = 3
-            gameOverLabel.position = CGPoint(x: 0, y: 0)
-            gameOverLabel.fontName = "Gunship"
-            gameOverLabel.zPosition = 100
-            addChild(gameOverLabel)
+            gameOver()
         }
         else {
             life -= 1
@@ -321,6 +310,26 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         life += 1
         heartNode.removeFromParent()
         run(SKAction.playSoundFileNamed("1up.mp3", waitForCompletion: false))
+    }
+    
+    func gameOver() {
+        //Game Over
+        let gameOverLabel = SKLabelNode(text: "Game Over\n\nScore: \(score)\n\nHigh Score: \(userDefaults.integer(forKey: "HighScore"))")
+        gameOverLabel.numberOfLines = 3
+        gameOverLabel.position = CGPoint(x: 0, y: 0)
+        gameOverLabel.fontName = "Gunship"
+        gameOverLabel.zPosition = 100
+        addChild(gameOverLabel)
+        //Game Over
+        restartButton = SKShapeNode(rectOf: CGSize(width: 500, height: 100), cornerRadius: 30)
+        restartButton.fillColor = .darkGray
+        restartButton.strokeColor = .white
+        restartButton.position = CGPoint(x:0, y:-100);
+        let restartLabel = SKLabelNode(text: "Back to menu")
+        restartLabel.position.y = restartButton.position.y - 10
+        restartLabel.fontName = "Gunship"
+        self.addChild(restartLabel)
+        self.addChild(restartButton)
     }
     
     override func didSimulatePhysics() {
@@ -388,18 +397,31 @@ extension GameScene {
     }
     
     override func mouseUp(with event: NSEvent) {
+        let touchLocation = event.location(in: self)
+        // Check if the location of the touch is within the button's bounds
+        if restartButton.contains(touchLocation) {
+            goToMenu()
+        }
+        else{
         fireTorpedo()
+        }
     }
     
     override func keyUp(with event: NSEvent) {
-        //Right End
-        if (event.keyCode == 124 || event.keyCode == 2){
-            yAcceleration = 0
+        let aKey = 0
+        let dKey = 2
+        let leftArrow = 123
+        let rightArrow = 124
+        
+        switch Int(event.keyCode) {
+        case dKey, rightArrow:
+            self.yAcceleration = (0)
+        case aKey, leftArrow:
+            self.yAcceleration = (0)
+        default:
+            break
         }
-        //Left End
-        if (event.keyCode == 123 || event.keyCode == 0){
-            yAcceleration = 0
-        }
+        
     }
     
     override func keyDown(with event: NSEvent) {
@@ -407,10 +429,7 @@ extension GameScene {
         let sKey = 1
         let dKey = 2
         let wKey = 13
-        let rKey = 15
-        let oneKey = 18
-        let twoKey = 19
-        let threeKey = 20
+        let escKey = 53
         let pKey = 35
         let spaceKey = 49
         let leftArrow = 123
@@ -432,14 +451,8 @@ extension GameScene {
             self.yAcceleration = (-10 * acclerationModifier)
         case spaceKey:
             fireTorpedo()
-        case rKey:
-            restart()
-        case oneKey:
-            difficulty = 1
-        case twoKey:
-            difficulty = 2
-        case threeKey:
-            difficulty = 3
+        case escKey:
+            goToMenu()
         case pKey:
             if (scene?.view?.isPaused == false){
                 scene?.view?.isPaused = true
