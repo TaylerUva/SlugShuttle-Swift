@@ -35,8 +35,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var scoreLabel:SKLabelNode!
     var speedLabel:SKLabelNode!
     var lifeLabel:SKLabelNode!
+    var pauseLabel:SKLabelNode!
+    var menuLabel:SKLabelNode!
     
-    var restartButton:SKShapeNode!
+    var menuButton:SKShapeNode!
     
     var gameTimer:Timer!
     
@@ -96,6 +98,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.view!.presentScene(menuScene, transition: transition)
     }
     
+    func restartGame(){
+        let gameScene = self
+        let transition = SKTransition.fade(withDuration: 1.0)
+        gameScene.scaleMode = .aspectFill
+        self.view!.presentScene(gameScene, transition: transition)
+    }
+    
     override func didMove(to view: SKView) {
         //BG
         starField = SKEmitterNode(fileNamed: "Starfield")
@@ -116,7 +125,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         player.physicsBody?.collisionBitMask = 0
         player.physicsBody?.usesPreciseCollisionDetection = true
         self.addChild(player)
-        
         
         //Physics
         self.physicsWorld.gravity = CGVector(dx: 0, dy: 0)
@@ -146,6 +154,24 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         addChild(speedLabel)
         #endif
         
+        // Pause Label
+        pauseLabel = SKLabelNode(text: "Paused")
+        pauseLabel.position = CGPoint(x: 0, y: 0)
+        pauseLabel.fontName = "Gunship"
+        pauseLabel.fontSize = 50
+        pauseLabel.zPosition = 1000
+        
+        //Menu button
+        menuButton = SKShapeNode(rectOf: CGSize(width: 500, height: 100), cornerRadius: 30)
+        menuButton.fillColor = .darkGray
+        menuButton.strokeColor = .white
+        menuButton.position = CGPoint(x:0, y:-100);
+        menuButton.zPosition = 1000
+        menuLabel = SKLabelNode(text: "Back to menu")
+        menuLabel.position.y = menuButton.position.y - 10
+        menuLabel.fontName = "Gunship"
+        menuLabel.zPosition = 1001
+        
         // Difficulty
         var timeInt:Double = 0
         switch difficulty {
@@ -173,7 +199,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     @objc func addAlien () {
-        if scene?.view?.isPaused == false {
+        if isPaused == false {
             let halfMaxHeight = self.frame.size.height/2
             let halfMaxWidth = self.frame.size.width/2
             
@@ -326,29 +352,22 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         gameOverLabel.zPosition = 1000
         addChild(gameOverLabel)
         
-        //Menu button
-        restartButton = SKShapeNode(rectOf: CGSize(width: 500, height: 100), cornerRadius: 30)
-        restartButton.fillColor = .darkGray
-        restartButton.strokeColor = .white
-        restartButton.position = CGPoint(x:0, y:-100);
-        restartButton.zPosition = 1000
-        let restartLabel = SKLabelNode(text: "Back to menu")
-        restartLabel.position.y = restartButton.position.y - 10
-        restartLabel.fontName = "Gunship"
-        restartLabel.zPosition = 1001
-        self.addChild(restartLabel)
-        self.addChild(restartButton)
+        self.addChild(menuLabel)
+        self.addChild(menuButton)
     }
     
     func pauseGame() {
-        let pauseLabel = SKLabelNode(text: "Paused")
-        if (scene?.view?.isPaused == false){
-            scene?.view?.isPaused = true
+        if (isPaused == false){
             self.addChild(pauseLabel)
+            self.addChild(menuLabel)
+            self.addChild(menuButton)
+            isPaused = true
         }
-        else {
-            scene?.view?.isPaused = false
+        else if (isPaused == true) {
             pauseLabel.removeFromParent()
+            menuLabel.removeFromParent()
+            menuButton.removeFromParent()
+            isPaused = false
         }
     }
     
@@ -393,8 +412,8 @@ extension GameScene {
     override func mouseUp(with event: NSEvent) {
         let touchLocation = event.location(in: self)
         // Check if the location of the touch is within the button's bounds
-        if restartButton != nil {
-            if restartButton.contains(touchLocation) {
+        if menuButton != nil {
+            if menuButton.contains(touchLocation) {
                 goToMenu()
             }
         }
@@ -446,9 +465,7 @@ extension GameScene {
             self.yAcceleration = (-10 * acclerationModifier)
         case spaceKey:
             fireTorpedo()
-        case escKey:
-            goToMenu()
-        case pKey:
+        case escKey, pKey:
             pauseGame()
         default:
             break
