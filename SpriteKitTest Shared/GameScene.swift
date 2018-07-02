@@ -399,8 +399,10 @@ extension GameScene {
     override func mouseUp(with event: NSEvent) {
         let touchLocation = event.location(in: self)
         // Check if the location of the touch is within the button's bounds
-        if restartButton.contains(touchLocation) {
-            goToMenu()
+        if restartButton != nil {
+            if restartButton.contains(touchLocation) {
+                goToMenu()
+            }
         }
         else{
         fireTorpedo()
