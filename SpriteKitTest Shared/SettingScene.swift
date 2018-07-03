@@ -89,7 +89,7 @@ class SettingScene: SKScene {
         highscoreLabel.text = "High Score: \(userDefaults.integer(forKey: "HighScore"))"
         userDefaults.synchronize()
     }
-    
+    #if os(macOS)
     override func mouseDown(with event: NSEvent) {
         let touchLocation = event.location(in: self)
         // Check if the location of the touch is within the button's bounds
@@ -100,4 +100,5 @@ class SettingScene: SKScene {
             resetHighScore()
         }
     }
+    #endif
 }

@@ -100,7 +100,8 @@ class MenuScene: SKScene {
         case 3:
             diffLabel.text = "Difficulty:\nHard"
         default:
-            break
+            difficulty = 1
+            diffLabel.text = "Difficulty:\nEasy"
         }
         addChild(diffLabel)
         addChild(diffButton)
@@ -141,7 +142,8 @@ class MenuScene: SKScene {
             userDefaults.set(3, forKey: "Difficulty")
             diffLabel.text = "Difficulty:\nHard"
         default:
-            break
+            userDefaults.set(1, forKey: "Difficulty")
+            diffLabel.text = "Difficulty:\nEasy"
         }
         userDefaults.synchronize()
     }
@@ -149,7 +151,9 @@ class MenuScene: SKScene {
     func quitGame() {
         exit(0)
     }
-    
+}
+#if os(macOS)
+extension MenuScene {
     override func mouseDown(with event: NSEvent) {
         let touchLocation = event.location(in: self)
         // Check if the location of the touch is within the button's bounds
@@ -167,3 +171,25 @@ class MenuScene: SKScene {
         }
     }
 }
+#endif
+    
+#if os(iOS) || os(tvOS)
+extension MenuScene {
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        let touchLocation = touches.first?.location(in: self)
+        // Check if the location of the touch is within the button's bounds
+        if startButton.contains(touchLocation!) {
+            startGame()
+        }
+        if diffButton.contains(touchLocation!) {
+            changeDiff()
+        }
+        if settingsButton.contains(touchLocation!){
+            goToSettings()
+        }
+        if quitButton.contains(touchLocation!){
+            quitGame()
+        }
+    }
+}
+#endif
