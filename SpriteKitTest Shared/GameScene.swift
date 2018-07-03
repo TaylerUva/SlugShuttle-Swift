@@ -164,6 +164,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         pauseLabel.fontName = "Gunship"
         pauseLabel.fontSize = 50
         pauseLabel.zPosition = 1000
+        addChild(pauseLabel)
+        pauseLabel.isHidden = true
         
         //Resume button
         resumeButton = SKShapeNode(rectOf: CGSize(width: 500, height: 100), cornerRadius: 30)
@@ -175,6 +177,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         resumeLabel.position.y = resumeButton.position.y - 10
         resumeLabel.fontName = "Gunship"
         resumeLabel.zPosition = 1001
+        addChild(resumeButton)
+        addChild(resumeLabel)
+        resumeLabel.isHidden = true
         resumeButton.isHidden = true
         
         //Menu button
@@ -187,6 +192,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         menuLabel.position.y = menuButton.position.y - 10
         menuLabel.fontName = "Gunship"
         menuLabel.zPosition = 1001
+        addChild(menuButton)
+        addChild(menuLabel)
+        menuLabel.isHidden = true
         menuButton.isHidden = true
         
         //Restart button
@@ -199,6 +207,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         restartLabel.position.y = restartButton.position.y - 10
         restartLabel.fontName = "Gunship"
         restartLabel.zPosition = 1001
+        addChild(restartLabel)
+        addChild(restartButton)
+        restartLabel.isHidden = true
         restartButton.isHidden = true
         
         // Difficulty
@@ -381,39 +392,31 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         gameOverLabel.zPosition = 1000
         addChild(gameOverLabel)
         
-        self.addChild(menuLabel)
-        self.addChild(menuButton)
-        self.addChild(restartButton)
-        self.addChild(restartLabel)
+        menuLabel.isHidden = false
         menuButton.isHidden = false
+        restartLabel.isHidden = false
         restartButton.isHidden = false
     }
     
     func pauseGame() {
         if (isPaused == false){
-            self.addChild(pauseLabel)
-            self.addChild(menuLabel)
-            self.addChild(menuButton)
+            pauseLabel.isHidden = false
+            menuLabel.isHidden = false
             menuButton.isHidden = false
-            self.addChild(restartButton)
             restartButton.isHidden = false
-            self.addChild(restartLabel)
-            self.addChild(resumeButton)
+            restartLabel.isHidden = false
+            resumeLabel.isHidden = false
             resumeButton.isHidden = false
-            self.addChild(resumeLabel)
             isPaused = true
         }
         else if (isPaused == true) {
+            pauseLabel.isHidden = true
+            menuLabel.isHidden = true
             menuButton.isHidden = true
             restartButton.isHidden = true
+            restartLabel.isHidden = true
+            resumeLabel.isHidden = true
             resumeButton.isHidden = true
-            pauseLabel.removeFromParent()
-            menuLabel.removeFromParent()
-            menuButton.removeFromParent()
-            restartButton.removeFromParent()
-            restartLabel.removeFromParent()
-            resumeButton.removeFromParent()
-            resumeLabel.removeFromParent()
             isPaused = false
         }
     }
@@ -451,28 +454,16 @@ extension GameScene {
 extension GameScene {
     
     override func mouseDown(with event: NSEvent) {
-    }
-    
-    override func mouseDragged(with event: NSEvent) {
-    }
-    
-    override func mouseUp(with event: NSEvent) {
         let touchLocation = event.location(in: self)
         // Check if the location of the touch is within the button's bounds
-        if menuButton.isHidden == false {
-            if menuButton.contains(touchLocation) {
-                goToMenu()
-            }
+        if menuButton.isHidden == false && menuButton.contains(touchLocation) {
+            goToMenu()
         }
-        if restartButton.isHidden == false {
-            if restartButton.contains(touchLocation) {
-                restartGame()
-            }
+        if restartButton.isHidden == false && restartButton.contains(touchLocation) {
+            restartGame()
         }
-        if resumeButton.isHidden == false {
-            if resumeButton.contains(touchLocation) {
-                pauseGame()
-            }
+        if resumeButton.isHidden == false && resumeButton.contains(touchLocation) {
+            pauseGame()
         }
     }
     

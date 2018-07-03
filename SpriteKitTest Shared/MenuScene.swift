@@ -15,10 +15,12 @@ class MenuScene: SKScene {
     
     var diffLabel:SKLabelNode!
     var highscoreLabel:SKLabelNode!
+    var quitLabel:SKLabelNode!
     
     var startButton:SKShapeNode!
     var diffButton:SKShapeNode!
     var settingsButton:SKShapeNode!
+    var quitButton:SKShapeNode!
     
     var difficulty:Int = UserDefaults.standard.integer(forKey: "Difficulty")
     
@@ -85,7 +87,7 @@ class MenuScene: SKScene {
         diffButton = SKShapeNode(rectOf: CGSize(width: 500, height: 100), cornerRadius: 30)
         diffButton.fillColor = .darkGray
         diffButton.strokeColor = .white
-        diffButton.position = CGPoint(x: 0, y: -150)
+        diffButton.position = CGPoint(x: 0, y: -120)
         diffLabel = SKLabelNode()
         diffLabel.position.y = diffButton.position.y - 40
         diffLabel.fontName = "Gunship"
@@ -113,6 +115,17 @@ class MenuScene: SKScene {
         startLabel.fontName = "Gunship"
         self.addChild(startLabel)
         self.addChild(startButton)
+        
+        //Quit
+        quitButton = SKShapeNode(rectOf: CGSize(width: 500, height: 100), cornerRadius: 30)
+        quitButton.fillColor = .darkGray
+        quitButton.strokeColor = .white
+        quitButton.position = CGPoint(x:0, y:-240);
+        let quitLabel = SKLabelNode(text: "Quit Game")
+        quitLabel.position.y = quitButton.position.y - 10
+        quitLabel.fontName = "Gunship"
+        self.addChild(quitLabel)
+        self.addChild(quitButton)
     }
     
     func changeDiff(){
@@ -133,6 +146,10 @@ class MenuScene: SKScene {
         userDefaults.synchronize()
     }
     
+    func quitGame() {
+        exit(0)
+    }
+    
     override func mouseDown(with event: NSEvent) {
         let touchLocation = event.location(in: self)
         // Check if the location of the touch is within the button's bounds
@@ -144,6 +161,9 @@ class MenuScene: SKScene {
         }
         if settingsButton.contains(touchLocation){
             goToSettings()
+        }
+        if quitButton.contains(touchLocation){
+            quitGame()
         }
     }
 }
