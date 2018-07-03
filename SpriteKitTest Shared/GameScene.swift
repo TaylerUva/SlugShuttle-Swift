@@ -146,7 +146,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         lifeLabel = SKLabelNode(text: "Lives: 0")
         lifeLabel.position = CGPoint(x: -400, y: (self.frame.size.height/2)-50)
         lifeLabel.fontName = "Gunship"
-        life=3
+        life = 4 - difficulty
         addChild(lifeLabel)
         
         //Speed
@@ -368,13 +368,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.run(SKAction.wait(forDuration: 2)){
             explosion.removeFromParent()
         }
-        if (life == 0){
+        if (life == 1){
             playerNode.removeFromParent()
+            player.isHidden = true
             gameOver()
         }
-        else {
-            life -= 1
-        }
+        life -= 1
     }
     
     func heartCollected(playerNode:SKSpriteNode, heartNode:SKSpriteNode){
@@ -441,11 +440,23 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 }
 
 #if os(iOS) || os(tvOS)
-// Touch-based event handling
 extension GameScene {
-        override func touchesEnded(_ touches: Set<UITouch>, with event: UIEvent?) {
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+        let touchLocation = touches.first?.location(in: self)
+        // Check if the location of the touch is within the button's bounds
+        if menuButton.contains(touchLocation!) {
+            goToMenu()
+        }
+        if restartButton.contains(touchLocation!) {
+            restartGame()
+        }
+        if resumeButton.contains(touchLocation!){
+            pauseGame()
+        }
+        else if !player.isHidden{
             fireTorpedo()
         }
+    }
 }
 #endif
 

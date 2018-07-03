@@ -100,7 +100,8 @@ class MenuScene: SKScene {
         case 3:
             diffLabel.text = "Difficulty:\nHard"
         default:
-            difficulty = 1
+            userDefaults.set(1, forKey: "Difficulty")
+            userDefaults.synchronize()
             diffLabel.text = "Difficulty:\nEasy"
         }
         addChild(diffLabel)

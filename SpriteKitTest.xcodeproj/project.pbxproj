@@ -83,7 +83,7 @@
 		94BE1A6320E4B304005B2862 /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
 		94BE1A6620E4B304005B2862 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		94BE1A6820E4B304005B2862 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		94BE1A6D20E4B304005B2862 /* SpriteKitTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SpriteKitTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		94BE1A6D20E4B304005B2862 /* Slug Shuttle.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Slug Shuttle.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		94BE1A6F20E4B304005B2862 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		94BE1A7120E4B304005B2862 /* GameViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameViewController.swift; sourceTree = "<group>"; };
 		94BE1A7420E4B304005B2862 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
@@ -164,7 +164,7 @@
 			children = (
 				94BE1A4D20E4B304005B2862 /* SpriteKitTest.app */,
 				94BE1A5F20E4B304005B2862 /* SpriteKitTest.app */,
-				94BE1A6D20E4B304005B2862 /* SpriteKitTest.app */,
+				94BE1A6D20E4B304005B2862 /* Slug Shuttle.app */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -206,9 +206,9 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
-		94BE1A4C20E4B304005B2862 /* SpriteKitTest iOS */ = {
+		94BE1A4C20E4B304005B2862 /* Slug Shuttle iOS */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 94BE1A8520E4B304005B2862 /* Build configuration list for PBXNativeTarget "SpriteKitTest iOS" */;
+			buildConfigurationList = 94BE1A8520E4B304005B2862 /* Build configuration list for PBXNativeTarget "Slug Shuttle iOS" */;
 			buildPhases = (
 				94BE1A4920E4B304005B2862 /* Sources */,
 				94BE1A4A20E4B304005B2862 /* Frameworks */,
@@ -218,7 +218,7 @@
 			);
 			dependencies = (
 			);
-			name = "SpriteKitTest iOS";
+			name = "Slug Shuttle iOS";
 			productName = "SpriteKitTest iOS";
 			productReference = 94BE1A4D20E4B304005B2862 /* SpriteKitTest.app */;
 			productType = "com.apple.product-type.application";
@@ -240,9 +240,9 @@
 			productReference = 94BE1A5F20E4B304005B2862 /* SpriteKitTest.app */;
 			productType = "com.apple.product-type.application";
 		};
-		94BE1A6C20E4B304005B2862 /* SpriteKitTest macOS */ = {
+		94BE1A6C20E4B304005B2862 /* Slug Shuttle macOS */ = {
 			isa = PBXNativeTarget;
-			buildConfigurationList = 94BE1A8B20E4B304005B2862 /* Build configuration list for PBXNativeTarget "SpriteKitTest macOS" */;
+			buildConfigurationList = 94BE1A8B20E4B304005B2862 /* Build configuration list for PBXNativeTarget "Slug Shuttle macOS" */;
 			buildPhases = (
 				94BE1A6920E4B304005B2862 /* Sources */,
 				94BE1A6A20E4B304005B2862 /* Frameworks */,
@@ -252,9 +252,9 @@
 			);
 			dependencies = (
 			);
-			name = "SpriteKitTest macOS";
+			name = "Slug Shuttle macOS";
 			productName = "SpriteKitTest macOS";
-			productReference = 94BE1A6D20E4B304005B2862 /* SpriteKitTest.app */;
+			productReference = 94BE1A6D20E4B304005B2862 /* Slug Shuttle.app */;
 			productType = "com.apple.product-type.application";
 		};
 /* End PBXNativeTarget section */
@@ -291,9 +291,9 @@
 			projectDirPath = "";
 			projectRoot = "";
 			targets = (
-				94BE1A4C20E4B304005B2862 /* SpriteKitTest iOS */,
+				94BE1A4C20E4B304005B2862 /* Slug Shuttle iOS */,
 				94BE1A5E20E4B304005B2862 /* SpriteKitTest tvOS */,
-				94BE1A6C20E4B304005B2862 /* SpriteKitTest macOS */,
+				94BE1A6C20E4B304005B2862 /* Slug Shuttle macOS */,
 			);
 		};
 /* End PBXProject section */
@@ -641,7 +641,7 @@
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				PRODUCT_BUNDLE_IDENTIFIER = TayDev.SpriteKitTest;
-				PRODUCT_NAME = SpriteKitTest;
+				PRODUCT_NAME = "Slug Shuttle";
 				SDKROOT = macosx;
 				SWIFT_VERSION = 4.0;
 			};
@@ -661,7 +661,7 @@
 				);
 				MACOSX_DEPLOYMENT_TARGET = 10.13;
 				PRODUCT_BUNDLE_IDENTIFIER = TayDev.SpriteKitTest;
-				PRODUCT_NAME = SpriteKitTest;
+				PRODUCT_NAME = "Slug Shuttle";
 				SDKROOT = macosx;
 				SWIFT_VERSION = 4.0;
 			};
@@ -679,7 +679,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		94BE1A8520E4B304005B2862 /* Build configuration list for PBXNativeTarget "SpriteKitTest iOS" */ = {
+		94BE1A8520E4B304005B2862 /* Build configuration list for PBXNativeTarget "Slug Shuttle iOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				94BE1A8620E4B304005B2862 /* Debug */,
@@ -697,7 +697,7 @@
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
 		};
-		94BE1A8B20E4B304005B2862 /* Build configuration list for PBXNativeTarget "SpriteKitTest macOS" */ = {
+		94BE1A8B20E4B304005B2862 /* Build configuration list for PBXNativeTarget "Slug Shuttle macOS" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (
 				94BE1A8C20E4B304005B2862 /* Debug */,
