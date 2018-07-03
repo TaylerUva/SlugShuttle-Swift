@@ -49,6 +49,8 @@ class MenuScene: SKScene {
     }
     
     override func didMove(to view: SKView) {
+//        ButtonNode.init(defaultButtonImage: <#T##String#>, activeButtonImage: <#T##String#>, buttonAction: <#T##() -> Void#>)
+        
         //BG
         starField = SKEmitterNode(fileNamed: "Starfield")
         starField.position = CGPoint(x: 0, y: self.frame.size.height)

@@ -73,7 +73,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     }
     
-    var possibleAliens = ["alien", "alien2", "alien3"]
+    var possibleAliens = ["redGub", "greenGub", "blueGub"]
     
     //Gives each item a unique identifier
     let photonTorpedoCategory:UInt32 = 0x1 << 0
@@ -120,7 +120,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         //Player
         player = SKSpriteNode(imageNamed: "shuttle")
-        player.size = CGSize(width: player.size.width * 2, height: player.size.height * 2)
+        player.size = CGSize(width: player.size.width * 0.65, height: player.size.height * 0.65)
         player.position = CGPoint(x: 0, y: -(self.frame.size.height/2)+50)
         player.physicsBody = SKPhysicsBody(rectangleOf: player.size)
         player.physicsBody?.isDynamic = true
@@ -251,7 +251,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let position = CGFloat(randomAlienPos.nextInt())
             
             alien.position = CGPoint(x: position, y: halfMaxHeight)
-            alien.size = CGSize(width: alien.size.width * 2, height: alien.size.height * 2)
+            alien.size = CGSize(width: alien.size.width * 0.55, height: alien.size.height * 0.55)
             alien.physicsBody = SKPhysicsBody(rectangleOf: alien.size)
             alien.physicsBody?.isDynamic = true
             
