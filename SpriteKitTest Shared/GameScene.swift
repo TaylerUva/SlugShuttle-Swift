@@ -383,7 +383,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         self.addChild(menuLabel)
         self.addChild(menuButton)
+        self.addChild(restartButton)
+        self.addChild(restartLabel)
         menuButton.isHidden = false
+        restartButton.isHidden = false
     }
     
     func pauseGame() {
@@ -470,9 +473,6 @@ extension GameScene {
             if resumeButton.contains(touchLocation) {
                 pauseGame()
             }
-        }
-        else{
-            fireTorpedo()
         }
     }
     
