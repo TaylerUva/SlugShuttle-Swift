@@ -9,14 +9,14 @@
 import SpriteKit
 import GameplayKit
 
-#if os(iOS) || os(tvOS)
+#if os(iOS)
 import CoreMotion
 #endif
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
     
     // Movement
-    #if os(iOS) || os(tvOS)
+    #if os(iOS)
     let motionManager = CMMotionManager()
     #endif
     var yAcceleration:CGFloat = 0
@@ -227,7 +227,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         gameTimer = Timer.scheduledTimer(timeInterval: (timeInt), target: self, selector: #selector(addAlien), userInfo: nil, repeats: true)
         
         //Add motion controls
-        #if os(iOS) || os(tvOS)
+        #if os(iOS)
         motionManager.accelerometerUpdateInterval = 0.2
         motionManager.startAccelerometerUpdates(to: OperationQueue.current!) { (data:CMAccelerometerData?, error:Error?) in
             if let accelerometerData = data {
