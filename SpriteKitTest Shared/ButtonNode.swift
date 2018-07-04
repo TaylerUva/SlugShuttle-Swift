@@ -10,28 +10,36 @@ import SpriteKit
 
 class ButtonNode: SKNode {
     var button: SKShapeNode
-    var label: SKLabelNode
+    var text: SKLabelNode
     var action: () -> Void
     
-    init(buttonText: String, size: CGSize, radius: CGFloat, buttonAction: @escaping () -> Void) {
+    convenience init(buttonText: String, buttonAction: @escaping () -> Void){
+        self.init(buttonText: buttonText, size: CGSize(width: 500, height: 100), radius: 30, isHidden: false, buttonAction: buttonAction)
+    }
+    
+    convenience init(buttonText: String, size: CGSize, radius: CGFloat, buttonAction: @escaping () -> Void){
+        self.init(buttonText: buttonText, size: CGSize(width: 500, height: 100), radius: 30, isHidden: false, buttonAction: buttonAction)
+    }
+    
+    init(buttonText: String, size: CGSize, radius: CGFloat, isHidden: Bool, buttonAction: @escaping () -> Void) {
         button = SKShapeNode(rectOf: size, cornerRadius: radius)
         button.fillColor = .darkGray
         button.strokeColor = .white
+        button.alpha = CGFloat(0.75)
         button.zPosition = 1000
         
-        label = SKLabelNode(text: buttonText)
-        label.fontName = "Gunship"
-        label.fontSize = 20
-        label.zPosition = 1000
-        label.position.y = button.position.y - 7
+        text = SKLabelNode(text: buttonText)
+        text.fontName = "Gunship"
+        text.zPosition = 1000
+        text.position.y = button.position.y - text.fontSize/3
         
-        button.isHidden = false
-        label.isHidden = false
+        button.isHidden = isHidden
+        text.isHidden = isHidden
         action = buttonAction
         
         super.init()
         isUserInteractionEnabled = true
-        addChild(label)
+        addChild(text)
         addChild(button)
     }
     
@@ -44,16 +52,14 @@ class ButtonNode: SKNode {
     
     func showButton(){
         button.isHidden = false
-        label.isHidden = false
+        text.isHidden = false
     }
     
     func hideButton(){
         button.isHidden = true
-        label.isHidden = true
+        text.isHidden = true
         isUserInteractionEnabled = false
     }
-
-
 }
 #if os(OSX)
 extension ButtonNode {
