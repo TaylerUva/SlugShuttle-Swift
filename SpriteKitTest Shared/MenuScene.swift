@@ -9,18 +9,9 @@
 import SpriteKit
 
 class MenuScene: SKScene {
-    var starField:SKEmitterNode!
-    
     let userDefaults = UserDefaults.standard
     
-    var diffLabel:SKLabelNode!
-    var highscoreLabel:SKLabelNode!
-    var quitLabel:SKLabelNode!
-    
-    var startButton:SKShapeNode!
-    var diffButton:SKShapeNode!
-    var settingsButton:SKShapeNode!
-    var quitButton:SKShapeNode!
+    var diffButton:ButtonNode!
     
     var difficulty:Int = UserDefaults.standard.integer(forKey: "Difficulty")
     
@@ -49,10 +40,8 @@ class MenuScene: SKScene {
     }
     
     override func didMove(to view: SKView) {
-//        ButtonNode.init(defaultButtonImage: <#T##String#>, activeButtonImage: <#T##String#>, buttonAction: <#T##() -> Void#>)
-        
         //BG
-        starField = SKEmitterNode(fileNamed: "Starfield")
+        let starField = SKEmitterNode(fileNamed: "Starfield")!
         starField.position = CGPoint(x: 0, y: self.frame.size.height)
         starField.particlePositionRange = CGVector(dx: self.frame.size.width, dy: 0)
         starField.advanceSimulationTime(20)
@@ -67,68 +56,43 @@ class MenuScene: SKScene {
         addChild(titleLabel)
         
         //High Score
-        highscoreLabel = SKLabelNode(text: "High Score: \(userDefaults.integer(forKey: "HighScore"))")
+        let highscoreLabel = SKLabelNode(text: "High Score: \(userDefaults.integer(forKey: "HighScore"))")
         highscoreLabel.position = CGPoint(x: 0, y: 300)
         highscoreLabel.fontName = "Gunship"
         highscoreLabel.fontSize = 45
         addChild(highscoreLabel)
         
         //Settings
-        settingsButton = SKShapeNode(rectOf: CGSize(width: 350, height: 30), cornerRadius: 10)
+        let settingsButton = ButtonNode(buttonText: "Setting", size: CGSize(width: 350, height: 30), radius: 10, buttonAction: goToSettings)
         settingsButton.position.y = highscoreLabel.position.y - 30
-        settingsButton.fillColor = .darkGray
-        settingsButton.strokeColor = .white
         addChild(settingsButton)
-        let settingsLabel = SKLabelNode(text: "Settings")
-        settingsLabel.fontName = "Gunship"
-        settingsLabel.fontSize = 20
-        settingsLabel.position.y = settingsButton.position.y - 7
-        addChild(settingsLabel)
         
         //Difficulty
-        diffButton = SKShapeNode(rectOf: CGSize(width: 500, height: 100), cornerRadius: 30)
-        diffButton.fillColor = .darkGray
-        diffButton.strokeColor = .white
+        diffButton = ButtonNode(buttonText: "Difficulty", buttonAction: changeDiff)
         diffButton.position = CGPoint(x: 0, y: -120)
-        diffLabel = SKLabelNode()
-        diffLabel.position.y = diffButton.position.y - 40
-        diffLabel.fontName = "Gunship"
-        diffLabel.numberOfLines = 2
+        print(diffButton.label.numberOfLines)
         switch difficulty {
         case 1:
-            diffLabel.text = "Difficulty:\nEasy"
+            diffButton.label.text = "Difficulty:\nEasy"
         case 2:
-            diffLabel.text = "Difficulty:\nMedium"
+            diffButton.label.text = "Difficulty:\nMed"
         case 3:
-            diffLabel.text = "Difficulty:\nHard"
+            diffButton.label.text = "Difficulty:\nHard"
         default:
             userDefaults.set(1, forKey: "Difficulty")
             userDefaults.synchronize()
-            diffLabel.text = "Difficulty:\nEasy"
+            diffButton.label.text = "Difficulty:\nEasy"
         }
-        addChild(diffLabel)
         addChild(diffButton)
         
         //Start
-        startButton = SKShapeNode(rectOf: CGSize(width: 500, height: 100), cornerRadius: 30)
-        startButton.fillColor = .darkGray
-        startButton.strokeColor = .white
+        let startButton = ButtonNode(buttonText: "Start Game", buttonAction: startGame)
         startButton.position = CGPoint(x:self.frame.midX, y:self.frame.midY);
-        let startLabel = SKLabelNode(text: "Start Game")
-        startLabel.position.y = startButton.position.y - 10
-        startLabel.fontName = "Gunship"
-        self.addChild(startLabel)
         self.addChild(startButton)
         
         //Quit
-        quitButton = SKShapeNode(rectOf: CGSize(width: 500, height: 100), cornerRadius: 30)
-        quitButton.fillColor = .darkGray
-        quitButton.strokeColor = .white
+        let quitButton = ButtonNode(buttonText: "Quit Game", buttonAction: quitGame)
         quitButton.position = CGPoint(x:0, y:-240);
-        let quitLabel = SKLabelNode(text: "Quit Game")
-        quitLabel.position.y = quitButton.position.y - 10
-        quitLabel.fontName = "Gunship"
-        self.addChild(quitLabel)
         self.addChild(quitButton)
     }
     
@@ -137,16 +101,16 @@ class MenuScene: SKScene {
         switch difficulty {
         case 3:
             userDefaults.set(1, forKey: "Difficulty")
-            diffLabel.text = "Difficulty:\nEasy"
+            diffButton.label.text = "Difficulty:\nEasy"
         case 1:
             userDefaults.set(2, forKey: "Difficulty")
-            diffLabel.text = "Difficulty:\nMedium"
+            diffButton.label.text = "Difficulty:\nMed"
         case 2:
             userDefaults.set(3, forKey: "Difficulty")
-            diffLabel.text = "Difficulty:\nHard"
+            diffButton.label.text = "Difficulty:\nHard"
         default:
             userDefaults.set(1, forKey: "Difficulty")
-            diffLabel.text = "Difficulty:\nEasy"
+            diffButton.label.text = "Difficulty:\nEasy"
         }
         userDefaults.synchronize()
     }
@@ -155,44 +119,3 @@ class MenuScene: SKScene {
         exit(0)
     }
 }
-#if os(macOS)
-extension MenuScene {
-    override func mouseDown(with event: NSEvent) {
-        let touchLocation = event.location(in: self)
-        // Check if the location of the touch is within the button's bounds
-        if startButton.contains(touchLocation) {
-            startGame()
-        }
-        if diffButton.contains(touchLocation) {
-            changeDiff()
-        }
-        if settingsButton.contains(touchLocation){
-            goToSettings()
-        }
-        if quitButton.contains(touchLocation){
-            quitGame()
-        }
-    }
-}
-#endif
-    
-#if os(iOS) || os(tvOS)
-extension MenuScene {
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        let touchLocation = touches.first?.location(in: self)
-        // Check if the location of the touch is within the button's bounds
-        if startButton.contains(touchLocation!) {
-            startGame()
-        }
-        if diffButton.contains(touchLocation!) {
-            changeDiff()
-        }
-        if settingsButton.contains(touchLocation!){
-            goToSettings()
-        }
-        if quitButton.contains(touchLocation!){
-            quitGame()
-        }
-    }
-}
-#endif
