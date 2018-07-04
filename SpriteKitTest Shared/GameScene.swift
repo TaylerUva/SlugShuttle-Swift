@@ -13,7 +13,7 @@ import GameplayKit
 import CoreMotion
 #endif
 
-class GameScene: SKScene, SKPhysicsContactDelegate {
+class GameScene: BaseScene, SKPhysicsContactDelegate {
     
     // Movement
     #if os(iOS)
@@ -26,10 +26,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             speedLabel.text = "Speed: \(acclerationModifier)"
             #endif
         }
-    }
-    //
-    
-    var starField:SKEmitterNode!
+    }    
     var player:SKSpriteNode!
     
     var scoreLabel:SKLabelNode!
@@ -42,10 +39,6 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var resumeButton:ButtonNode!
     
     var gameTimer:Timer!
-    
-    let userDefaults = UserDefaults.standard
-    
-    var difficulty:Int = UserDefaults.standard.integer(forKey: "Difficulty")
     
     var life:Int = 3 {
         didSet{
@@ -64,8 +57,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var score:Int = 0 {
         didSet {
             scoreLabel.text = "Score: \(score)"
-            if userDefaults.integer(forKey: "Highscore") < score {
-                userDefaults.set(score, forKey: "Highscore")
+            if userDefaults.integer(forKey: highscoreKey) < score {
+                userDefaults.set(score, forKey: highscoreKey)
+                highscoreLabel.text = "Highscore: \(userDefaults.integer(forKey: highscoreKey))"
             }
         }
     }
@@ -78,42 +72,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let playerCatergory:UInt32 = 0x1 << 2
     let heartCatergory:UInt32 = 0x1 << 3
     
-    class func newScene() -> GameScene {
+    override class func newScene() -> GameScene {
         // Load 'GameScene.sks' as an SKScene.
         guard let scene = SKScene(fileNamed: "GameScene") as? GameScene else {
             print("Failed to load GameScene.sks")
             abort()
         }
-        
         // Set the scale mode to scale to fit the window
         scene.scaleMode = .aspectFill
-        
-        
         return scene
     }
     
-    func goToMenu(){
-        let menuScene = MenuScene.newScene()
-        let transition = SKTransition.fade(withDuration: 1.0)
-        menuScene.scaleMode = .aspectFill
-        self.view!.presentScene(menuScene, transition: transition)
-    }
-    
-    func restartGame(){
-        let gameScene = GameScene.newScene()
-        let transition = SKTransition.fade(withDuration: 1.0)
-        gameScene.scaleMode = .aspectFill
-        self.view!.presentScene(gameScene, transition: transition)
-    }
-    
     override func didMove(to view: SKView) {
-        //BG
-        starField = SKEmitterNode(fileNamed: "Starfield")
-        starField.position = CGPoint(x: 0, y: self.frame.size.height)
-        starField.particlePositionRange = CGVector(dx: self.frame.size.width, dy: 0)
-        starField.advanceSimulationTime(20)
-        self.addChild(starField)
-        starField.zPosition = -100
+        loadBackground()
         
         //Player
         player = SKSpriteNode(imageNamed: "shuttle")
@@ -131,22 +102,22 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         self.physicsWorld.gravity = CGVector(dx: 0, dy: 0)
         self.physicsWorld.contactDelegate = self
         
-        //Score
+        //Score Label
         scoreLabel = SKLabelNode(text: "Score: 0")
         scoreLabel.position = CGPoint(x: 0, y: (self.frame.size.height/2)-50)
         scoreLabel.fontName = "Gunship"
-        score=0
+        score = 0
         userDefaults.synchronize()
         addChild(scoreLabel)
         
-        //Life
+        //Life Label
         lifeLabel = SKLabelNode(text: "Lives: 0")
         lifeLabel.position = CGPoint(x: -400, y: (self.frame.size.height/2)-50)
         lifeLabel.fontName = "Gunship"
         life = 4 - difficulty
         addChild(lifeLabel)
         
-        //Speed
+        //Speed Label
         speedLabel = SKLabelNode(text: "Speed: 1.0")
         speedLabel.position = CGPoint(x: 0, y: (self.frame.size.height/2)-100)
         speedLabel.fontSize = 24
@@ -155,7 +126,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         addChild(speedLabel)
         #endif
         
-        // Pause Label
+        //Pause Label
         pauseLabel = SKLabelNode(text: "Paused")
         pauseLabel.position = CGPoint(x: 0, y: 100)
         pauseLabel.fontName = "Gunship"
@@ -163,6 +134,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         pauseLabel.zPosition = 1000
         addChild(pauseLabel)
         pauseLabel.isHidden = true
+        
+        // Highscore Label for Pause Menu
+        showHighscore(position: CGPoint(x: 0, y: pauseLabel.position.y + 60), size: 30)
+        highscoreLabel.isHidden = true
         
         //Resume button
         resumeButton = ButtonNode(buttonText: "Resume", isHidden: true, buttonAction: pauseGame)
@@ -175,7 +150,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         addChild(menuButton)
         
         //Restart button
-        restartButton = ButtonNode(buttonText: "Restart", isHidden: true, buttonAction: restartGame)
+        restartButton = ButtonNode(buttonText: "Restart", isHidden: true, buttonAction: startGame)
         restartButton.position.y = menuButton.position.y + 120
         addChild(restartButton)
         
@@ -206,7 +181,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     @objc func addAlien () {
-        if isPaused == false {
+        if !isPaused {
             let halfMaxHeight = self.frame.size.height/2
             let halfMaxWidth = self.frame.size.width/2
             
@@ -367,6 +342,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     func pauseGame() {
         if (isPaused == false){
             pauseLabel.isHidden = false
+            highscoreLabel.isHidden = false
             menuButton.showButton()
             restartButton.showButton()
             resumeButton.showButton()
@@ -374,6 +350,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
         else if (isPaused == true) {
             pauseLabel.isHidden = true
+            highscoreLabel.isHidden = true
             menuButton.hideButton()
             restartButton.hideButton()
             resumeButton.hideButton()
@@ -403,7 +380,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 #if os(iOS) || os(tvOS)
 extension GameScene {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        let touchLocation = touches.first?.location(in: self)
+//        let touchLocation = touches.first?.location(in: self)
         if !player.isHidden{
             fireTorpedo()
         }
@@ -429,7 +406,6 @@ extension GameScene {
             break
         }
     }
-    
     override func keyDown(with event: NSEvent) {
         let aKey = 0
         let sKey = 1
@@ -442,7 +418,6 @@ extension GameScene {
         let rightArrow = 124
         let downArrow = 125
         let upArrow = 126
-        
 
         switch Int(event.keyCode) {
         case wKey, upArrow:

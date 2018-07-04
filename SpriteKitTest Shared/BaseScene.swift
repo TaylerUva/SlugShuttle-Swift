@@ -50,7 +50,7 @@ class BaseScene: SKScene {
     }
     
     //Asset Loading Functions
-    func createBackground() {
+    func loadBackground() {
         let starField = SKEmitterNode(fileNamed: "Starfield")!
         starField.position = CGPoint(x: 0, y: self.frame.size.height)
         starField.particlePositionRange = CGVector(dx: self.frame.size.width, dy: 0)

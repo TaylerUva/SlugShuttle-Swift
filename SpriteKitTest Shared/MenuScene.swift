@@ -13,7 +13,7 @@ class MenuScene: BaseScene {
     var diffButton:ButtonNode!
         
     override class func newScene() -> MenuScene {
-        // Load 'GameScene.sks' as an SKScene.
+        // Load 'MenuScene.sks' as an SKScene.
         guard let scene = SKScene(fileNamed: "MenuScene") as? MenuScene else {
             print("Failed to load MenuScene")
             abort()
@@ -24,7 +24,7 @@ class MenuScene: BaseScene {
     }
     
     override func didMove(to view: SKView) {
-        createBackground()
+        loadBackground()
         showMainTitle(position: CGPoint(x: 0, y: 130), size: 80)
         showHighscore(position: CGPoint(x: 0, y: 300), size: 45)
         showDifficulty(position: CGPoint(x: 0, y: 200), size: 45)

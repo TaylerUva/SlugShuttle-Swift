@@ -9,7 +9,6 @@
 import SpriteKit
 
 class SettingScene: BaseScene {
-    var starField:SKEmitterNode!
     
     override class func newScene() -> SettingScene {
         // Load 'SettingScene.sks' as an SKScene.
@@ -23,7 +22,7 @@ class SettingScene: BaseScene {
     }
     
     override func didMove(to view: SKView) {
-        createBackground()
+        loadBackground()
         showMainTitle(position: CGPoint(x: 0, y: 300), size: 80)
         showHighscore(position: CGPoint(x: 0, y: 120), size: 45)
         
