@@ -113,7 +113,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         starField.particlePositionRange = CGVector(dx: self.frame.size.width, dy: 0)
         starField.advanceSimulationTime(20)
         self.addChild(starField)
-        starField.zPosition = -1
+        starField.zPosition = -100
         
         //Player
         player = SKSpriteNode(imageNamed: "shuttle")
@@ -218,6 +218,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             let position = CGFloat(randomAlienPos.nextInt())
             
             alien.position = CGPoint(x: position, y: halfMaxHeight)
+            alien.zPosition = -1
             alien.size = CGSize(width: alien.size.width * 0.55, height: alien.size.height * 0.55)
             alien.physicsBody = SKPhysicsBody(rectangleOf: alien.size)
             alien.physicsBody?.isDynamic = true
@@ -241,11 +242,12 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func fireTorpedo (){
         self.run(SKAction.playSoundFileNamed("torpedo.mp3", waitForCompletion: false))
-        let torpedoNode = SKSpriteNode(imageNamed: "torpedo")
-        torpedoNode.size = CGSize(width: torpedoNode.size.width * 2, height: torpedoNode.size.height * 2)
+        let torpedoNode = SKSpriteNode(imageNamed: "gubEgg")
+        torpedoNode.size = CGSize(width: torpedoNode.size.width * 0.55, height: torpedoNode.size.height * 0.55)
         
         torpedoNode.position = player.position
         torpedoNode.position.y += 10
+        torpedoNode.zPosition = -1
     
         torpedoNode.physicsBody = SKPhysicsBody(circleOfRadius: torpedoNode.size.width / 2)
         torpedoNode.physicsBody?.isDynamic = true
