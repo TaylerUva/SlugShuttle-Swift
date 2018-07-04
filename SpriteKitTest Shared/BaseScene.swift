@@ -10,6 +10,9 @@ import SpriteKit
 
 class BaseScene: SKScene {
     let userDefaults = UserDefaults.standard
+    let highscoreKey = "Highscore"
+    let difficultyKey = "Difficulty"
+    
     var highscoreLabel:SKLabelNode!
     var mainTitleLabel:SKLabelNode!
     var difficultyLabel:SKLabelNode!
@@ -63,7 +66,7 @@ class BaseScene: SKScene {
         addChild(mainTitleLabel)
     }
     func showHighscore(position: CGPoint, size: CGFloat){
-        highscoreLabel = SKLabelNode(text: "Highscore: \(userDefaults.integer(forKey: "HighScore"))")
+        highscoreLabel = SKLabelNode(text: "Highscore: \(userDefaults.integer(forKey: highscoreKey))")
         highscoreLabel.position = position
         highscoreLabel.fontName = "Gunship"
         highscoreLabel.fontSize = size
@@ -80,11 +83,18 @@ class BaseScene: SKScene {
             case 3:
                 difficultyLabel.text = "Difficulty:\nHard"
             default:
-                userDefaults.set(1, forKey: "Difficulty")
+                userDefaults.set(1, forKey: difficultyKey)
                 userDefaults.synchronize()
                 difficultyLabel.text = "Difficulty:\nEasy"
         }
         difficultyLabel.fontSize = size
         addChild(difficultyLabel)
+    }
+    func resetDefaults() {
+        let defaults = UserDefaults.standard
+        let dictionary = defaults.dictionaryRepresentation()
+        dictionary.keys.forEach { key in
+            defaults.removeObject(forKey: key)
+        }
     }
 }

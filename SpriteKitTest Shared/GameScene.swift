@@ -64,8 +64,8 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var score:Int = 0 {
         didSet {
             scoreLabel.text = "Score: \(score)"
-            if userDefaults.integer(forKey: "HighScore") < score {
-                userDefaults.set(score, forKey: "HighScore")
+            if userDefaults.integer(forKey: "Highscore") < score {
+                userDefaults.set(score, forKey: "Highscore")
             }
         }
     }
@@ -353,7 +353,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     
     func gameOver() {
         //Game Over
-        let gameOverLabel = SKLabelNode(text: "Game Over\n\nScore: \(score)\n\nHigh Score: \(userDefaults.integer(forKey: "HighScore"))")
+        let gameOverLabel = SKLabelNode(text: "Game Over\n\nScore: \(score)\n\nHigh Score: \(userDefaults.integer(forKey: "Highscore"))")
         gameOverLabel.numberOfLines = 3
         gameOverLabel.position = CGPoint(x: 0, y: 0)
         gameOverLabel.fontName = "Gunship"

@@ -51,19 +51,19 @@ class MenuScene: BaseScene {
     }
     
     func changeDiff(){
-        difficulty = UserDefaults.standard.integer(forKey: "Difficulty")
+        difficulty = UserDefaults.standard.integer(forKey: difficultyKey)
         switch difficulty {
         case 3:
-            userDefaults.set(1, forKey: "Difficulty")
+            userDefaults.set(1, forKey: difficultyKey)
             difficultyLabel.text = "Difficulty:\nEasy"
         case 1:
-            userDefaults.set(2, forKey: "Difficulty")
+            userDefaults.set(2, forKey: difficultyKey)
             difficultyLabel.text = "Difficulty:\nMed"
         case 2:
-            userDefaults.set(3, forKey: "Difficulty")
+            userDefaults.set(3, forKey: difficultyKey)
             difficultyLabel.text = "Difficulty:\nHard"
         default:
-            userDefaults.set(1, forKey: "Difficulty")
+            userDefaults.set(1, forKey: difficultyKey)
             difficultyLabel.text = "Difficulty:\nEasy"
         }
         userDefaults.synchronize()
