@@ -8,14 +8,11 @@
 
 import SpriteKit
 
-class MenuScene: SKScene {
-    let userDefaults = UserDefaults.standard
+class MenuScene: BaseScene {
     
     var diffButton:ButtonNode!
-    
-    var difficulty:Int = UserDefaults.standard.integer(forKey: "Difficulty")
-    
-    class func newMenuScene() -> MenuScene {
+        
+    override class func newScene() -> MenuScene {
         // Load 'GameScene.sks' as an SKScene.
         guard let scene = SKScene(fileNamed: "MenuScene") as? MenuScene else {
             print("Failed to load MenuScene")
@@ -26,62 +23,20 @@ class MenuScene: SKScene {
         return scene
     }
     
-    func startGame() {
-        let gameScene = GameScene.newGameScene()
-        let transition = SKTransition.fade(withDuration: 1.0) // create type of transition (you can check in documentation for more transtions)
-        self.view?.presentScene(gameScene, transition: transition)
-    }
-    
-    func goToSettings(){
-        let settingScene = SettingScene.newSettingScene()
-        let transition = SKTransition.fade(withDuration: 1.0)
-        settingScene.scaleMode = .aspectFill
-        self.view!.presentScene(settingScene, transition: transition)
-    }
-    
     override func didMove(to view: SKView) {
-        //BG
-        let starField = SKEmitterNode(fileNamed: "Starfield")!
-        starField.position = CGPoint(x: 0, y: self.frame.size.height)
-        starField.particlePositionRange = CGVector(dx: self.frame.size.width, dy: 0)
-        starField.advanceSimulationTime(20)
-        self.addChild(starField)
-        starField.zPosition = -1
-        
-        //Main Title
-        let titleLabel = SKLabelNode(text: "Slug Shuttle")
-        titleLabel.position = CGPoint(x: 0, y: 130)
-        titleLabel.fontName = "Gunship"
-        titleLabel.fontSize = 80
-        addChild(titleLabel)
-        
-        //High Score
-        let highscoreLabel = SKLabelNode(text: "High Score: \(userDefaults.integer(forKey: "HighScore"))")
-        highscoreLabel.position = CGPoint(x: 0, y: 300)
-        highscoreLabel.fontName = "Gunship"
-        highscoreLabel.fontSize = 45
-        addChild(highscoreLabel)
+        createBackground()
+        showMainTitle(position: CGPoint(x: 0, y: 130), size: 80)
+        showHighscore(position: CGPoint(x: 0, y: 300), size: 45)
+        showDifficulty(position: CGPoint(x: 0, y: 200), size: 45)
         
         //Settings
-        let settingsButton = ButtonNode(buttonText: "Setting", size: CGSize(width: 350, height: 30), radius: 10, buttonAction: goToSettings)
+        let settingsButton = ButtonNode(buttonText: "Settings", size: CGSize(width: 350, height: 30), radius: 10, buttonAction: goToSettings)
         settingsButton.position.y = highscoreLabel.position.y - 30
         addChild(settingsButton)
         
         //Difficulty
-        diffButton = ButtonNode(buttonText: "Difficulty", buttonAction: changeDiff)
+        diffButton = ButtonNode(buttonText: "Set Difficulty", buttonAction: changeDiff)
         diffButton.position = CGPoint(x: 0, y: -120)
-        switch difficulty {
-        case 1:
-            diffButton.label.text = "Difficulty:\nEasy"
-        case 2:
-            diffButton.label.text = "Difficulty:\nMed"
-        case 3:
-            diffButton.label.text = "Difficulty:\nHard"
-        default:
-            userDefaults.set(1, forKey: "Difficulty")
-            userDefaults.synchronize()
-            diffButton.label.text = "Difficulty:\nEasy"
-        }
         addChild(diffButton)
         
         //Start
@@ -100,21 +55,17 @@ class MenuScene: SKScene {
         switch difficulty {
         case 3:
             userDefaults.set(1, forKey: "Difficulty")
-            diffButton.label.text = "Difficulty:\nEasy"
+            difficultyLabel.text = "Difficulty:\nEasy"
         case 1:
             userDefaults.set(2, forKey: "Difficulty")
-            diffButton.label.text = "Difficulty:\nMed"
+            difficultyLabel.text = "Difficulty:\nMed"
         case 2:
             userDefaults.set(3, forKey: "Difficulty")
-            diffButton.label.text = "Difficulty:\nHard"
+            difficultyLabel.text = "Difficulty:\nHard"
         default:
             userDefaults.set(1, forKey: "Difficulty")
-            diffButton.label.text = "Difficulty:\nEasy"
+            difficultyLabel.text = "Difficulty:\nEasy"
         }
         userDefaults.synchronize()
-    }
-    
-    func quitGame() {
-        exit(0)
     }
 }

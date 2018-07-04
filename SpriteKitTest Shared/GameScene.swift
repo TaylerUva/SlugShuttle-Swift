@@ -78,7 +78,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     let playerCatergory:UInt32 = 0x1 << 2
     let heartCatergory:UInt32 = 0x1 << 3
     
-    class func newGameScene() -> GameScene {
+    class func newScene() -> GameScene {
         // Load 'GameScene.sks' as an SKScene.
         guard let scene = SKScene(fileNamed: "GameScene") as? GameScene else {
             print("Failed to load GameScene.sks")
@@ -93,14 +93,14 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     }
     
     func goToMenu(){
-        let menuScene = MenuScene.newMenuScene()
+        let menuScene = MenuScene.newScene()
         let transition = SKTransition.fade(withDuration: 1.0)
         menuScene.scaleMode = .aspectFill
         self.view!.presentScene(menuScene, transition: transition)
     }
     
     func restartGame(){
-        let gameScene = GameScene.newGameScene()
+        let gameScene = GameScene.newScene()
         let transition = SKTransition.fade(withDuration: 1.0)
         gameScene.scaleMode = .aspectFill
         self.view!.presentScene(gameScene, transition: transition)

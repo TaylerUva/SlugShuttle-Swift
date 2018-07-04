@@ -10,18 +10,21 @@
 		942DFC8420E9635A007957E5 /* 1up.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 942DFC8320E9635A007957E5 /* 1up.mp3 */; };
 		942DFC8520E9635A007957E5 /* 1up.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 942DFC8320E9635A007957E5 /* 1up.mp3 */; };
 		942DFC8620E9635A007957E5 /* 1up.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 942DFC8320E9635A007957E5 /* 1up.mp3 */; };
-		942DFC8C20E9AEB2007957E5 /* MenuScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 942DFC8B20E9AEB2007957E5 /* MenuScene.sks */; };
-		942DFC8D20E9AEB2007957E5 /* MenuScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 942DFC8B20E9AEB2007957E5 /* MenuScene.sks */; };
-		942DFC8E20E9AEB2007957E5 /* MenuScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 942DFC8B20E9AEB2007957E5 /* MenuScene.sks */; };
 		942DFC9020E9B008007957E5 /* MenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 942DFC8F20E9B008007957E5 /* MenuScene.swift */; };
 		942DFC9120E9B008007957E5 /* MenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 942DFC8F20E9B008007957E5 /* MenuScene.swift */; };
 		942DFC9220E9B008007957E5 /* MenuScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 942DFC8F20E9B008007957E5 /* MenuScene.swift */; };
 		9440881620EADB9000CED29E /* SettingScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9440881520EADB9000CED29E /* SettingScene.swift */; };
 		9440881720EADB9000CED29E /* SettingScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9440881520EADB9000CED29E /* SettingScene.swift */; };
 		9440881820EADB9000CED29E /* SettingScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9440881520EADB9000CED29E /* SettingScene.swift */; };
-		9440881A20EADBA900CED29E /* SettingScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 9440881920EADBA900CED29E /* SettingScene.sks */; };
-		9440881B20EADBA900CED29E /* SettingScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 9440881920EADBA900CED29E /* SettingScene.sks */; };
-		9440881C20EADBA900CED29E /* SettingScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 9440881920EADBA900CED29E /* SettingScene.sks */; };
+		944B765C20ED738F0015EE9C /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 944B765920ED738E0015EE9C /* GameScene.sks */; };
+		944B765D20ED738F0015EE9C /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 944B765920ED738E0015EE9C /* GameScene.sks */; };
+		944B765E20ED738F0015EE9C /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 944B765920ED738E0015EE9C /* GameScene.sks */; };
+		944B765F20ED738F0015EE9C /* MenuScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 944B765A20ED738E0015EE9C /* MenuScene.sks */; };
+		944B766020ED738F0015EE9C /* MenuScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 944B765A20ED738E0015EE9C /* MenuScene.sks */; };
+		944B766120ED738F0015EE9C /* MenuScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 944B765A20ED738E0015EE9C /* MenuScene.sks */; };
+		944B766220ED738F0015EE9C /* SettingScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 944B765B20ED738F0015EE9C /* SettingScene.sks */; };
+		944B766320ED738F0015EE9C /* SettingScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 944B765B20ED738F0015EE9C /* SettingScene.sks */; };
+		944B766420ED738F0015EE9C /* SettingScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 944B765B20ED738F0015EE9C /* SettingScene.sks */; };
 		94BE1A5120E4B304005B2862 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94BE1A5020E4B304005B2862 /* AppDelegate.swift */; };
 		94BE1A5320E4B304005B2862 /* GameViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94BE1A5220E4B304005B2862 /* GameViewController.swift */; };
 		94BE1A5620E4B304005B2862 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 94BE1A5420E4B304005B2862 /* Main.storyboard */; };
@@ -35,9 +38,6 @@
 		94BE1A7720E4B304005B2862 /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = 94BE1A4520E4B302005B2862 /* Actions.sks */; };
 		94BE1A7820E4B304005B2862 /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = 94BE1A4520E4B302005B2862 /* Actions.sks */; };
 		94BE1A7920E4B304005B2862 /* Actions.sks in Resources */ = {isa = PBXBuildFile; fileRef = 94BE1A4520E4B302005B2862 /* Actions.sks */; };
-		94BE1A7A20E4B304005B2862 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 94BE1A4620E4B302005B2862 /* GameScene.sks */; };
-		94BE1A7B20E4B304005B2862 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 94BE1A4620E4B302005B2862 /* GameScene.sks */; };
-		94BE1A7C20E4B304005B2862 /* GameScene.sks in Resources */ = {isa = PBXBuildFile; fileRef = 94BE1A4620E4B302005B2862 /* GameScene.sks */; };
 		94BE1A7D20E4B304005B2862 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94BE1A4720E4B302005B2862 /* GameScene.swift */; };
 		94BE1A7E20E4B304005B2862 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94BE1A4720E4B302005B2862 /* GameScene.swift */; };
 		94BE1A7F20E4B304005B2862 /* GameScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94BE1A4720E4B302005B2862 /* GameScene.swift */; };
@@ -59,16 +59,19 @@
 		94F0279020EC012E00877E99 /* ButtonNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94F0278F20EC012E00877E99 /* ButtonNode.swift */; };
 		94F0279120EC012E00877E99 /* ButtonNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94F0278F20EC012E00877E99 /* ButtonNode.swift */; };
 		94F0279220EC012E00877E99 /* ButtonNode.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94F0278F20EC012E00877E99 /* ButtonNode.swift */; };
+		94FF885D20ED7003006126C4 /* BaseScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94FF885C20ED7003006126C4 /* BaseScene.swift */; };
+		94FF885E20ED7003006126C4 /* BaseScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94FF885C20ED7003006126C4 /* BaseScene.swift */; };
+		94FF885F20ED7003006126C4 /* BaseScene.swift in Sources */ = {isa = PBXBuildFile; fileRef = 94FF885C20ED7003006126C4 /* BaseScene.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
 		942DFC8320E9635A007957E5 /* 1up.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = 1up.mp3; sourceTree = "<group>"; };
-		942DFC8B20E9AEB2007957E5 /* MenuScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = MenuScene.sks; sourceTree = "<group>"; };
 		942DFC8F20E9B008007957E5 /* MenuScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuScene.swift; sourceTree = "<group>"; };
 		9440881520EADB9000CED29E /* SettingScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingScene.swift; sourceTree = "<group>"; };
-		9440881920EADBA900CED29E /* SettingScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = SettingScene.sks; sourceTree = "<group>"; };
+		944B765920ED738E0015EE9C /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
+		944B765A20ED738E0015EE9C /* MenuScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = MenuScene.sks; sourceTree = "<group>"; };
+		944B765B20ED738F0015EE9C /* SettingScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = SettingScene.sks; sourceTree = "<group>"; };
 		94BE1A4520E4B302005B2862 /* Actions.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = Actions.sks; sourceTree = "<group>"; };
-		94BE1A4620E4B302005B2862 /* GameScene.sks */ = {isa = PBXFileReference; lastKnownFileType = file.sks; path = GameScene.sks; sourceTree = "<group>"; };
 		94BE1A4720E4B302005B2862 /* GameScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScene.swift; sourceTree = "<group>"; };
 		94BE1A4820E4B304005B2862 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		94BE1A4D20E4B304005B2862 /* SpriteKitTest.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SpriteKitTest.app; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -92,6 +95,7 @@
 		94BE1A9020E4B31E005B2862 /* explosion.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = explosion.mp3; sourceTree = "<group>"; };
 		94BE1A9120E4B31E005B2862 /* torpedo.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = torpedo.mp3; sourceTree = "<group>"; };
 		94F0278F20EC012E00877E99 /* ButtonNode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonNode.swift; sourceTree = "<group>"; };
+		94FF885C20ED7003006126C4 /* BaseScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseScene.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -129,6 +133,19 @@
 			path = Sounds;
 			sourceTree = "<group>";
 		};
+		944B766520ED7CEE0015EE9C /* SKS */ = {
+			isa = PBXGroup;
+			children = (
+				94BE1A8F20E4B31E005B2862 /* Starfield.sks */,
+				94BE1A4520E4B302005B2862 /* Actions.sks */,
+				94BE1A8E20E4B31E005B2862 /* Explosion.sks */,
+				944B765920ED738E0015EE9C /* GameScene.sks */,
+				944B765A20ED738E0015EE9C /* MenuScene.sks */,
+				944B765B20ED738F0015EE9C /* SettingScene.sks */,
+			);
+			path = SKS;
+			sourceTree = "<group>";
+		};
 		94BE1A3F20E4B302005B2862 = {
 			isa = PBXGroup;
 			children = (
@@ -145,15 +162,11 @@
 			children = (
 				94F0278F20EC012E00877E99 /* ButtonNode.swift */,
 				942DFC9320E9C2CE007957E5 /* Sounds */,
-				94BE1A8F20E4B31E005B2862 /* Starfield.sks */,
-				94BE1A4520E4B302005B2862 /* Actions.sks */,
-				94BE1A4620E4B302005B2862 /* GameScene.sks */,
+				944B766520ED7CEE0015EE9C /* SKS */,
+				94FF885C20ED7003006126C4 /* BaseScene.swift */,
 				94BE1A4720E4B302005B2862 /* GameScene.swift */,
 				94BE1A4820E4B304005B2862 /* Assets.xcassets */,
-				94BE1A8E20E4B31E005B2862 /* Explosion.sks */,
-				942DFC8B20E9AEB2007957E5 /* MenuScene.sks */,
 				942DFC8F20E9B008007957E5 /* MenuScene.swift */,
-				9440881920EADBA900CED29E /* SettingScene.sks */,
 				9440881520EADB9000CED29E /* SettingScene.swift */,
 			);
 			path = "SpriteKitTest Shared";
@@ -304,15 +317,15 @@
 			buildActionMask = 2147483647;
 			files = (
 				94BE1A9520E4B31F005B2862 /* Starfield.sks in Resources */,
-				94BE1A7A20E4B304005B2862 /* GameScene.sks in Resources */,
 				94BE1A5620E4B304005B2862 /* Main.storyboard in Resources */,
 				94BE1A7720E4B304005B2862 /* Actions.sks in Resources */,
+				944B766220ED738F0015EE9C /* SettingScene.sks in Resources */,
 				94BE1A9820E4B31F005B2862 /* explosion.mp3 in Resources */,
-				9440881A20EADBA900CED29E /* SettingScene.sks in Resources */,
 				94BE1A5920E4B304005B2862 /* LaunchScreen.storyboard in Resources */,
-				942DFC8C20E9AEB2007957E5 /* MenuScene.sks in Resources */,
 				94BE1A8020E4B304005B2862 /* Assets.xcassets in Resources */,
+				944B765C20ED738F0015EE9C /* GameScene.sks in Resources */,
 				94BE1A9B20E4B31F005B2862 /* torpedo.mp3 in Resources */,
+				944B765F20ED738F0015EE9C /* MenuScene.sks in Resources */,
 				94BE1A9220E4B31F005B2862 /* Explosion.sks in Resources */,
 				942DFC8420E9635A007957E5 /* 1up.mp3 in Resources */,
 			);
@@ -324,14 +337,14 @@
 			files = (
 				94BE1A9620E4B31F005B2862 /* Starfield.sks in Resources */,
 				94BE1A6720E4B304005B2862 /* Main.storyboard in Resources */,
-				94BE1A7B20E4B304005B2862 /* GameScene.sks in Resources */,
-				9440881B20EADBA900CED29E /* SettingScene.sks in Resources */,
 				942DFC8520E9635A007957E5 /* 1up.mp3 in Resources */,
+				944B766020ED738F0015EE9C /* MenuScene.sks in Resources */,
 				94BE1A9320E4B31F005B2862 /* Explosion.sks in Resources */,
 				94BE1A9920E4B31F005B2862 /* explosion.mp3 in Resources */,
 				94BE1A8120E4B304005B2862 /* Assets.xcassets in Resources */,
-				942DFC8D20E9AEB2007957E5 /* MenuScene.sks in Resources */,
 				94BE1A9C20E4B31F005B2862 /* torpedo.mp3 in Resources */,
+				944B765D20ED738F0015EE9C /* GameScene.sks in Resources */,
+				944B766320ED738F0015EE9C /* SettingScene.sks in Resources */,
 				94BE1A7820E4B304005B2862 /* Actions.sks in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -342,14 +355,14 @@
 			files = (
 				94BE1A9720E4B31F005B2862 /* Starfield.sks in Resources */,
 				94BE1A7520E4B304005B2862 /* Main.storyboard in Resources */,
-				94BE1A7C20E4B304005B2862 /* GameScene.sks in Resources */,
-				9440881C20EADBA900CED29E /* SettingScene.sks in Resources */,
 				942DFC8620E9635A007957E5 /* 1up.mp3 in Resources */,
+				944B766120ED738F0015EE9C /* MenuScene.sks in Resources */,
 				94BE1A9420E4B31F005B2862 /* Explosion.sks in Resources */,
 				94BE1A9A20E4B31F005B2862 /* explosion.mp3 in Resources */,
 				94BE1A8220E4B304005B2862 /* Assets.xcassets in Resources */,
-				942DFC8E20E9AEB2007957E5 /* MenuScene.sks in Resources */,
 				94BE1A9D20E4B31F005B2862 /* torpedo.mp3 in Resources */,
+				944B765E20ED738F0015EE9C /* GameScene.sks in Resources */,
+				944B766420ED738F0015EE9C /* SettingScene.sks in Resources */,
 				94BE1A7920E4B304005B2862 /* Actions.sks in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -366,6 +379,7 @@
 				94BE1A5320E4B304005B2862 /* GameViewController.swift in Sources */,
 				9440881620EADB9000CED29E /* SettingScene.swift in Sources */,
 				94BE1A5120E4B304005B2862 /* AppDelegate.swift in Sources */,
+				94FF885F20ED7003006126C4 /* BaseScene.swift in Sources */,
 				94F0279020EC012E00877E99 /* ButtonNode.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -379,6 +393,7 @@
 				94BE1A6420E4B304005B2862 /* GameViewController.swift in Sources */,
 				9440881720EADB9000CED29E /* SettingScene.swift in Sources */,
 				94BE1A6220E4B304005B2862 /* AppDelegate.swift in Sources */,
+				94FF885D20ED7003006126C4 /* BaseScene.swift in Sources */,
 				94F0279120EC012E00877E99 /* ButtonNode.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -392,6 +407,7 @@
 				94BE1A7220E4B304005B2862 /* GameViewController.swift in Sources */,
 				9440881820EADB9000CED29E /* SettingScene.swift in Sources */,
 				94BE1A7020E4B304005B2862 /* AppDelegate.swift in Sources */,
+				94FF885E20ED7003006126C4 /* BaseScene.swift in Sources */,
 				94F0279220EC012E00877E99 /* ButtonNode.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

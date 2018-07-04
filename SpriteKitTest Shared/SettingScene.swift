@@ -17,7 +17,7 @@ class SettingScene: SKScene {
     
     var difficulty:Int = UserDefaults.standard.integer(forKey: "Difficulty")
     
-    class func newSettingScene() -> SettingScene {
+    class func newScene() -> SettingScene {
         // Load 'SettingScene.sks' as an SKScene.
         guard let scene = SKScene(fileNamed: "SettingScene") as? SettingScene else {
             print("Failed to load MenuScene")
@@ -29,7 +29,7 @@ class SettingScene: SKScene {
     }
     
     func goToMenu(){
-        let menuScene = MenuScene.newMenuScene()
+        let menuScene = MenuScene.newScene()
         let transition = SKTransition.fade(withDuration: 1.0)
         menuScene.scaleMode = .aspectFill
         self.view!.presentScene(menuScene, transition: transition)
