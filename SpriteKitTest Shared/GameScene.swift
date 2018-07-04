@@ -520,7 +520,9 @@ extension GameScene {
         case aKey, leftArrow:
             self.yAcceleration = (-10 * acclerationModifier)
         case spaceKey:
-            fireTorpedo()
+            if !player.isHidden{
+                fireTorpedo()
+            }
         case escKey, pKey:
             pauseGame()
         default:

@@ -39,6 +39,12 @@ class SettingScene: SKScene {
     }
     
     override func didMove(to view: SKView) {
+        let buttonTest = ButtonNode(buttonText: "test", size: CGSize(width: 100, height: 100), radius: 30, buttonAction: goToMenu)
+//        buttonTest.showButton()
+        buttonTest.hideButton()
+        buttonTest.position = CGPoint(x: 0, y: 200)
+        addChild(buttonTest)
+        
         //BG
         starField = SKEmitterNode(fileNamed: "Starfield")
         starField.position = CGPoint(x: 0, y: self.frame.size.height)
