@@ -13,9 +13,6 @@ class SettingScene: SKScene {
     
     let userDefaults = UserDefaults.standard
     
-    var menuButton:SKShapeNode!
-    var resetButton:SKShapeNode!
-    
     var highscoreLabel:SKLabelNode!
     
     var difficulty:Int = UserDefaults.standard.integer(forKey: "Difficulty")
@@ -39,10 +36,6 @@ class SettingScene: SKScene {
     }
     
     override func didMove(to view: SKView) {
-        let buttonTest = ButtonNode(buttonText: "test", buttonAction: goToMenu)
-        buttonTest.position = CGPoint(x: 0, y: 200)
-        addChild(buttonTest)
-        
         //BG
         starField = SKEmitterNode(fileNamed: "Starfield")
         starField.position = CGPoint(x: 0, y: self.frame.size.height)
@@ -60,31 +53,19 @@ class SettingScene: SKScene {
         
         //High Score
         highscoreLabel = SKLabelNode(text: "High Score: \(userDefaults.integer(forKey: "HighScore"))")
-        highscoreLabel.position = CGPoint(x: 0, y: -300)
+        highscoreLabel.position = CGPoint(x: 0, y: 200)
         highscoreLabel.fontName = "Gunship"
         highscoreLabel.fontSize = 45
         addChild(highscoreLabel)
         
         //Reset High Score
-        resetButton = SKShapeNode(rectOf: CGSize(width: 500, height: 100), cornerRadius: 30)
-        resetButton.position = CGPoint(x: 0, y: -150)
-        resetButton.fillColor = .darkGray
-        resetButton.strokeColor = .white
+        let resetButton = ButtonNode(buttonText: "Reset Highscore", buttonAction: resetHighScore)
+        resetButton.position = CGPoint(x: 0, y: 0)
         addChild(resetButton)
-        let resetLabel = SKLabelNode(text: "Reset Highscore")
-        resetLabel.fontName = "Gunship"
-        resetLabel.position.y = resetButton.position.y - 10
-        addChild(resetLabel)
         
-        //Start
-        menuButton = SKShapeNode(rectOf: CGSize(width: 500, height: 100), cornerRadius: 30)
-        menuButton.fillColor = .darkGray
-        menuButton.strokeColor = .white
-        menuButton.position = CGPoint(x:self.frame.midX, y:self.frame.midY);
-        let menuLabel = SKLabelNode(text: "Back to Menu")
-        menuLabel.position.y = menuButton.position.y - 10
-        menuLabel.fontName = "Gunship"
-        self.addChild(menuLabel)
+        //Back to menu
+        let menuButton = ButtonNode(buttonText: "Back To Menu", buttonAction: goToMenu)
+        menuButton.position = CGPoint(x: 0, y: -150)
         self.addChild(menuButton)
     }
     
@@ -94,32 +75,3 @@ class SettingScene: SKScene {
         userDefaults.synchronize()
     }
 }
-#if os(macOS)
-extension SettingScene {
-    override func mouseDown(with event: NSEvent) {
-        let touchLocation = event.location(in: self)
-        // Check if the location of the touch is within the button's bounds
-        if menuButton.contains(touchLocation) {
-            goToMenu()
-        }
-        if resetButton.contains(touchLocation) {
-            resetHighScore()
-        }
-    }
-}
-#endif
-
-#if os(iOS) || os(tvOS)
-extension SettingScene {
-    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
-        let touchLocation = touches.first?.location(in: self)
-        // Check if the location of the touch is within the button's bounds
-        if menuButton.contains(touchLocation!) {
-            goToMenu()
-        }
-        if resetButton.contains(touchLocation!) {
-            resetHighScore()
-        }
-    }
-}
-#endif

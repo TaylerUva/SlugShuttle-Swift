@@ -70,7 +70,6 @@ class MenuScene: SKScene {
         //Difficulty
         diffButton = ButtonNode(buttonText: "Difficulty", buttonAction: changeDiff)
         diffButton.position = CGPoint(x: 0, y: -120)
-        print(diffButton.label.numberOfLines)
         switch difficulty {
         case 1:
             diffButton.label.text = "Difficulty:\nEasy"
