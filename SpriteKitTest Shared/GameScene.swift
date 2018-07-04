@@ -36,13 +36,10 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var speedLabel:SKLabelNode!
     var lifeLabel:SKLabelNode!
     var pauseLabel:SKLabelNode!
-    var menuLabel:SKLabelNode!
-    var restartLabel:SKLabelNode!
-    var resumeLabel:SKLabelNode!
-    
-    var menuButton:SKShapeNode!
-    var restartButton:SKShapeNode!
-    var resumeButton:SKShapeNode!
+
+    var menuButton:ButtonNode!
+    var restartButton:ButtonNode!
+    var resumeButton:ButtonNode!
     
     var gameTimer:Timer!
     
@@ -168,49 +165,19 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         pauseLabel.isHidden = true
         
         //Resume button
-        resumeButton = SKShapeNode(rectOf: CGSize(width: 500, height: 100), cornerRadius: 30)
-        resumeButton.fillColor = .darkGray
-        resumeButton.strokeColor = .white
+        resumeButton = ButtonNode(buttonText: "Resume", isHidden: true, buttonAction: pauseGame)
         resumeButton.position = CGPoint(x:0, y: 20)
-        resumeButton.zPosition = 1000
-        resumeLabel = SKLabelNode(text: "Resume")
-        resumeLabel.position.y = resumeButton.position.y - 10
-        resumeLabel.fontName = "Gunship"
-        resumeLabel.zPosition = 1001
         addChild(resumeButton)
-        addChild(resumeLabel)
-        resumeLabel.isHidden = true
-        resumeButton.isHidden = true
         
         //Menu button
-        menuButton = SKShapeNode(rectOf: CGSize(width: 500, height: 100), cornerRadius: 30)
-        menuButton.fillColor = .darkGray
-        menuButton.strokeColor = .white
+        menuButton = ButtonNode(buttonText: "Back to Menu", isHidden: true, buttonAction: goToMenu)
         menuButton.position = CGPoint(x:0, y:-220)
-        menuButton.zPosition = 1000
-        menuLabel = SKLabelNode(text: "Back to menu")
-        menuLabel.position.y = menuButton.position.y - 10
-        menuLabel.fontName = "Gunship"
-        menuLabel.zPosition = 1001
         addChild(menuButton)
-        addChild(menuLabel)
-        menuLabel.isHidden = true
-        menuButton.isHidden = true
         
         //Restart button
-        restartButton = SKShapeNode(rectOf: CGSize(width: 500, height: 100), cornerRadius: 30)
-        restartButton.fillColor = .darkGray
-        restartButton.strokeColor = .white
+        restartButton = ButtonNode(buttonText: "Restart", isHidden: true, buttonAction: restartGame)
         restartButton.position.y = menuButton.position.y + 120
-        restartButton.zPosition = 1000
-        restartLabel = SKLabelNode(text: "Restart")
-        restartLabel.position.y = restartButton.position.y - 10
-        restartLabel.fontName = "Gunship"
-        restartLabel.zPosition = 1001
-        addChild(restartLabel)
         addChild(restartButton)
-        restartLabel.isHidden = true
-        restartButton.isHidden = true
         
         // Difficulty
         var timeInt:Double = 0
@@ -391,31 +358,23 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         gameOverLabel.zPosition = 1000
         addChild(gameOverLabel)
         
-        menuLabel.isHidden = false
-        menuButton.isHidden = false
-        restartLabel.isHidden = false
-        restartButton.isHidden = false
+        menuButton.showButton()
+        restartButton.showButton()
     }
     
     func pauseGame() {
         if (isPaused == false){
             pauseLabel.isHidden = false
-            menuLabel.isHidden = false
-            menuButton.isHidden = false
-            restartButton.isHidden = false
-            restartLabel.isHidden = false
-            resumeLabel.isHidden = false
-            resumeButton.isHidden = false
+            menuButton.showButton()
+            restartButton.showButton()
+            resumeButton.showButton()
             isPaused = true
         }
         else if (isPaused == true) {
             pauseLabel.isHidden = true
-            menuLabel.isHidden = true
-            menuButton.isHidden = true
-            restartButton.isHidden = true
-            restartLabel.isHidden = true
-            resumeLabel.isHidden = true
-            resumeButton.isHidden = true
+            menuButton.hideButton()
+            restartButton.hideButton()
+            resumeButton.hideButton()
             isPaused = false
         }
     }
@@ -443,17 +402,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
 extension GameScene {
     override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         let touchLocation = touches.first?.location(in: self)
-        // Check if the location of the touch is within the button's bounds
-        if menuButton.contains(touchLocation!) {
-            goToMenu()
-        }
-        if restartButton.contains(touchLocation!) {
-            restartGame()
-        }
-        if resumeButton.contains(touchLocation!){
-            pauseGame()
-        }
-        else if !player.isHidden{
+        if !player.isHidden{
             fireTorpedo()
         }
     }
@@ -463,21 +412,6 @@ extension GameScene {
 #if os(OSX)
 // Mouse-based event handling
 extension GameScene {
-    
-    override func mouseDown(with event: NSEvent) {
-        let touchLocation = event.location(in: self)
-        // Check if the location of the touch is within the button's bounds
-        if menuButton.isHidden == false && menuButton.contains(touchLocation) {
-            goToMenu()
-        }
-        if restartButton.isHidden == false && restartButton.contains(touchLocation) {
-            restartGame()
-        }
-        if resumeButton.isHidden == false && resumeButton.contains(touchLocation) {
-            pauseGame()
-        }
-    }
-    
     override func keyUp(with event: NSEvent) {
         let aKey = 0
         let dKey = 2

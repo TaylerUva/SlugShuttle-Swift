@@ -17,6 +17,10 @@ class ButtonNode: SKNode {
         self.init(buttonText: buttonText, size: CGSize(width: 500, height: 100), radius: 30, isHidden: false, buttonAction: buttonAction)
     }
     
+    convenience init(buttonText: String, isHidden: Bool, buttonAction: @escaping () -> Void){
+        self.init(buttonText: buttonText, size: CGSize(width: 500, height: 100), radius: 30, isHidden: isHidden, buttonAction: buttonAction)
+    }
+    
     convenience init(buttonText: String, size: CGSize, radius: CGFloat, buttonAction: @escaping () -> Void){
         self.init(buttonText: buttonText, size: size, radius: radius, isHidden: false, buttonAction: buttonAction)
     }
@@ -54,6 +58,7 @@ class ButtonNode: SKNode {
     func showButton(){
         button.isHidden = false
         label.isHidden = false
+        isUserInteractionEnabled = true
     }
     
     func hideButton(){
