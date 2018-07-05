@@ -22,26 +22,26 @@ class BaseScene: SKScene {
     
     class func loadStartingScene() -> SKScene {
         let scene = MenuScene.init(size: NSScreen.main!.frame.size)
-        scene.scaleMode = .aspectFill
+        scene.scaleMode = .aspectFit
         return scene
     }
     
     //Navigation Functions
     func startGame() {
         let scene = GameScene(size: screenResolution)
-        scene.scaleMode = .aspectFill
+        scene.scaleMode = .aspectFit
         let transition = SKTransition.doorsOpenVertical(withDuration: 0.5)
         view?.presentScene(scene, transition: transition)
     }
     func goToSettings(){
         let scene = SettingScene(size: screenResolution)
-        scene.scaleMode = .aspectFill
+        scene.scaleMode = .aspectFit
         let transition = SKTransition.doorsOpenVertical(withDuration: 0.5)
         view?.presentScene(scene, transition: transition)
     }
     func goToMenu(){
         let scene = MenuScene(size: screenResolution)
-        scene.scaleMode = .aspectFill
+        scene.scaleMode = .aspectFit
         let transition = SKTransition.doorsCloseVertical(withDuration: 0.5)
         view?.presentScene(scene, transition: transition)
     }
