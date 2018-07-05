@@ -37,6 +37,7 @@ class GameScene: BaseScene, SKPhysicsContactDelegate {
     var menuButton:ButtonNode!
     var restartButton:ButtonNode!
     var resumeButton:ButtonNode!
+    var pauseButton:ButtonNode!
     
     var gameTimer:Timer!
     
@@ -125,6 +126,12 @@ class GameScene: BaseScene, SKPhysicsContactDelegate {
         #if os(macOS)
         addChild(speedLabel)
         #endif
+        
+        //Pause Button
+        pauseButton = ButtonNode(buttonText: "Resume", size: CGSize(width: 200, height: 40), radius: 10, buttonAction: pauseGame)
+        pauseButton.label.text = "Pause"
+        pauseButton.position = CGPoint(x: 400, y: (self.frame.size.height/2)-50)
+        addChild(pauseButton)
         
         //Pause Label
         pauseLabel = SKLabelNode(text: "Paused")
@@ -328,7 +335,7 @@ class GameScene: BaseScene, SKPhysicsContactDelegate {
     
     func gameOver() {
         //Game Over
-        let gameOverLabel = SKLabelNode(text: "Game Over\n\nScore: \(score)\n\nHigh Score: \(userDefaults.integer(forKey: "Highscore"))")
+        let gameOverLabel = SKLabelNode(text: "Game Over\n\nScore: \(score)\n\nHigh Score: \(userDefaults.integer(forKey: highscoreKey))")
         gameOverLabel.numberOfLines = 3
         gameOverLabel.position = CGPoint(x: 0, y: 0)
         gameOverLabel.fontName = "Gunship"
@@ -337,6 +344,7 @@ class GameScene: BaseScene, SKPhysicsContactDelegate {
         
         menuButton.showButton()
         restartButton.showButton()
+        pauseButton.hideButton()
     }
     
     func pauseGame() {
@@ -346,6 +354,7 @@ class GameScene: BaseScene, SKPhysicsContactDelegate {
             menuButton.showButton()
             restartButton.showButton()
             resumeButton.showButton()
+            pauseButton.label.text = "Resume"
             isPaused = true
         }
         else if (isPaused == true) {
@@ -354,6 +363,7 @@ class GameScene: BaseScene, SKPhysicsContactDelegate {
             menuButton.hideButton()
             restartButton.hideButton()
             resumeButton.hideButton()
+            pauseButton.label.text = "Pause"
             isPaused = false
         }
     }
@@ -435,7 +445,9 @@ extension GameScene {
                 fireTorpedo()
             }
         case escKey, pKey:
-            pauseGame()
+            if !player.isHidden{
+                pauseGame()
+            }
         default:
             break
         }

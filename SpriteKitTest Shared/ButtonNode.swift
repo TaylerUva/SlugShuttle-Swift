@@ -35,7 +35,9 @@ class ButtonNode: SKNode {
         label = SKLabelNode(text: buttonText)
         label.fontName = "Gunship"
         label.zPosition = 1000
-        
+        if  label.frame.size.width > size.width{
+            label.fontSize -= abs(label.frame.size.width - size.width)
+        }
         label.position.y = button.position.y - label.fontSize/3
         
         button.isHidden = isHidden
