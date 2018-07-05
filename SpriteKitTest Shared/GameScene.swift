@@ -43,7 +43,7 @@ class GameScene: BaseScene, SKPhysicsContactDelegate {
     
     var life:Int = 3 {
         didSet{
-            lifeLabel.text = "Lives Left: \(life)"
+            lifeLabel.text = "Lives: \(life)"
         }
     }
     var lifeScore:Int = 0 {
@@ -102,7 +102,7 @@ class GameScene: BaseScene, SKPhysicsContactDelegate {
         
         //Life Label
         lifeLabel = SKLabelNode(text: "Lives: 0")
-        lifeLabel.position = CGPoint(x: frame.midX - 400, y: frame.maxY - 50)
+        lifeLabel.position = CGPoint(x: frame.minX + lifeLabel.frame.size.width + 50, y: frame.maxY - 50)
         lifeLabel.fontName = "Gunship"
         life = 4 - difficulty
         addChild(lifeLabel)
@@ -119,7 +119,7 @@ class GameScene: BaseScene, SKPhysicsContactDelegate {
         //Pause Button
         pauseButton = ButtonNode(buttonText: "Resume", size: CGSize(width: 200, height: 40), radius: 10, buttonAction: pauseGame)
         pauseButton.label.text = "Pause"
-        pauseButton.position = CGPoint(x: frame.midX + 400, y: frame.maxY - 40)
+        pauseButton.position = CGPoint(x: frame.maxX - (pauseButton.frame.size.width + 150), y: frame.maxY - 40)
         addChild(pauseButton)
         
         //Pause Label

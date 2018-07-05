@@ -13,7 +13,13 @@ class BaseScene: SKScene {
     let highscoreKey = "Highscore"
     let difficultyKey = "Difficulty"
     
+    #if os(macOS)
     let screenResolution = NSScreen.main!.frame.size
+    #endif
+    
+    #if os(iOS) || os(tvOS)
+    let screenResolution = CGSize(width: UIScreen.main.bounds.width * 2, height: UIScreen.main.bounds.height * 2)
+    #endif
     
     var highscoreLabel:SKLabelNode!
     var mainTitleLabel:SKLabelNode!
@@ -21,27 +27,32 @@ class BaseScene: SKScene {
     var difficulty:Int = UserDefaults.standard.integer(forKey: "Difficulty")
     
     class func loadStartingScene() -> SKScene {
+        #if os(macOS)
         let scene = MenuScene.init(size: NSScreen.main!.frame.size)
-        scene.scaleMode = .aspectFit
+        #endif
+        #if os(iOS) || os(tvOS)
+        let scene = MenuScene.init(size: CGSize(width: UIScreen.main.bounds.width * 2, height: UIScreen.main.bounds.height * 2))
+        #endif
+        scene.scaleMode = .aspectFill
         return scene
     }
     
     //Navigation Functions
     func startGame() {
         let scene = GameScene(size: screenResolution)
-        scene.scaleMode = .aspectFit
+        scene.scaleMode = .aspectFill
         let transition = SKTransition.doorsOpenVertical(withDuration: 0.5)
         view?.presentScene(scene, transition: transition)
     }
     func goToSettings(){
         let scene = SettingScene(size: screenResolution)
-        scene.scaleMode = .aspectFit
+        scene.scaleMode = .aspectFill
         let transition = SKTransition.doorsOpenVertical(withDuration: 0.5)
         view?.presentScene(scene, transition: transition)
     }
     func goToMenu(){
         let scene = MenuScene(size: screenResolution)
-        scene.scaleMode = .aspectFit
+        scene.scaleMode = .aspectFill
         let transition = SKTransition.doorsCloseVertical(withDuration: 0.5)
         view?.presentScene(scene, transition: transition)
     }
