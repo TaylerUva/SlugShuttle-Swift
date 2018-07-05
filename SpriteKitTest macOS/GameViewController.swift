@@ -16,13 +16,18 @@ class GameViewController: NSViewController {
         super.viewDidLoad()
         
         let scene = BaseScene.loadStartingScene()
-        
         // Present the scene
         let skView = self.view as! SKView
         skView.presentScene(scene)
-        
         skView.ignoresSiblingOrder = true
         
+        skView.addConstraint(NSLayoutConstraint(item: self.view,
+                                                attribute: NSLayoutConstraint.Attribute.height,
+                                                relatedBy: NSLayoutConstraint.Relation.equal,
+                                                toItem: self.view,
+                                                attribute: NSLayoutConstraint.Attribute.width,
+                                                multiplier: NSScreen.main!.frame.size.height / NSScreen.main!.frame.size.width,
+                                                constant: 0))
         skView.showsFPS = true
         skView.showsNodeCount = true
     }

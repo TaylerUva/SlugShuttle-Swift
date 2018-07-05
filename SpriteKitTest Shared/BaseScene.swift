@@ -30,20 +30,20 @@ class BaseScene: SKScene {
     func startGame() {
         let scene = GameScene(size: screenResolution)
         scene.scaleMode = .aspectFill
-        let transition = SKTransition.fade(withDuration: 1.0)
-        self.view?.presentScene(scene, transition: transition)
+        let transition = SKTransition.doorsOpenVertical(withDuration: 0.5)
+        view?.presentScene(scene, transition: transition)
     }
     func goToSettings(){
         let scene = SettingScene(size: screenResolution)
         scene.scaleMode = .aspectFill
-        let transition = SKTransition.fade(withDuration: 1.0)
-        self.view?.presentScene(scene, transition: transition)
+        let transition = SKTransition.doorsOpenVertical(withDuration: 0.5)
+        view?.presentScene(scene, transition: transition)
     }
     func goToMenu(){
         let scene = MenuScene(size: screenResolution)
         scene.scaleMode = .aspectFill
-        let transition = SKTransition.fade(withDuration: 1.0)
-        self.view?.presentScene(scene, transition: transition)
+        let transition = SKTransition.doorsCloseVertical(withDuration: 0.5)
+        view?.presentScene(scene, transition: transition)
     }
     func quitGame() {
         exit(0)

@@ -145,12 +145,12 @@
 		94BE1A4420E4B302005B2862 /* SpriteKitTest Shared */ = {
 			isa = PBXGroup;
 			children = (
-				94F0278F20EC012E00877E99 /* ButtonNode.swift */,
+				94BE1A4820E4B304005B2862 /* Assets.xcassets */,
 				942DFC9320E9C2CE007957E5 /* Sounds */,
 				944B766520ED7CEE0015EE9C /* SKS */,
+				94F0278F20EC012E00877E99 /* ButtonNode.swift */,
 				94FF885C20ED7003006126C4 /* BaseScene.swift */,
 				94BE1A4720E4B302005B2862 /* GameScene.swift */,
-				94BE1A4820E4B304005B2862 /* Assets.xcassets */,
 				942DFC8F20E9B008007957E5 /* MenuScene.swift */,
 				9440881520EADB9000CED29E /* SettingScene.swift */,
 			);
