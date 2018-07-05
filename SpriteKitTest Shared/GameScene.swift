@@ -336,7 +336,11 @@ class GameScene: BaseScene, SKPhysicsContactDelegate {
     func gameOver() {
         //Game Over
         let gameOverLabel = SKLabelNode(text: "Game Over\n\nScore: \(score)\n\nHigh Score: \(userDefaults.integer(forKey: highscoreKey))")
-        gameOverLabel.numberOfLines = 3
+        if #available(iOS 11.0, *) {
+            gameOverLabel.numberOfLines = 3
+        } else {
+            // Fallback on earlier versions
+        }
         gameOverLabel.position = CGPoint(x: 0, y: 0)
         gameOverLabel.fontName = "Gunship"
         gameOverLabel.zPosition = 1000
