@@ -655,7 +655,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				PRODUCT_BUNDLE_IDENTIFIER = TayDev.SpriteKitTest;
 				PRODUCT_NAME = "Slug Shuttle";
 				SDKROOT = macosx;
@@ -675,7 +675,7 @@
 					"$(inherited)",
 					"@executable_path/../Frameworks",
 				);
-				MACOSX_DEPLOYMENT_TARGET = 10.13;
+				MACOSX_DEPLOYMENT_TARGET = 10.11;
 				PRODUCT_BUNDLE_IDENTIFIER = TayDev.SpriteKitTest;
 				PRODUCT_NAME = "Slug Shuttle";
 				SDKROOT = macosx;

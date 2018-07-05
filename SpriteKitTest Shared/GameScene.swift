@@ -336,7 +336,7 @@ class GameScene: BaseScene, SKPhysicsContactDelegate {
     func gameOver() {
         //Game Over
         let gameOverLabel = SKLabelNode(text: "Game Over\n\nScore: \(score)\n\nHigh Score: \(userDefaults.integer(forKey: highscoreKey))")
-        if #available(iOS 11.0, *) {
+        if #available(iOS 11.0, OSX 10.13, *) {
             gameOverLabel.numberOfLines = 3
         } else {
             // Fallback on earlier versions
