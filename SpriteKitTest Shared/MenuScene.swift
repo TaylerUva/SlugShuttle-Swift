@@ -11,42 +11,31 @@ import SpriteKit
 class MenuScene: BaseScene {
     
     var diffButton:ButtonNode!
-        
-    override class func newScene() -> MenuScene {
-        // Load 'MenuScene.sks' as an SKScene.
-        guard let scene = SKScene(fileNamed: "MenuScene") as? MenuScene else {
-            print("Failed to load MenuScene")
-            abort()
-        }
-        // Set the scale mode to scale to fit the window
-        scene.scaleMode = .aspectFill
-        return scene
-    }
     
     override func didMove(to view: SKView) {
         loadBackground()
-        showMainTitle(position: CGPoint(x: 0, y: 130), size: 80)
-        showHighscore(position: CGPoint(x: 0, y: 300), size: 45)
-        showDifficulty(position: CGPoint(x: 0, y: 200), size: 45)
-        
-        //Settings
-        let settingsButton = ButtonNode(buttonText: "Settings", size: CGSize(width: 350, height: 30), radius: 10, buttonAction: goToSettings)
-        settingsButton.position.y = highscoreLabel.position.y - 30
-        addChild(settingsButton)
-        
-        //Difficulty
-        diffButton = ButtonNode(buttonText: "Set Difficulty", buttonAction: changeDiff)
-        diffButton.position = CGPoint(x: 0, y: -120)
-        addChild(diffButton)
+        showMainTitle(position: CGPoint(x: frame.midX, y: frame.midY + 300), size: 80)
+        showHighscore(position: CGPoint(x: frame.midX, y: frame.midY + 160), size: 45)
+        showDifficulty(position: CGPoint(x: frame.midX, y: frame.midY + 210), size: 45)
         
         //Start
         let startButton = ButtonNode(buttonText: "Start Game", buttonAction: startGame)
-        startButton.position = CGPoint(x:self.frame.midX, y:self.frame.midY);
+        startButton.position = CGPoint(x: frame.midX, y:frame.midY + 50);
         self.addChild(startButton)
+        
+        //Difficulty
+        diffButton = ButtonNode(buttonText: "Set Difficulty", buttonAction: changeDiff)
+        diffButton.position = CGPoint(x: frame.midX, y: startButton.position.y - 120)
+        addChild(diffButton)
+        
+        //Settings
+        let settingsButton = ButtonNode(buttonText: "Settings", buttonAction: goToSettings)
+        settingsButton.position = CGPoint(x: frame.midX, y: diffButton.position.y - 120)
+        addChild(settingsButton)
         
         //Quit
         let quitButton = ButtonNode(buttonText: "Quit Game", buttonAction: quitGame)
-        quitButton.position = CGPoint(x:0, y:-240);
+        quitButton.position = CGPoint(x:frame.midX, y:settingsButton.position.y - 120);
         self.addChild(quitButton)
     }
     

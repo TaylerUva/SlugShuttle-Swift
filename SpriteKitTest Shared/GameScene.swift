@@ -73,24 +73,13 @@ class GameScene: BaseScene, SKPhysicsContactDelegate {
     let playerCatergory:UInt32 = 0x1 << 2
     let heartCatergory:UInt32 = 0x1 << 3
     
-    override class func newScene() -> GameScene {
-        // Load 'GameScene.sks' as an SKScene.
-        guard let scene = SKScene(fileNamed: "GameScene") as? GameScene else {
-            print("Failed to load GameScene.sks")
-            abort()
-        }
-        // Set the scale mode to scale to fit the window
-        scene.scaleMode = .aspectFill
-        return scene
-    }
-    
     override func didMove(to view: SKView) {
         loadBackground()
         
         //Player
         player = SKSpriteNode(imageNamed: "shuttle")
         player.size = CGSize(width: player.size.width * 0.65, height: player.size.height * 0.65)
-        player.position = CGPoint(x: 0, y: -(self.frame.size.height/2)+50)
+        player.position = CGPoint(x: frame.midX, y: frame.minY + 50)
         player.physicsBody = SKPhysicsBody(rectangleOf: player.size)
         player.physicsBody?.isDynamic = true
         player.physicsBody?.categoryBitMask = playerCatergory
@@ -105,7 +94,7 @@ class GameScene: BaseScene, SKPhysicsContactDelegate {
         
         //Score Label
         scoreLabel = SKLabelNode(text: "Score: 0")
-        scoreLabel.position = CGPoint(x: 0, y: (self.frame.size.height/2)-50)
+        scoreLabel.position = CGPoint(x: frame.midX, y: frame.maxY - 50)
         scoreLabel.fontName = "Gunship"
         score = 0
         userDefaults.synchronize()
@@ -113,14 +102,14 @@ class GameScene: BaseScene, SKPhysicsContactDelegate {
         
         //Life Label
         lifeLabel = SKLabelNode(text: "Lives: 0")
-        lifeLabel.position = CGPoint(x: -400, y: (self.frame.size.height/2)-50)
+        lifeLabel.position = CGPoint(x: frame.midX - 400, y: frame.maxY - 50)
         lifeLabel.fontName = "Gunship"
         life = 4 - difficulty
         addChild(lifeLabel)
         
         //Speed Label
         speedLabel = SKLabelNode(text: "Speed: 1.0")
-        speedLabel.position = CGPoint(x: 0, y: (self.frame.size.height/2)-100)
+        speedLabel.position = CGPoint(x: frame.midX, y: frame.maxY - 100)
         speedLabel.fontSize = 24
         speedLabel.fontName = "Gunship"
         #if os(macOS)
@@ -130,12 +119,12 @@ class GameScene: BaseScene, SKPhysicsContactDelegate {
         //Pause Button
         pauseButton = ButtonNode(buttonText: "Resume", size: CGSize(width: 200, height: 40), radius: 10, buttonAction: pauseGame)
         pauseButton.label.text = "Pause"
-        pauseButton.position = CGPoint(x: 400, y: (self.frame.size.height/2)-50)
+        pauseButton.position = CGPoint(x: frame.midX + 400, y: frame.maxY - 40)
         addChild(pauseButton)
         
         //Pause Label
         pauseLabel = SKLabelNode(text: "Paused")
-        pauseLabel.position = CGPoint(x: 0, y: 100)
+        pauseLabel.position = CGPoint(x: frame.midX, y: frame.midY + 100)
         pauseLabel.fontName = "Gunship"
         pauseLabel.fontSize = 50
         pauseLabel.zPosition = 1000
@@ -143,22 +132,22 @@ class GameScene: BaseScene, SKPhysicsContactDelegate {
         pauseLabel.isHidden = true
         
         // Highscore Label for Pause Menu
-        showHighscore(position: CGPoint(x: 0, y: pauseLabel.position.y + 60), size: 30)
+        showHighscore(position: CGPoint(x: frame.midX, y: pauseLabel.position.y + 60), size: 30)
         highscoreLabel.isHidden = true
         
         //Resume button
         resumeButton = ButtonNode(buttonText: "Resume", isHidden: true, buttonAction: pauseGame)
-        resumeButton.position = CGPoint(x:0, y: 20)
+        resumeButton.position = CGPoint(x:frame.midX, y: frame.midY + 20)
         addChild(resumeButton)
         
         //Menu button
         menuButton = ButtonNode(buttonText: "Back to Menu", isHidden: true, buttonAction: goToMenu)
-        menuButton.position = CGPoint(x:0, y:-220)
+        menuButton.position = CGPoint(x:frame.midX, y: frame.midY - 220)
         addChild(menuButton)
         
         //Restart button
         restartButton = ButtonNode(buttonText: "Restart", isHidden: true, buttonAction: startGame)
-        restartButton.position.y = menuButton.position.y + 120
+        restartButton.position = CGPoint(x: frame.midX, y: menuButton.position.y + 120)
         addChild(restartButton)
         
         // Difficulty
@@ -189,17 +178,14 @@ class GameScene: BaseScene, SKPhysicsContactDelegate {
     
     @objc func addAlien () {
         if !isPaused {
-            let halfMaxHeight = self.frame.size.height/2
-            let halfMaxWidth = self.frame.size.width/2
-            
             possibleAliens = GKRandomSource.sharedRandom().arrayByShufflingObjects(in: possibleAliens) as! [String]
             
             let alien = SKSpriteNode(imageNamed: possibleAliens[0])
             
-            let randomAlienPos = GKRandomDistribution(lowestValue: Int(-halfMaxWidth), highestValue: Int(halfMaxWidth))
+            let randomAlienPos = GKRandomDistribution(lowestValue: Int(frame.minX), highestValue: Int(frame.maxX))
             let position = CGFloat(randomAlienPos.nextInt())
             
-            alien.position = CGPoint(x: position, y: halfMaxHeight)
+            alien.position = CGPoint(x: position, y: frame.maxY)
             alien.zPosition = -1
             alien.size = CGSize(width: alien.size.width * 0.55, height: alien.size.height * 0.55)
             alien.physicsBody = SKPhysicsBody(rectangleOf: alien.size)
@@ -215,7 +201,7 @@ class GameScene: BaseScene, SKPhysicsContactDelegate {
             
             var actionArray = [SKAction]()
             
-            actionArray.append(SKAction.move(to: CGPoint(x: position, y: -(halfMaxHeight+50)), duration: animationDuration))
+            actionArray.append(SKAction.move(to: CGPoint(x: position, y: (frame.minY - alien.size.height)), duration: animationDuration))
             actionArray.append(SKAction.removeFromParent())
             
             alien.run(SKAction.sequence(actionArray))
@@ -245,7 +231,7 @@ class GameScene: BaseScene, SKPhysicsContactDelegate {
         
         var actionArray = [SKAction]()
         
-        actionArray.append(SKAction.move(to: CGPoint(x: player.position.x, y: self.frame.height/2 + 50), duration: animationDuration))
+        actionArray.append(SKAction.move(to: CGPoint(x: player.position.x, y: frame.maxY + torpedoNode.size.height), duration: animationDuration))
         actionArray.append(SKAction.removeFromParent())
         
         torpedoNode.run(SKAction.sequence(actionArray))
@@ -302,7 +288,7 @@ class GameScene: BaseScene, SKPhysicsContactDelegate {
         
         var actionArray = [SKAction]()
         
-        actionArray.append(SKAction.move(to: CGPoint(x: heartNode.position.x, y: -(self.frame.size.height/2 + 50)), duration: animationDuration))
+        actionArray.append(SKAction.move(to: CGPoint(x: heartNode.position.x, y: frame.minX - heartNode.size.height), duration: animationDuration))
         actionArray.append(SKAction.removeFromParent())
         
         heartNode.run(SKAction.sequence(actionArray))
@@ -341,7 +327,7 @@ class GameScene: BaseScene, SKPhysicsContactDelegate {
         } else {
             // Fallback on earlier versions
         }
-        gameOverLabel.position = CGPoint(x: 0, y: 0)
+        gameOverLabel.position = CGPoint(x: frame.midX, y: frame.midY)
         gameOverLabel.fontName = "Gunship"
         gameOverLabel.zPosition = 1000
         addChild(gameOverLabel)
@@ -373,16 +359,15 @@ class GameScene: BaseScene, SKPhysicsContactDelegate {
     }
     
     override func didSimulatePhysics() {
-        let halfMaxWidth = self.frame.size.width/2
         #if os(iOS) || os(tvOS)
         player.position.x += yAcceleration * 50
         #elseif os(macOS)
         player.position.x += yAcceleration
         #endif
-        if player.position.x > halfMaxWidth {
-            player.position = CGPoint(x: -halfMaxWidth, y: player.position.y)
-        }else if player.position.x < -halfMaxWidth{
-            player.position = CGPoint(x: halfMaxWidth, y: player.position.y)
+        if player.position.x > frame.maxX {
+            player.position = CGPoint(x: frame.minX, y: player.position.y)
+        }else if player.position.x < frame.minX{
+            player.position = CGPoint(x: frame.maxX, y: player.position.y)
         }
     }
     

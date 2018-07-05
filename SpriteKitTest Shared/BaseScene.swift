@@ -13,37 +13,37 @@ class BaseScene: SKScene {
     let highscoreKey = "Highscore"
     let difficultyKey = "Difficulty"
     
+    let screenResolution = NSScreen.main!.frame.size
+    
     var highscoreLabel:SKLabelNode!
     var mainTitleLabel:SKLabelNode!
     var difficultyLabel:SKLabelNode!
     var difficulty:Int = UserDefaults.standard.integer(forKey: "Difficulty")
     
-    class func newScene() -> BaseScene {
-        // Load 'GameScene.sks' as an SKScene.
-        guard let scene = SKScene(fileNamed: "BaseScene") as? BaseScene else {
-            print("Failed to load Base")
-            abort()
-        }
-        // Set the scale mode to scale to fit the window
+    class func loadStartingScene() -> SKScene {
+        let scene = MenuScene.init(size: NSScreen.main!.frame.size)
         scene.scaleMode = .aspectFill
         return scene
     }
     
     //Navigation Functions
     func startGame() {
-        let scene = GameScene.newScene()
+        let scene = GameScene(size: screenResolution)
+        scene.scaleMode = .aspectFill
         let transition = SKTransition.fade(withDuration: 1.0)
         self.view?.presentScene(scene, transition: transition)
     }
     func goToSettings(){
-        let scene = SettingScene.newScene()
+        let scene = SettingScene(size: screenResolution)
+        scene.scaleMode = .aspectFill
         let transition = SKTransition.fade(withDuration: 1.0)
-        self.view!.presentScene(scene, transition: transition)
+        self.view?.presentScene(scene, transition: transition)
     }
     func goToMenu(){
-        let scene = MenuScene.newScene()
+        let scene = MenuScene(size: screenResolution)
+        scene.scaleMode = .aspectFill
         let transition = SKTransition.fade(withDuration: 1.0)
-        self.view!.presentScene(scene, transition: transition)
+        self.view?.presentScene(scene, transition: transition)
     }
     func quitGame() {
         exit(0)
@@ -52,8 +52,8 @@ class BaseScene: SKScene {
     //Asset Loading Functions
     func loadBackground() {
         let starField = SKEmitterNode(fileNamed: "Starfield")!
-        starField.position = CGPoint(x: 0, y: self.frame.size.height)
-        starField.particlePositionRange = CGVector(dx: self.frame.size.width, dy: 0)
+        starField.position = CGPoint(x: frame.midX, y: frame.maxY)
+        starField.particlePositionRange = CGVector(dx: frame.size.width, dy: 0)
         starField.advanceSimulationTime(20)
         self.addChild(starField)
         starField.zPosition = -100

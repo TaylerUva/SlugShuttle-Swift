@@ -10,37 +10,26 @@ import SpriteKit
 
 class SettingScene: BaseScene {
     
-    override class func newScene() -> SettingScene {
-        // Load 'SettingScene.sks' as an SKScene.
-        guard let scene = SKScene(fileNamed: "SettingScene") as? SettingScene else {
-            print("Failed to load MenuScene")
-            abort()
-        }
-        // Set the scale mode to scale to fit the window
-        scene.scaleMode = .aspectFill
-        return scene
-    }
-    
     override func didMove(to view: SKView) {
         loadBackground()
-        showMainTitle(position: CGPoint(x: 0, y: 300), size: 80)
-        showHighscore(position: CGPoint(x: 0, y: 120), size: 45)
+        showMainTitle(position: CGPoint(x: frame.midX, y: frame.midY + 300), size: 80)
+        showHighscore(position: CGPoint(x: frame.midX, y: frame.midY + 160), size: 45)
         
         //Settings Title
         let titleLabel = SKLabelNode(text: "Settings")
-        titleLabel.position = CGPoint(x: 0, y: 200)
+        titleLabel.position = CGPoint(x: frame.midX, y: frame.midY + 220)
         titleLabel.fontName = "Gunship"
-        titleLabel.fontSize = 45
+        titleLabel.fontSize = 60
         addChild(titleLabel)
         
         //Reset High Score
         let resetButton = ButtonNode(buttonText: "Reset Highscore", buttonAction: resetHighScore)
-        resetButton.position = CGPoint(x: 0, y: 0)
+        resetButton.position = CGPoint(x: frame.midX, y: highscoreLabel.position.y - 110)
         addChild(resetButton)
         
         //Back to menu
         let menuButton = ButtonNode(buttonText: "Back To Menu", buttonAction: goToMenu)
-        menuButton.position = CGPoint(x: 0, y: -150)
+        menuButton.position = CGPoint(x: frame.midX, y: resetButton.position.y - 240)
         self.addChild(menuButton)
     }
     
