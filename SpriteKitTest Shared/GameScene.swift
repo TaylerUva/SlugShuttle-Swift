@@ -75,6 +75,15 @@ class GameScene: BaseScene, SKPhysicsContactDelegate {
     
     override func setPositions() {
         highscoreLabel.position = CGPoint(x: frame.midX, y: pauseLabel.position.y + 60)
+        player.position = CGPoint(x: frame.midX, y: frame.minY + 50)
+        scoreLabel.position = CGPoint(x: frame.midX, y: frame.maxY - 50)
+        lifeLabel.position = CGPoint(x: frame.minX + lifeLabel.frame.size.width + 50, y: frame.maxY - 50)
+        speedLabel.position = CGPoint(x: frame.midX, y: frame.maxY - 100)
+        pauseButton.position = CGPoint(x: frame.maxX - (pauseButton.frame.size.width + 150), y: frame.maxY - 40)
+        pauseLabel.position = CGPoint(x: frame.midX, y: frame.midY + 100)
+        resumeButton.position = CGPoint(x:frame.midX, y: frame.midY + 20)
+        menuButton.position = CGPoint(x:frame.midX, y: frame.midY - 220)
+        restartButton.position = CGPoint(x: frame.midX, y: menuButton.position.y + 120)
         super.setPositions()
     }
     
@@ -84,7 +93,6 @@ class GameScene: BaseScene, SKPhysicsContactDelegate {
         //Player
         player = SKSpriteNode(imageNamed: "shuttle")
         player.size = CGSize(width: player.size.width * 0.65, height: player.size.height * 0.65)
-        player.position = CGPoint(x: frame.midX, y: frame.minY + 50)
         player.physicsBody = SKPhysicsBody(rectangleOf: player.size)
         player.physicsBody?.isDynamic = true
         player.physicsBody?.categoryBitMask = playerCatergory
@@ -99,7 +107,6 @@ class GameScene: BaseScene, SKPhysicsContactDelegate {
         
         //Score Label
         scoreLabel = SKLabelNode(text: "Score: 0")
-        scoreLabel.position = CGPoint(x: frame.midX, y: frame.maxY - 50)
         scoreLabel.fontName = "Gunship"
         score = 0
         userDefaults.synchronize()
@@ -107,14 +114,12 @@ class GameScene: BaseScene, SKPhysicsContactDelegate {
         
         //Life Label
         lifeLabel = SKLabelNode(text: "Lives: 0")
-        lifeLabel.position = CGPoint(x: frame.minX + lifeLabel.frame.size.width + 50, y: frame.maxY - 50)
         lifeLabel.fontName = "Gunship"
         life = 4 - difficulty
         addChild(lifeLabel)
         
         //Speed Label
         speedLabel = SKLabelNode(text: "Speed: 1.0")
-        speedLabel.position = CGPoint(x: frame.midX, y: frame.maxY - 100)
         speedLabel.fontSize = 24
         speedLabel.fontName = "Gunship"
         #if os(macOS)
@@ -124,12 +129,10 @@ class GameScene: BaseScene, SKPhysicsContactDelegate {
         //Pause Button
         pauseButton = ButtonNode(buttonText: "Resume", size: CGSize(width: 200, height: 40), radius: 10, buttonAction: pauseGame)
         pauseButton.label.text = "Pause"
-        pauseButton.position = CGPoint(x: frame.maxX - (pauseButton.frame.size.width + 150), y: frame.maxY - 40)
         addChild(pauseButton)
         
         //Pause Label
         pauseLabel = SKLabelNode(text: "Paused")
-        pauseLabel.position = CGPoint(x: frame.midX, y: frame.midY + 100)
         pauseLabel.fontName = "Gunship"
         pauseLabel.fontSize = 50
         pauseLabel.zPosition = 1000
@@ -142,17 +145,14 @@ class GameScene: BaseScene, SKPhysicsContactDelegate {
         
         //Resume button
         resumeButton = ButtonNode(buttonText: "Resume", isHidden: true, buttonAction: pauseGame)
-        resumeButton.position = CGPoint(x:frame.midX, y: frame.midY + 20)
         addChild(resumeButton)
         
         //Menu button
         menuButton = ButtonNode(buttonText: "Back to Menu", isHidden: true, buttonAction: goToMenu)
-        menuButton.position = CGPoint(x:frame.midX, y: frame.midY - 220)
         addChild(menuButton)
         
         //Restart button
         restartButton = ButtonNode(buttonText: "Restart", isHidden: true, buttonAction: startGame)
-        restartButton.position = CGPoint(x: frame.midX, y: menuButton.position.y + 120)
         addChild(restartButton)
         
         // Difficulty
@@ -167,6 +167,9 @@ class GameScene: BaseScene, SKPhysicsContactDelegate {
         default:
             timeInt = 0.75
         }
+        
+        setPositions()
+        
         gameTimer = Timer.scheduledTimer(timeInterval: (timeInt), target: self, selector: #selector(addAlien), userInfo: nil, repeats: true)
         
         //Add motion controls
