@@ -13,14 +13,7 @@ class BaseScene: SKScene {
     let highscoreKey = "Highscore"
     let difficultyKey = "Difficulty"
     
-    #if os(macOS)
-    let screenResolution = NSScreen.main!.frame.size
-    #endif
-    
-    #if os(iOS) || os(tvOS)
-    let screenResolution = CGSize(width: UIScreen.main.bounds.width * 2, height: UIScreen.main.bounds.height * 2)
-    #endif
-    
+    var starField:SKEmitterNode!
     var highscoreLabel:SKLabelNode!
     var mainTitleLabel:SKLabelNode!
     var difficultyLabel:SKLabelNode!
@@ -33,34 +26,44 @@ class BaseScene: SKScene {
         #if os(iOS) || os(tvOS)
         let scene = MenuScene.init(size: CGSize(width: UIScreen.main.bounds.width * 2, height: UIScreen.main.bounds.height * 2))
         #endif
-        scene.scaleMode = .fill
         return scene
     }
     
     override func didChangeSize(_ oldSize: CGSize) {
         super.didChangeSize(oldSize)
         guard oldSize != self.size else { return }
-        // do your stuff here
-        print("changed")
-//        self.scaleMode = .aspectFit
+        setPositions()
+    }
+    
+    func setPositions(){
+        starField.position = CGPoint(x: frame.midX, y: frame.maxY)
+        starField.particlePositionRange = CGVector(dx: frame.size.width, dy: 0)
+        starField.advanceSimulationTime(20)
+    }
+    
+    func getResolution() -> CGSize {
+        #if os(macOS)
+        return NSScreen.main!.frame.size
+        #endif
+        
+        #if os(iOS) || os(tvOS)
+        return CGSize(width: UIScreen.main.bounds.width * 2, height: UIScreen.main.bounds.height * 2)
+        #endif
     }
     
     //Navigation Functions
     func startGame() {
-        let scene = GameScene(size: screenResolution)
-//        scene.scaleMode = .aspectFill
+        let scene = GameScene(size: getResolution())
         let transition = SKTransition.doorsOpenVertical(withDuration: 0.5)
         view?.presentScene(scene, transition: transition)
     }
     func goToSettings(){
-        let scene = SettingScene(size: screenResolution)
-//        scene.scaleMode = .aspectFill
+        let scene = SettingScene(size: getResolution())
         let transition = SKTransition.doorsOpenVertical(withDuration: 0.5)
         view?.presentScene(scene, transition: transition)
     }
     func goToMenu(){
-        let scene = MenuScene(size: screenResolution)
-//        scene.scaleMode = .aspectFill
+        let scene = MenuScene(size: getResolution())
         let transition = SKTransition.doorsCloseVertical(withDuration: 0.5)
         view?.presentScene(scene, transition: transition)
     }
@@ -70,28 +73,28 @@ class BaseScene: SKScene {
     
     //Asset Loading Functions
     func loadBackground() {
-        let starField = SKEmitterNode(fileNamed: "Starfield")!
+        starField = SKEmitterNode(fileNamed: "Starfield")!
         starField.position = CGPoint(x: frame.midX, y: frame.maxY)
         starField.particlePositionRange = CGVector(dx: frame.size.width, dy: 0)
         starField.advanceSimulationTime(20)
         self.addChild(starField)
         starField.zPosition = -100
     }
-    func showMainTitle(position: CGPoint, size: CGFloat){
+    func showMainTitle(size: CGFloat){
         mainTitleLabel = SKLabelNode(text: "Slug Shuttle")
         mainTitleLabel.position = position
         mainTitleLabel.fontName = "Gunship"
         mainTitleLabel.fontSize = size //80
         addChild(mainTitleLabel)
     }
-    func showHighscore(position: CGPoint, size: CGFloat){
+    func showHighscore(size: CGFloat){
         highscoreLabel = SKLabelNode(text: "Highscore: \(userDefaults.integer(forKey: highscoreKey))")
         highscoreLabel.position = position
         highscoreLabel.fontName = "Gunship"
         highscoreLabel.fontSize = size
         addChild(highscoreLabel)
     }
-    func showDifficulty(position: CGPoint, size: CGFloat){
+    func showDifficulty(size: CGFloat){
         difficultyLabel = SKLabelNode(fontNamed: "Gunship")
         difficultyLabel.position = position
         switch difficulty {

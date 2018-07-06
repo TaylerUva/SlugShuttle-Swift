@@ -11,32 +11,43 @@ import SpriteKit
 class MenuScene: BaseScene {
     
     var diffButton:ButtonNode!
+    var startButton:ButtonNode!
+    var settingsButton:ButtonNode!
+    var quitButton:ButtonNode!
+    
+    override func setPositions() {
+        startButton.position = CGPoint(x: frame.midX, y:frame.midY + 50);
+        diffButton.position = CGPoint(x: frame.midX, y: startButton.position.y - 120)
+        settingsButton.position = CGPoint(x: frame.midX, y: diffButton.position.y - 120)
+        quitButton.position = CGPoint(x:frame.midX, y:settingsButton.position.y - 120);
+        mainTitleLabel.position = CGPoint(x: frame.midX, y: frame.midY + 300)
+        highscoreLabel.position = CGPoint(x: frame.midX, y: frame.midY + 160)
+        difficultyLabel.position = CGPoint(x: frame.midX, y: frame.midY + 210)
+        super.setPositions()
+    }
     
     override func didMove(to view: SKView) {
         loadBackground()
-        showMainTitle(position: CGPoint(x: frame.midX, y: frame.midY + 300), size: 80)
-        showHighscore(position: CGPoint(x: frame.midX, y: frame.midY + 160), size: 45)
-        showDifficulty(position: CGPoint(x: frame.midX, y: frame.midY + 210), size: 45)
+        showMainTitle(size: 80)
+        showHighscore(size: 45)
+        showDifficulty(size: 45)
         
         //Start
-        let startButton = ButtonNode(buttonText: "Start Game", buttonAction: startGame)
-        startButton.position = CGPoint(x: frame.midX, y:frame.midY + 50);
-        self.addChild(startButton)
+        startButton = ButtonNode(buttonText: "Start Game", buttonAction: startGame)
+        addChild(startButton)
         
         //Difficulty
         diffButton = ButtonNode(buttonText: "Set Difficulty", buttonAction: changeDiff)
-        diffButton.position = CGPoint(x: frame.midX, y: startButton.position.y - 120)
         addChild(diffButton)
-        
         //Settings
-        let settingsButton = ButtonNode(buttonText: "Settings", buttonAction: goToSettings)
-        settingsButton.position = CGPoint(x: frame.midX, y: diffButton.position.y - 120)
+        settingsButton = ButtonNode(buttonText: "Settings", buttonAction: goToSettings)
         addChild(settingsButton)
         
         //Quit
-        let quitButton = ButtonNode(buttonText: "Quit Game", buttonAction: quitGame)
-        quitButton.position = CGPoint(x:frame.midX, y:settingsButton.position.y - 120);
-        self.addChild(quitButton)
+        quitButton = ButtonNode(buttonText: "Quit Game", buttonAction: quitGame)
+        addChild(quitButton)
+        
+        setPositions()
     }
     
     func changeDiff(){

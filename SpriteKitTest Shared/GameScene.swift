@@ -73,6 +73,11 @@ class GameScene: BaseScene, SKPhysicsContactDelegate {
     let playerCatergory:UInt32 = 0x1 << 2
     let heartCatergory:UInt32 = 0x1 << 3
     
+    override func setPositions() {
+        highscoreLabel.position = CGPoint(x: frame.midX, y: pauseLabel.position.y + 60)
+        super.setPositions()
+    }
+    
     override func didMove(to view: SKView) {
         loadBackground()
         
@@ -132,7 +137,7 @@ class GameScene: BaseScene, SKPhysicsContactDelegate {
         pauseLabel.isHidden = true
         
         // Highscore Label for Pause Menu
-        showHighscore(position: CGPoint(x: frame.midX, y: pauseLabel.position.y + 60), size: 30)
+        showHighscore(size: 30)
         highscoreLabel.isHidden = true
         
         //Resume button

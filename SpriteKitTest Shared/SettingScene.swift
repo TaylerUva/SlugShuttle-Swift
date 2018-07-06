@@ -10,27 +10,39 @@ import SpriteKit
 
 class SettingScene: BaseScene {
     
+    var settingsLabel:SKLabelNode!
+    var resetButton:ButtonNode!
+    var menuButton:ButtonNode!
+    
+    override func setPositions() {
+        mainTitleLabel.position = CGPoint(x: frame.midX, y: frame.midY + 300)
+        highscoreLabel.position = CGPoint(x: frame.midX, y: frame.midY + 160)
+        settingsLabel.position = CGPoint(x: frame.midX, y: frame.midY + 220)
+        resetButton.position = CGPoint(x: frame.midX, y: highscoreLabel.position.y - 110)
+        menuButton.position = CGPoint(x: frame.midX, y: resetButton.position.y - 240)
+        super.setPositions()
+    }
+    
     override func didMove(to view: SKView) {
         loadBackground()
-        showMainTitle(position: CGPoint(x: frame.midX, y: frame.midY + 300), size: 80)
-        showHighscore(position: CGPoint(x: frame.midX, y: frame.midY + 160), size: 45)
+        showMainTitle(size: 80)
+        showHighscore(size: 45)
         
         //Settings Title
-        let titleLabel = SKLabelNode(text: "Settings")
-        titleLabel.position = CGPoint(x: frame.midX, y: frame.midY + 220)
-        titleLabel.fontName = "Gunship"
-        titleLabel.fontSize = 60
-        addChild(titleLabel)
+        settingsLabel = SKLabelNode(text: "Settings")
+        settingsLabel.fontName = "Gunship"
+        settingsLabel.fontSize = 60
+        addChild(settingsLabel)
         
         //Reset High Score
-        let resetButton = ButtonNode(buttonText: "Reset Highscore", buttonAction: resetHighScore)
-        resetButton.position = CGPoint(x: frame.midX, y: highscoreLabel.position.y - 110)
+        resetButton = ButtonNode(buttonText: "Reset Highscore", buttonAction: resetHighScore)
         addChild(resetButton)
         
         //Back to menu
-        let menuButton = ButtonNode(buttonText: "Back To Menu", buttonAction: goToMenu)
-        menuButton.position = CGPoint(x: frame.midX, y: resetButton.position.y - 240)
+        menuButton = ButtonNode(buttonText: "Back To Menu", buttonAction: goToMenu)
         self.addChild(menuButton)
+        
+        setPositions()
     }
     
     func resetHighScore() {
