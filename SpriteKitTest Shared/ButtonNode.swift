@@ -33,7 +33,7 @@ class ButtonNode: SKNode {
         button.zPosition = 1000
         
         label = SKLabelNode(text: buttonText)
-        label.fontName = "Gunship"
+        label.fontName = "Gunship Condensed"
         label.zPosition = 1000
         if  label.frame.size.width > size.width{
             label.fontSize -= abs(label.frame.size.width - size.width)

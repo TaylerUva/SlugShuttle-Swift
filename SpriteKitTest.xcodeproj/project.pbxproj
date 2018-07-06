@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		942BB40820EF55F800D3F88F /* Gunship.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 942BB40720EF55F800D3F88F /* Gunship.ttf */; };
+		942BB40920EF55F800D3F88F /* Gunship.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 942BB40720EF55F800D3F88F /* Gunship.ttf */; };
+		942BB40A20EF55F800D3F88F /* Gunship.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 942BB40720EF55F800D3F88F /* Gunship.ttf */; };
 		942DFC8420E9635A007957E5 /* 1up.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 942DFC8320E9635A007957E5 /* 1up.mp3 */; };
 		942DFC8520E9635A007957E5 /* 1up.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 942DFC8320E9635A007957E5 /* 1up.mp3 */; };
 		942DFC8620E9635A007957E5 /* 1up.mp3 in Resources */ = {isa = PBXBuildFile; fileRef = 942DFC8320E9635A007957E5 /* 1up.mp3 */; };
@@ -56,6 +59,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		942BB40720EF55F800D3F88F /* Gunship.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = Gunship.ttf; sourceTree = "<group>"; };
 		942DFC8320E9635A007957E5 /* 1up.mp3 */ = {isa = PBXFileReference; lastKnownFileType = audio.mp3; path = 1up.mp3; sourceTree = "<group>"; };
 		942DFC8F20E9B008007957E5 /* MenuScene.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuScene.swift; sourceTree = "<group>"; };
 		9440881520EADB9000CED29E /* SettingScene.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SettingScene.swift; sourceTree = "<group>"; };
@@ -148,6 +152,7 @@
 				94BE1A4820E4B304005B2862 /* Assets.xcassets */,
 				942DFC9320E9C2CE007957E5 /* Sounds */,
 				944B766520ED7CEE0015EE9C /* SKS */,
+				942BB40720EF55F800D3F88F /* Gunship.ttf */,
 				94F0278F20EC012E00877E99 /* ButtonNode.swift */,
 				94FF885C20ED7003006126C4 /* BaseScene.swift */,
 				94BE1A4720E4B302005B2862 /* GameScene.swift */,
@@ -304,6 +309,7 @@
 				94BE1A9520E4B31F005B2862 /* Starfield.sks in Resources */,
 				94BE1A5620E4B304005B2862 /* Main.storyboard in Resources */,
 				94BE1A7720E4B304005B2862 /* Actions.sks in Resources */,
+				942BB40820EF55F800D3F88F /* Gunship.ttf in Resources */,
 				94BE1A9820E4B31F005B2862 /* explosion.mp3 in Resources */,
 				94BE1A5920E4B304005B2862 /* LaunchScreen.storyboard in Resources */,
 				94BE1A8020E4B304005B2862 /* Assets.xcassets in Resources */,
@@ -321,6 +327,7 @@
 				94BE1A6720E4B304005B2862 /* Main.storyboard in Resources */,
 				942DFC8520E9635A007957E5 /* 1up.mp3 in Resources */,
 				94BE1A9320E4B31F005B2862 /* Explosion.sks in Resources */,
+				942BB40920EF55F800D3F88F /* Gunship.ttf in Resources */,
 				94BE1A9920E4B31F005B2862 /* explosion.mp3 in Resources */,
 				94BE1A8120E4B304005B2862 /* Assets.xcassets in Resources */,
 				94BE1A9C20E4B31F005B2862 /* torpedo.mp3 in Resources */,
@@ -336,6 +343,7 @@
 				94BE1A7520E4B304005B2862 /* Main.storyboard in Resources */,
 				942DFC8620E9635A007957E5 /* 1up.mp3 in Resources */,
 				94BE1A9420E4B31F005B2862 /* Explosion.sks in Resources */,
+				942BB40A20EF55F800D3F88F /* Gunship.ttf in Resources */,
 				94BE1A9A20E4B31F005B2862 /* explosion.mp3 in Resources */,
 				94BE1A8220E4B304005B2862 /* Assets.xcassets in Resources */,
 				94BE1A9D20E4B31F005B2862 /* torpedo.mp3 in Resources */,

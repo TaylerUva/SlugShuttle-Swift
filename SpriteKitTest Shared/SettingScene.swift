@@ -30,7 +30,7 @@ class SettingScene: BaseScene {
         
         //Settings Title
         settingsLabel = SKLabelNode(text: "Settings")
-        settingsLabel.fontName = "Gunship"
+        settingsLabel.fontName = "Gunship Condensed"
         settingsLabel.fontSize = 60
         addChild(settingsLabel)
         

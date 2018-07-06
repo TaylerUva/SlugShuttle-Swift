@@ -74,13 +74,13 @@ class GameScene: BaseScene, SKPhysicsContactDelegate {
     let heartCatergory:UInt32 = 0x1 << 3
     
     override func setPositions() {
-        highscoreLabel.position = CGPoint(x: frame.midX, y: pauseLabel.position.y + 60)
         player.position = CGPoint(x: frame.midX, y: frame.minY + 50)
         scoreLabel.position = CGPoint(x: frame.midX, y: frame.maxY - 50)
-        lifeLabel.position = CGPoint(x: frame.minX + lifeLabel.frame.size.width + 50, y: frame.maxY - 50)
+        lifeLabel.position = CGPoint(x: frame.minX + 100, y: frame.maxY - 50)
         speedLabel.position = CGPoint(x: frame.midX, y: frame.maxY - 100)
-        pauseButton.position = CGPoint(x: frame.maxX - (pauseButton.frame.size.width + 150), y: frame.maxY - 40)
+        pauseButton.position = CGPoint(x: frame.maxX - 120, y: frame.maxY - 40)
         pauseLabel.position = CGPoint(x: frame.midX, y: frame.midY + 100)
+        highscoreLabel.position = CGPoint(x: frame.midX, y: pauseLabel.position.y + 60)
         resumeButton.position = CGPoint(x:frame.midX, y: frame.midY + 20)
         menuButton.position = CGPoint(x:frame.midX, y: frame.midY - 220)
         restartButton.position = CGPoint(x: frame.midX, y: menuButton.position.y + 120)
@@ -107,21 +107,21 @@ class GameScene: BaseScene, SKPhysicsContactDelegate {
         
         //Score Label
         scoreLabel = SKLabelNode(text: "Score: 0")
-        scoreLabel.fontName = "Gunship"
+        scoreLabel.fontName = "Gunship Condensed"
         score = 0
         userDefaults.synchronize()
         addChild(scoreLabel)
         
         //Life Label
         lifeLabel = SKLabelNode(text: "Lives: 0")
-        lifeLabel.fontName = "Gunship"
+        lifeLabel.fontName = "Gunship Condensed"
         life = 4 - difficulty
         addChild(lifeLabel)
         
         //Speed Label
         speedLabel = SKLabelNode(text: "Speed: 1.0")
         speedLabel.fontSize = 24
-        speedLabel.fontName = "Gunship"
+        speedLabel.fontName = "Gunship Condensed"
         #if os(macOS)
         addChild(speedLabel)
         #endif
@@ -133,7 +133,7 @@ class GameScene: BaseScene, SKPhysicsContactDelegate {
         
         //Pause Label
         pauseLabel = SKLabelNode(text: "Paused")
-        pauseLabel.fontName = "Gunship"
+        pauseLabel.fontName = "Gunship Condensed"
         pauseLabel.fontSize = 50
         pauseLabel.zPosition = 1000
         addChild(pauseLabel)
@@ -174,6 +174,11 @@ class GameScene: BaseScene, SKPhysicsContactDelegate {
         
         //Add motion controls
         #if os(iOS)
+        enableMotionControls()
+        #endif
+    }
+    #if os(iOS)
+    func enableMotionControls() {
         motionManager.accelerometerUpdateInterval = 0.2
         motionManager.startAccelerometerUpdates(to: OperationQueue.current!) { (data:CMAccelerometerData?, error:Error?) in
             if let accelerometerData = data {
@@ -181,8 +186,8 @@ class GameScene: BaseScene, SKPhysicsContactDelegate {
                 self.yAcceleration = CGFloat(acceleration.y) * 0.75 + self.yAcceleration * 0.25
             }
         }
-        #endif
     }
+    #endif
     
     @objc func addAlien () {
         if !isPaused {
@@ -336,7 +341,7 @@ class GameScene: BaseScene, SKPhysicsContactDelegate {
             // Fallback on earlier versions
         }
         gameOverLabel.position = CGPoint(x: frame.midX, y: frame.midY)
-        gameOverLabel.fontName = "Gunship"
+        gameOverLabel.fontName = "Gunship Condensed"
         gameOverLabel.zPosition = 1000
         addChild(gameOverLabel)
         

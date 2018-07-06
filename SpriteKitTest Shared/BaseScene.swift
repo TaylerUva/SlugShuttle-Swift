@@ -83,19 +83,19 @@ class BaseScene: SKScene {
     func showMainTitle(size: CGFloat){
         mainTitleLabel = SKLabelNode(text: "Slug Shuttle")
         mainTitleLabel.position = position
-        mainTitleLabel.fontName = "Gunship"
+        mainTitleLabel.fontName = "Gunship Condensed"
         mainTitleLabel.fontSize = size //80
         addChild(mainTitleLabel)
     }
     func showHighscore(size: CGFloat){
         highscoreLabel = SKLabelNode(text: "Highscore: \(userDefaults.integer(forKey: highscoreKey))")
         highscoreLabel.position = position
-        highscoreLabel.fontName = "Gunship"
+        highscoreLabel.fontName = "Gunship Condensed"
         highscoreLabel.fontSize = size
         addChild(highscoreLabel)
     }
     func showDifficulty(size: CGFloat){
-        difficultyLabel = SKLabelNode(fontNamed: "Gunship")
+        difficultyLabel = SKLabelNode(fontNamed: "Gunship Condensed")
         difficultyLabel.position = position
         switch difficulty {
             case 1:
