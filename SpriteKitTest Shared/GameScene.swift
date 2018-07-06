@@ -395,7 +395,7 @@ class GameScene: BaseScene, SKPhysicsContactDelegate {
         #if os(iOS) || os(tvOS)
         player.position.x += playerAcceleration * 50
         #elseif os(macOS)
-        player.position.x += yAcceleration
+        player.position.x += playerAcceleration
         #endif
         if player.position.x > frame.maxX {
             player.position = CGPoint(x: frame.minX, y: player.position.y)
@@ -431,9 +431,9 @@ extension GameScene {
         
         switch Int(event.keyCode) {
         case dKey, rightArrow:
-            self.yAcceleration = (0)
+            self.playerAcceleration = (0)
         case aKey, leftArrow:
-            self.yAcceleration = (0)
+            self.playerAcceleration = (0)
         default:
             break
         }
@@ -459,9 +459,9 @@ extension GameScene {
                 acclerationModifier -= 1
             }
         case dKey, rightArrow:
-            self.yAcceleration = (10 * acclerationModifier)
+            self.playerAcceleration = (10 * acclerationModifier)
         case aKey, leftArrow:
-            self.yAcceleration = (-10 * acclerationModifier)
+            self.playerAcceleration = (-10 * acclerationModifier)
         case spaceKey:
             if !player.isHidden{
                 fireTorpedo()
