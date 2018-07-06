@@ -29,6 +29,14 @@ class GameViewController: UIViewController {
     override var shouldAutorotate: Bool {
         return true
     }
+    
+    override func viewWillTransition(to size: CGSize, with coordinator: UIViewControllerTransitionCoordinator) {
+        super.viewWillTransition(to: size, with: coordinator)
+        print(size)
+        (self.view as? SKView)?.scene?.size.height = size.height * 2
+        (self.view as? SKView)?.scene?.size.width = size.width * 2
+//        (self.view as? SKView)?.scene?.scaleMode = .fill
+    }
 
     override var supportedInterfaceOrientations: UIInterfaceOrientationMask {
         if UIDevice.current.userInterfaceIdiom == .phone {

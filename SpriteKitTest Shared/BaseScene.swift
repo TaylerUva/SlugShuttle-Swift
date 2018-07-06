@@ -33,26 +33,34 @@ class BaseScene: SKScene {
         #if os(iOS) || os(tvOS)
         let scene = MenuScene.init(size: CGSize(width: UIScreen.main.bounds.width * 2, height: UIScreen.main.bounds.height * 2))
         #endif
-        scene.scaleMode = .aspectFill
+        scene.scaleMode = .fill
         return scene
+    }
+    
+    override func didChangeSize(_ oldSize: CGSize) {
+        super.didChangeSize(oldSize)
+        guard oldSize != self.size else { return }
+        // do your stuff here
+        print("changed")
+//        self.scaleMode = .aspectFit
     }
     
     //Navigation Functions
     func startGame() {
         let scene = GameScene(size: screenResolution)
-        scene.scaleMode = .aspectFill
+//        scene.scaleMode = .aspectFill
         let transition = SKTransition.doorsOpenVertical(withDuration: 0.5)
         view?.presentScene(scene, transition: transition)
     }
     func goToSettings(){
         let scene = SettingScene(size: screenResolution)
-        scene.scaleMode = .aspectFill
+//        scene.scaleMode = .aspectFill
         let transition = SKTransition.doorsOpenVertical(withDuration: 0.5)
         view?.presentScene(scene, transition: transition)
     }
     func goToMenu(){
         let scene = MenuScene(size: screenResolution)
-        scene.scaleMode = .aspectFill
+//        scene.scaleMode = .aspectFill
         let transition = SKTransition.doorsCloseVertical(withDuration: 0.5)
         view?.presentScene(scene, transition: transition)
     }
