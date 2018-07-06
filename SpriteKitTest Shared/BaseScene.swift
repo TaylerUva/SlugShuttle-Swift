@@ -69,7 +69,13 @@ class BaseScene: SKScene {
     func loadBackground() {
         starField = SKEmitterNode(fileNamed: "Starfield")!
         starField.position = CGPoint(x: frame.midX, y: frame.maxY)
-        starField.particlePositionRange = CGVector(dx: (frame.size.width > frame.size.height ? frame.size.width : frame.size.height), dy: 0)
+        #if os(macOS)
+        let scaleFactor = NSScreen.main?.backingScaleFactor
+        let screenResolution = CGSize(width: NSScreen.main!.frame.size.width * scaleFactor!, height: NSScreen.main!.frame.size.height * scaleFactor!)
+        #else
+        let screenResolution = frame.size
+        #endif
+        starField.particlePositionRange = CGVector(dx: (screenResolution.width > screenResolution.height ? screenResolution.width : screenResolution.height), dy: 0)
         starField.advanceSimulationTime(20)
         self.addChild(starField)
         starField.zPosition = -100
