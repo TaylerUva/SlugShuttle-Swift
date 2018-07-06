@@ -14,8 +14,8 @@ class GameViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
-        let scene = BaseScene.loadStartingScene()
+        let sceneSize = CGSize(width: UIScreen.main.bounds.width * 2, height: UIScreen.main.bounds.height * 2)
+        let scene = BaseScene.loadStartingScene(sceneSize: sceneSize)
         
         // Present the scene
         let skView = self.view as! SKView
@@ -23,8 +23,8 @@ class GameViewController: UIViewController {
         
         skView.ignoresSiblingOrder = true
         
-        skView.showsFPS = true
-        skView.showsNodeCount = true
+        skView.showsFPS = false
+        skView.showsNodeCount = false
     }
     
     override func didReceiveMemoryWarning() {

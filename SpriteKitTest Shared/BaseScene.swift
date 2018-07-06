@@ -12,6 +12,7 @@ class BaseScene: SKScene {
     let userDefaults = UserDefaults.standard
     let highscoreKey = "Highscore"
     let difficultyKey = "Difficulty"
+    let gunshipFont = "Gunship Condensed"
     
     var starField:SKEmitterNode!
     var highscoreLabel:SKLabelNode!
@@ -19,13 +20,8 @@ class BaseScene: SKScene {
     var difficultyLabel:SKLabelNode!
     var difficulty:Int = UserDefaults.standard.integer(forKey: "Difficulty")
     
-    class func loadStartingScene() -> SKScene {
-        #if os(macOS)
-        let scene = MenuScene.init(size: NSScreen.main!.frame.size)
-        #endif
-        #if os(iOS) || os(tvOS)
-        let scene = MenuScene.init(size: CGSize(width: UIScreen.main.bounds.width * 2, height: UIScreen.main.bounds.height * 2))
-        #endif
+    class func loadStartingScene(sceneSize: CGSize) -> SKScene {
+        let scene = MenuScene.init(size: sceneSize)
         return scene
     }
     
@@ -41,7 +37,7 @@ class BaseScene: SKScene {
     
     func getResolution() -> CGSize {
         #if os(macOS)
-        return NSScreen.main!.frame.size
+        return CGSize(width: (view?.window?.frame.size.width)! * 1.5, height: (view?.window?.frame.size.height)! * 1.5)
         #endif
         
         #if os(iOS) || os(tvOS)
@@ -81,19 +77,19 @@ class BaseScene: SKScene {
     func showMainTitle(size: CGFloat){
         mainTitleLabel = SKLabelNode(text: "Slug Shuttle")
         mainTitleLabel.position = position
-        mainTitleLabel.fontName = "Gunship Condensed"
+        mainTitleLabel.fontName = gunshipFont
         mainTitleLabel.fontSize = size //80
         addChild(mainTitleLabel)
     }
     func showHighscore(size: CGFloat){
         highscoreLabel = SKLabelNode(text: "Highscore: \(userDefaults.integer(forKey: highscoreKey))")
         highscoreLabel.position = position
-        highscoreLabel.fontName = "Gunship Condensed"
+        highscoreLabel.fontName = gunshipFont
         highscoreLabel.fontSize = size
         addChild(highscoreLabel)
     }
     func showDifficulty(size: CGFloat){
-        difficultyLabel = SKLabelNode(fontNamed: "Gunship Condensed")
+        difficultyLabel = SKLabelNode(fontNamed: gunshipFont)
         difficultyLabel.position = position
         switch difficulty {
             case 1:

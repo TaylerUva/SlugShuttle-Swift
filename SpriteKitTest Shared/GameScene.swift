@@ -33,6 +33,7 @@ class GameScene: BaseScene, SKPhysicsContactDelegate {
     var speedLabel:SKLabelNode!
     var lifeLabel:SKLabelNode!
     var pauseLabel:SKLabelNode!
+    var gameOverLabel:SKLabelNode!
 
     var menuButton:ButtonNode!
     var restartButton:ButtonNode!
@@ -84,6 +85,7 @@ class GameScene: BaseScene, SKPhysicsContactDelegate {
         resumeButton.position = CGPoint(x:frame.midX, y: frame.midY + 20)
         menuButton.position = CGPoint(x:frame.midX, y: frame.midY - 220)
         restartButton.position = CGPoint(x: frame.midX, y: menuButton.position.y + 120)
+        gameOverLabel.position = CGPoint(x: frame.midX, y: frame.midY)
         super.setPositions()
     }
     
@@ -107,21 +109,21 @@ class GameScene: BaseScene, SKPhysicsContactDelegate {
         
         //Score Label
         scoreLabel = SKLabelNode(text: "Score: 0")
-        scoreLabel.fontName = "Gunship Condensed"
+        scoreLabel.fontName = gunshipFont
         score = 0
         userDefaults.synchronize()
         addChild(scoreLabel)
         
         //Life Label
         lifeLabel = SKLabelNode(text: "Lives: 0")
-        lifeLabel.fontName = "Gunship Condensed"
+        lifeLabel.fontName = gunshipFont
         life = 4 - difficulty
         addChild(lifeLabel)
         
         //Speed Label
         speedLabel = SKLabelNode(text: "Speed: 1.0")
         speedLabel.fontSize = 24
-        speedLabel.fontName = "Gunship Condensed"
+        speedLabel.fontName = gunshipFont
         #if os(macOS)
         addChild(speedLabel)
         #endif
@@ -133,7 +135,7 @@ class GameScene: BaseScene, SKPhysicsContactDelegate {
         
         //Pause Label
         pauseLabel = SKLabelNode(text: "Paused")
-        pauseLabel.fontName = "Gunship Condensed"
+        pauseLabel.fontName = gunshipFont
         pauseLabel.fontSize = 50
         pauseLabel.zPosition = 1000
         addChild(pauseLabel)
@@ -154,6 +156,16 @@ class GameScene: BaseScene, SKPhysicsContactDelegate {
         //Restart button
         restartButton = ButtonNode(buttonText: "Restart", isHidden: true, buttonAction: startGame)
         addChild(restartButton)
+        
+        //Game Over
+        gameOverLabel = SKLabelNode(text: "Game Over\n\nScore: \(score)\n\nHigh Score: \(userDefaults.integer(forKey: highscoreKey))")
+        if #available(iOS 11.0, OSX 10.13, *) {
+            gameOverLabel.numberOfLines = 3
+        } else {
+            // Fallback on earlier versions
+        }
+        gameOverLabel.fontName = gunshipFont
+        gameOverLabel.zPosition = 1000
         
         // Difficulty
         var timeInt:Double = 0
@@ -353,16 +365,6 @@ class GameScene: BaseScene, SKPhysicsContactDelegate {
     }
     
     func gameOver() {
-        //Game Over
-        let gameOverLabel = SKLabelNode(text: "Game Over\n\nScore: \(score)\n\nHigh Score: \(userDefaults.integer(forKey: highscoreKey))")
-        if #available(iOS 11.0, OSX 10.13, *) {
-            gameOverLabel.numberOfLines = 3
-        } else {
-            // Fallback on earlier versions
-        }
-        gameOverLabel.position = CGPoint(x: frame.midX, y: frame.midY)
-        gameOverLabel.fontName = "Gunship Condensed"
-        gameOverLabel.zPosition = 1000
         addChild(gameOverLabel)
         
         menuButton.showButton()
