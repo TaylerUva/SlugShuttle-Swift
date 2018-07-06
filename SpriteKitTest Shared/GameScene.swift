@@ -19,7 +19,7 @@ class GameScene: BaseScene, SKPhysicsContactDelegate {
     #if os(iOS)
     let motionManager = CMMotionManager()
     #endif
-    var yAcceleration:CGFloat = 0
+    var playerAcceleration:CGFloat = 0
     var acclerationModifier:CGFloat = 1 {
         didSet {
             #if os(macOS)
@@ -179,11 +179,31 @@ class GameScene: BaseScene, SKPhysicsContactDelegate {
     }
     #if os(iOS)
     func enableMotionControls() {
+        var lastOrientation = "initalized"
         motionManager.accelerometerUpdateInterval = 0.2
         motionManager.startAccelerometerUpdates(to: OperationQueue.current!) { (data:CMAccelerometerData?, error:Error?) in
             if let accelerometerData = data {
-                let acceleration = accelerometerData.acceleration
-                self.yAcceleration = CGFloat(acceleration.y) * 0.75 + self.yAcceleration * 0.25
+                let accelerationData = accelerometerData.acceleration
+                var deviceAcceleration:Double = 0.0
+                    switch UIDevice.current.orientation {
+                    case .landscapeLeft:
+                        lastOrientation = "landscapeLeft"
+                        deviceAcceleration = -accelerationData.y
+                    case .landscapeRight:
+                        lastOrientation = "landscapeRight"
+                        deviceAcceleration = accelerationData.y
+                    case .portrait:
+                        lastOrientation = "Portrait"
+                        deviceAcceleration = accelerationData.x
+                    case .portraitUpsideDown:
+                        lastOrientation = "PortraitUpsideDown"
+                        deviceAcceleration = -accelerationData.x
+                    default:
+                        break
+                }
+                print(lastOrientation)
+                
+                self.playerAcceleration = CGFloat(deviceAcceleration) * 0.75 + self.playerAcceleration * 0.25
             }
         }
     }
@@ -373,7 +393,7 @@ class GameScene: BaseScene, SKPhysicsContactDelegate {
     
     override func didSimulatePhysics() {
         #if os(iOS) || os(tvOS)
-        player.position.x += yAcceleration * 50
+        player.position.x += playerAcceleration * 50
         #elseif os(macOS)
         player.position.x += yAcceleration
         #endif
