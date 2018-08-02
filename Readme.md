@@ -1,4 +1,4 @@
-# Gub Shuttle 🚀
+# Slug Shuttle 🚀
 ## Cross-platform macOS and iOS game programmed in the Swift language
 #### Special features of the code of this game:
 - Custom Button Node
