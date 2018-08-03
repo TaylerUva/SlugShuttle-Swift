@@ -16,4 +16,4 @@ This game was originally based off of [Brian Advent's Space Game Reloaded Swift 
 [Tayler Uva](https://Tayler.Tech)
 
 #### Sprite Designers:
-[Angela Kim](https://github.com/AngelaKimmy).
+[Angela Kim](https://github.com/AngelaKimmy)
