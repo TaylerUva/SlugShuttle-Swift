@@ -1,4 +1,8 @@
-# SlugShuttle 🚀
+# SlugShuttle Swift Edition 🚀
+
+### NOTE: This game is being ported to the cross platform Unity Engine: [SlugShuttle Unity Build](https://github.com/TaylerUva/SlugShuttle)
+#### Only the Unity version will be updated in the future and is currently playable at https://Tayler.Tech/SlugShuttle/
+
 ## Cross-platform macOS and iOS game programmed in the Swift language
 #### Special features of the code of this game:
 - Custom Button Node
@@ -8,8 +12,6 @@
 - Device orientation can be changed on the fly
 - Cross-platform for iOS and macOS (tvOS is untested as I don't have an Apple TV)
 - Version 1.0 Alpha was developed in only 1 week
-
-This game was originally based off of [Brian Advent's Space Game Reloaded Swift Tutorial](https://github.com/brianadvent/SpaceGameReloaded) but has since become a game of its own, differing greatly from the tutorial with many custom code changes, game modes, a macOS version, additional physics, and new sprite assets.
 
 ## Produced by GubSlug Games:
 #### Developers:
