@@ -1,6 +1,6 @@
 # SlugShuttle Swift Edition 🚀
 
-### NOTE: This game is being ported to the cross platform Unity Engine: [SlugShuttle Unity Build](https://github.com/TaylerUva/SlugShuttle)
+### NOTE: This game is being ported to the cross platform Unity Game Engine: [SlugShuttle Unity Build](https://github.com/TaylerUva/SlugShuttle)
 #### Only the Unity version will be updated in the future and is currently playable at https://Tayler.Tech/SlugShuttle/
 
 ## Cross-platform macOS and iOS game programmed in the Swift language
